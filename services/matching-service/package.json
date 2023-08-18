@@ -3,9 +3,9 @@
     "version": "0.0.0",
     "private": true,
     "scripts": {
-        "build": "npx tsc",
+        "build": "tsc",
         "start": "node dist/app.js",
-        "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/app.js\""
+        "dev": "concurrently \"tsc --watch\" \"nodemon -q dist/app.js\""
     },
     "dependencies": {
         "cookie-parser": "~1.4.4",

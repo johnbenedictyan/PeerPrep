@@ -1,19 +1,27 @@
+FROM node:20-alpine as base
+
+# Add package file
+COPY package.json ./
+COPY yarn.lock ./
+
+# Install deps
+RUN yarn install
+
+# Copy source
+COPY src ./src
+COPY tsconfig.json ./tsconfig.json
+
+# Build dist
+RUN yarn build
+
+# Start production image build
 FROM node:20-alpine
 
-# Create app directory
-WORKDIR /usr/src/app
+# Copy node modules and build directory
+COPY --from=base ./node_modules ./node_modules
+COPY --from=base /dist /dist
 
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
-COPY package*.json ./
-
-RUN yarn install
-# If you are building your code for production
-
-# Bundle app source
-COPY . .
-
+# Expose port 5000
 EXPOSE 5000
 
-CMD [ "yarn", "run", "start" ]
+CMD ["dist/src/app.js"]
