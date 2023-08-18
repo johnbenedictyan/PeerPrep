@@ -7,9 +7,9 @@ const app: Express = express();
 const port = process.env.PORT;
 
 app.get('/', (req: Request, res: Response) => {
-  res.send('User Service Server');
+  res.send('Matching Service Server');
 });
 
 app.listen(port, () => {
-  console.log(`⚡️[server]: User Service is running at http://localhost:${port}`);
+  console.log(`⚡️[server]: Matching Service is running at http://localhost:${port}`);
 });
