@@ -12,15 +12,17 @@ services:
     links:
       - broker
 
-  # matching:
-  #   container_name: matching-service
-  #   build:
-  #     context: ./services/matching-service
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "5002:5000"
-  #   links:
-  #     - broker
+  matching:
+    container_name: matching-service
+    build:
+      context: ./services/matching-service
+      dockerfile: Dockerfile
+    ports:
+      - "5002:5000"
+    environment:
+      - PORT=5002
+    links:
+      - broker
 
   question:
     container_name: question-service
@@ -34,25 +36,29 @@ services:
     links:
       - broker
 
-  # chat:
-  #   container_name: chat-service
-  #   build:
-  #     context: ./services/chat-service
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "5004:5000"
-  #   links:
-  #     - broker
+  chat:
+    container_name: chat-service
+    build:
+      context: ./services/chat-service
+      dockerfile: Dockerfile
+    ports:
+      - "5004:5000"
+    environment:
+      - PORT=5004
+    links:
+      - broker
 
-  # video-call:
-  #   container_name: video-call-service
-  #   build:
-  #     context: ./services/video-call-service
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "5005:5000"
-  #   links:
-  #     - broker
+  video-call:
+    container_name: video-call-service
+    build:
+      context: ./services/video-call-service
+      dockerfile: Dockerfile
+    ports:
+      - "5005:5000"
+    environment:
+      - PORT=5005
+    links:
+      - broker
 
   # client:
   #   container_name: client
