@@ -60,13 +60,13 @@ services:
     links:
       - broker
 
-  # client:
-  #   container_name: client
-  #   build:
-  #     context: ./client
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "4000:4000"
+  client:
+    container_name: client
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "80:3000"
 
   zookeeper:
     image: confluentinc/cp-zookeeper:7.3.0
