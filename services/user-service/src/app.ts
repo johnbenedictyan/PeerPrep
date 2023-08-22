@@ -1,14 +1,42 @@
-import express, { Express, Request, Response } from "express";
+import { PrismaClient } from "@prisma/client";
 import dotenv from "dotenv";
+import express, { Express, Request, Response } from "express";
 
 dotenv.config();
 
 const app: Express = express();
 const port = process.env.PORT;
 
+const prisma = new PrismaClient();
+
 app.get("/", (req: Request, res: Response) => {
   // Get All Users
-  res.send("User Service Server");
+  const users = prisma.user.findMany().then((users) => {
+    res.json({ message: "User Service Server", users: users });
+  });
+});
+
+app.get("/seed", async (req: Request, res: Response) => {
+  // Add Seed Data
+  const alice = await prisma.user.upsert({
+    where: { email: "alice@prisma.io" },
+    update: {},
+    create: {
+      email: "alice@prisma.io",
+      name: "Alice",
+      password: "Password123",
+    },
+  });
+  const bob = await prisma.user.upsert({
+    where: { email: "bob@prisma.io" },
+    update: {},
+    create: {
+      email: "bob@prisma.io",
+      name: "Bob",
+      password: "Password123",
+    },
+  });
+  res.json("Done Seeding")
 });
 
 app.post("/", (req: Request, res: Response) => {
