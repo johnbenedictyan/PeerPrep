@@ -1,10 +1,15 @@
-import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
+import express, { Express, Request, Response } from "express";
+import consume from "./kafka/consumer";
 
 dotenv.config();
 
 const app: Express = express();
 const port = process.env.PORT;
+
+consume().catch((err: any) => {
+  console.error("error in consumer: ", err);
+});
 
 app.get("/", (req: Request, res: Response) => {
   // Get All Questions
