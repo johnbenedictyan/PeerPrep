@@ -9,11 +9,10 @@ const port = process.env.PORT;
 
 const prisma = new PrismaClient();
 
-app.get("/", (req: Request, res: Response) => {
+app.get("/", async (req: Request, res: Response) => {
   // Get All Users
-  const users = prisma.user.findMany().then((users) => {
-    res.json({ message: "User Service Server", users: users });
-  });
+  const users = await prisma.user.findMany();
+  res.json({ message: "User Service Server", users: users });
 });
 
 app.get("/seed", async (req: Request, res: Response) => {
@@ -36,22 +35,69 @@ app.get("/seed", async (req: Request, res: Response) => {
       password: "Password123",
     },
   });
-  res.json("Done Seeding")
+  res.json("Done Seeding");
 });
 
 app.post("/", (req: Request, res: Response) => {
-  // Create a single User
-  res.send("Create single User");
+  // Check if request body is valid
+  if (!req.body.email || !req.body.name || !req.body.password) {
+    res.status(400).json({ message: "Invalid Request Body" });
+  } else {
+    // Create a single User
+    const user = prisma.user.create({
+      data: {
+        email: req.body.email,
+        name: req.body.name,
+        password: req.body.password,
+      },
+    });
+    res.json(user);
+  }
 });
 
-app.put("/", (req: Request, res: Response) => {
-  // Update a single User
-  res.send("Update single User");
+app.put("/:id", (req: Request, res: Response) => {
+  // Check if user exists
+  const user = prisma.user.findUnique({
+    where: {
+      id: parseInt(req.params.id),
+    },
+  });
+  if (!user) {
+    res.status(404).json({ message: "User not found" });
+  } else {
+    // Update a single User
+    const updatedUser = prisma.user.update({
+      where: {
+        id: parseInt(req.params.id),
+      },
+      data: {
+        email: req.body.email,
+        name: req.body.name,
+        password: req.body.password,
+      },
+    });
+    res.json(updatedUser);
+  }
 });
 
 app.delete("/", (req: Request, res: Response) => {
-  // Delete a single User
-  res.send("Delete single User");
+  // Check if user exists
+  const user = prisma.user.findUnique({
+    where: {
+      id: parseInt(req.params.id),
+    },
+  });
+  if (!user) {
+    res.status(404).json({ message: "User not found" });
+  } else {
+    // Delete a single User
+    const deletedUser = prisma.user.delete({
+      where: {
+        id: parseInt(req.params.id),
+      },
+    });
+    res.json(deletedUser);
+  }
 });
 
 app.listen(port, () => {
