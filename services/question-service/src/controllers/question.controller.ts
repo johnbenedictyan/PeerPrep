@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import httpStatus from "http-status";
-import { questionService } from "../../services/question.service";
+import { questionService } from "../services/question.service";
 
 const createQuestion = async (req: Request, res: Response) => {
   const question = await questionService.createQuestion(req.body);
