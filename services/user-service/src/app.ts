@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import dotenv from "dotenv";
 import express, { Express, Request, Response } from "express";
+import router from "./routes/user.routes";
 
 dotenv.config();
 
@@ -8,6 +9,8 @@ const app: Express = express();
 const port = process.env.PORT;
 
 const prisma = new PrismaClient();
+
+app.use("/", router);
 
 app.get("/", async (req: Request, res: Response) => {
   // Get All Users
