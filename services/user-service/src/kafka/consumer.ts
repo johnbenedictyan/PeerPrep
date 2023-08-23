@@ -1,15 +1,18 @@
-import { kafka } from "./kafka";
+import { kafka } from './kafka';
+import { QUESTION_SERVICE_TOPICS } from './topics/question';
 
-const QUESTION_SUBSCRIBED_TOPICS: string[] = [];
+const USER_SUBSCRIBED_TOPICS: string[] = [
+  QUESTION_SERVICE_TOPICS.CREATE_QUESTION,
+];
 
 const consumer = kafka.consumer({ groupId: "test-group" });
 
-const questionEventConsumer = async () => {
-  console.log("Question Service Starting to Listen");
+const userEventConsumer = async () => {
+  console.log("User Service Starting to Listen");
   // first, we wait for the client to connect and subscribe to the given topic
   await consumer.connect();
 
-  for (const topic of QUESTION_SUBSCRIBED_TOPICS) {
+  for (const topic of USER_SUBSCRIBED_TOPICS) {
     await consumer.subscribe({ topic: topic });
   }
 
@@ -22,4 +25,4 @@ const questionEventConsumer = async () => {
   });
 };
 
-export default questionEventConsumer;
+export default userEventConsumer;

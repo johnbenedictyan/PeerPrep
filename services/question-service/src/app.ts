@@ -7,10 +7,6 @@ dotenv.config();
 const app: Express = express();
 const port = process.env.PORT;
 
-consume().catch((err: any) => {
-  console.error("error in consumer: ", err);
-});
-
 app.get("/", (req: Request, res: Response) => {
   // Get All Questions
   res.send("Question Service Server");
@@ -35,4 +31,8 @@ app.listen(port, () => {
   console.log(
     `⚡️[server]: Question Service is running at http://localhost:${port}`
   );
+
+  consume().catch((err: any) => {
+    console.error("Error in Question Service Consumer: ", err);
+  });
 });
