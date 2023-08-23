@@ -17,7 +17,6 @@ services:
       - PORT=5000
     env_file:
       - ./services/user-service/.env
-    restart: on-failure
     links:
       - broker
       - postgres_user_service

@@ -41,22 +41,22 @@ app.get("/seed", async (req: Request, res: Response) => {
   res.json("Done Seeding");
 });
 
-app.post("/", (req: Request, res: Response) => {
-  // Check if request body is valid
-  if (!req.body.email || !req.body.name || !req.body.password) {
-    res.status(400).json({ message: "Invalid Request Body" });
-  } else {
-    // Create a single User
-    const user = prisma.user.create({
-      data: {
-        email: req.body.email,
-        name: req.body.name,
-        password: req.body.password,
-      },
-    });
-    res.json(user);
-  }
-});
+// app.post("/", (req: Request, res: Response) => {
+//   // Check if request body is valid
+//   if (!req.body.email || !req.body.name || !req.body.password) {
+//     res.status(400).json({ message: "Invalid Request Body" });
+//   } else {
+//     // Create a single User
+//     const user = prisma.user.create({
+//       data: {
+//         email: req.body.email,
+//         name: req.body.name,
+//         password: req.body.password,
+//       },
+//     });
+//     res.json(user);
+//   }
+// });
 
 app.put("/:id", (req: Request, res: Response) => {
   // Check if user exists
