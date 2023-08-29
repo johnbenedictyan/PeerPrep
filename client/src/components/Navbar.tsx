@@ -1,6 +1,7 @@
 import { Disclosure, Menu, Transition } from '@headlessui/react';
-import { BellIcon, XMarkIcon, Bars3Icon } from '@heroicons/react/24/outline';
-import { Fragment } from 'react';
+import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { Fragment, useEffect } from 'react';
+import { NavLink } from 'react-router-dom';
 
 const user = {
     name: 'Tom Cook',
@@ -8,22 +9,35 @@ const user = {
     imageUrl:
         'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
 }
-const navigation = [
-    { name: 'Dashboard', href: '/dashboard', current: true },
-    { name: 'Questions', href: '/questions', current: false },
-    { name: 'Match', href: '/match', current: false },
-]
-const userNavigation = [
-    { name: 'Your Profile', href: '/profile' },
-    { name: 'Settings', href: '/settings' },
-    { name: 'Sign out', href: '/sign-out' },
-]
 
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
 }
 
 const Navbar = () => {
+    let navigation = [
+        { name: 'Dashboard', href: '/dashboard', current: false, },
+        { name: 'Questions', href: '/questions', current: false, },
+        { name: 'Match', href: '/match', current: false, },
+    ]
+    const userNavigation = [
+        { name: 'Your Profile', href: '/profile' },
+        { name: 'Settings', href: '/settings' },
+        { name: 'Sign out', href: '/sign-out' },
+    ]
+
+    useEffect(() => {
+        const currentPath = window.location.pathname;
+        navigation = navigation.map((item) => {
+            if (item.href === currentPath) {
+                item.current = true;
+            } else {
+                item.current = false;
+            }
+            return item;
+        });
+    }, []);
+
     return (
         <Disclosure as="nav" className="bg-white shadow-sm">
             {({ open }) => (
@@ -45,19 +59,20 @@ const Navbar = () => {
                                 </div>
                                 <div className="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
                                     {navigation.map((item) => (
-                                        <a
+                                        <NavLink
                                             key={item.name}
-                                            href={item.href}
-                                            className={classNames(
-                                                item.current
-                                                    ? 'border-indigo-500 text-gray-900'
-                                                    : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
-                                                'inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium'
-                                            )}
-                                            aria-current={item.current ? 'page' : undefined}
+                                            to={item.href}
+                                            className={({ isActive, isPending }) =>
+                                                classNames(
+                                                    isActive
+                                                        ? 'border-indigo-500 text-gray-900'
+                                                        : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
+                                                    'inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium'
+                                                )
+                                            }
                                         >
                                             {item.name}
-                                        </a>
+                                        </NavLink>
                                     ))}
                                 </div>
                             </div>
