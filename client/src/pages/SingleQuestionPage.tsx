@@ -3,7 +3,7 @@ import CodingSpace from '../components/CodingSpace';
 import Question, { IQuestion } from '../components/Question';
 import VideoCall from '../components/VideoCall';
 
-export default function ChatPage() {
+export default function SingleQuestionPage() {
     const question: IQuestion = {
         name: 'Two Sum',
         difficulty: 'Easy',

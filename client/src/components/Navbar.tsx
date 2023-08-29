@@ -1,7 +1,7 @@
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { Fragment, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 const user = {
     name: 'Tom Cook',
@@ -46,16 +46,20 @@ const Navbar = () => {
                         <div className="flex h-16 justify-between">
                             <div className="flex">
                                 <div className="flex flex-shrink-0 items-center">
-                                    <img
-                                        className="block h-8 w-auto lg:hidden"
-                                        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                                        alt="Your Company"
-                                    />
-                                    <img
-                                        className="hidden h-8 w-auto lg:block"
-                                        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                                        alt="Your Company"
-                                    />
+                                    <Link
+                                        to="/"
+                                    >
+                                        <img
+                                            className="block h-8 w-auto lg:hidden"
+                                            src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                                            alt="Your Company"
+                                        />
+                                        <img
+                                            className="hidden h-8 w-auto lg:block"
+                                            src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                                            alt="Your Company"
+                                        />
+                                    </Link>
                                 </div>
                                 <div className="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
                                     {navigation.map((item) => (

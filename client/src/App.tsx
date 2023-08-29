@@ -4,26 +4,23 @@ import { Route, Routes } from 'react-router-dom';
 
 import Layout from './components/Layout';
 import Profile from './components/Profile';
-import ChatPage from './pages/ChatPage';
 import DashboardPage from './pages/DashboardPage';
+import LandingPage from './pages/LandingPage';
+import NotFoundPage from './pages/NotFoundPage';
 import QuestionPage from './pages/QuestionPage';
-
-// import Chat from './components/Chat';
+import SingleQuestionPage from './pages/SingleQuestionPage';
 
 function App() {
     return (
         <div className="App">
             <Routes>
                 <Route path="/" element={<Layout />}>
-                    <Route path="chat" element={<ChatPage />} />
+                    <Route path="/" element={<LandingPage />} />
                     <Route path="dashboard" element={<DashboardPage />} />
                     <Route path="questions" element={<QuestionPage />} />
+                    <Route path="questions/:questionId" element={<SingleQuestionPage />} />
                     <Route path="profile" element={<Profile />} />
-
-                    {/* Using path="*"" means "match anything", so this route
-                acts like a catch-all for URLs that we don't have explicit
-                routes for. */}
-                    <Route path="*" element={<ChatPage />} />
+                    <Route path="*" element={<NotFoundPage />} />
                 </Route>
             </Routes>
         </div>
