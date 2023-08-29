@@ -41,10 +41,12 @@ const Chat = () => {
                 {messages.map((message, messageIdx) => (
                     <div key={message.id} className="flex space-x-4 text-sm text-gray-500">
                         <div className={classNames(messageIdx === 0 ? '' : 'border-t border-gray-200', 'flex-1 py-5')}>
-                            <h3 className="font-medium text-gray-900">{message.sender}</h3>
-                            <p>
-                                <time dateTime={message.date.toLocaleTimeString()}>{message.date.toLocaleTimeString()}</time>
-                            </p>
+                            <div className='flex justify-between items-center'>
+                                <h3 className="font-medium text-gray-900">{message.sender}</h3>
+                                <p>
+                                    <time dateTime={message.date.toLocaleTimeString()}>{message.date.toLocaleTimeString()}</time>
+                                </p>
+                            </div>
 
                             <div
                                 className="prose prose-sm mt-2 max-w-none text-gray-500"

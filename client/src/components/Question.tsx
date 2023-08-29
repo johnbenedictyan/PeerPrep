@@ -26,7 +26,7 @@ const Question: React.FC<IQuestionProps> = ({ question }) => {
 
             <div className="mt-3">
                 <h2 className="sr-only">Product information</h2>
-                <p className="text-3xl tracking-tight text-gray-900">{question.difficulty}</p>
+                <p className="text-xl tracking-tight text-gray-900">{question.difficulty}</p>
             </div>
 
             <div className="mt-6">
@@ -70,7 +70,7 @@ const Question: React.FC<IQuestionProps> = ({ question }) => {
                                     <Disclosure.Panel as="div" className="prose prose-sm pb-6">
                                         <ul role="list">
                                             {detail.items.map((item) => (
-                                                <li key={item}>{item}</li>
+                                                <li key={item} dangerouslySetInnerHTML={{ __html: item }}></li>
                                             ))}
                                         </ul>
                                     </Disclosure.Panel>
