@@ -1,8 +1,6 @@
-interface IContainerProps {
-    children: React.ReactNode;
-}
+import { IContainerProps } from "./Container.interface";
 
-const Container: React.FC<IContainerProps> = ({ children }) => {
+const ComponentContainer: React.FC<IContainerProps> = ({ children }) => {
     return (
         <div className="bg-white py-24 sm:py-32">
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -12,4 +10,4 @@ const Container: React.FC<IContainerProps> = ({ children }) => {
     )
 }
 
-export default Container;
+export default ComponentContainer;
