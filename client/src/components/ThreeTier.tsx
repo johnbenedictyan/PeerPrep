@@ -1,118 +1,88 @@
-import { CheckIcon } from '@heroicons/react/20/solid'
-import { classNames } from '../util/ClassNames'
+import { CheckCircleIcon } from '@heroicons/react/20/solid'
 import Container from './Container'
+import { titleCase } from '../util/titleCase'
 
 const tiers = [
     {
-        name: 'Freelancer',
-        id: 'tier-freelancer',
-        href: '#',
-        priceMonthly: '$24',
-        description: 'The essentials to provide your best work for clients.',
-        features: ['5 products', 'Up to 1,000 subscribers', 'Basic analytics', '48-hour support response time'],
-        mostPopular: false,
+        name: 'easy',
+        id: 'tier-easy',
+        href: '/match/easy',
+        number: 123,
+        description: 'Easy leetcode questions to get you started.',
+        features: [
+            'Two Sum',
+            'Palindrome Number',
+            'Valid Parentheses',
+        ],
     },
     {
-        name: 'Startup',
-        id: 'tier-startup',
-        href: '#',
-        priceMonthly: '$32',
-        description: 'A plan that scales with your rapidly growing business.',
+        name: 'medium',
+        id: 'tier-medium',
+        href: '/match/medium',
+        number: 456,
+        description: 'Medium leetcode questions to grow you.',
         features: [
-            '25 products',
-            'Up to 10,000 subscribers',
-            'Advanced analytics',
-            '24-hour support response time',
-            'Marketing automations',
+            'Add Two Numbers',
+            'Reverse Integer',
+            'Container With Most Water',
         ],
-        mostPopular: true,
     },
     {
-        name: 'Enterprise',
-        id: 'tier-enterprise',
-        href: '#',
-        priceMonthly: '$48',
-        description: 'Dedicated support and infrastructure for your company.',
+        name: 'hard',
+        id: 'tier-hard',
+        href: '/match/hard',
+        number: 789,
+        description: 'Hard leetcode questions to challenge you.',
         features: [
-            'Unlimited products',
-            'Unlimited subscribers',
-            'Advanced analytics',
-            '1-hour, dedicated support response time',
-            'Marketing automations',
+            'Merge K Sorted Lists',
+            'Trapping Rain Water',
+            'N-Queens',
         ],
-        mostPopular: false,
     },
 ]
 
 export default function ThreeTier() {
     return (
         <Container>
-            <div className="mx-auto max-w-4xl text-center">
-                <h2 className="text-base font-semibold leading-7 text-indigo-600">Pricing</h2>
+            <div className="mx-auto max-w-4xl sm:text-center">
+                <h2 className="text-base font-semibold leading-7 text-indigo-600">Matching</h2>
                 <p className="mt-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
-                    Pricing plans for teams of&nbsp;all&nbsp;sizes
+                    Choose the right question for&nbsp;you
                 </p>
             </div>
-            <p className="mx-auto mt-6 max-w-2xl text-center text-lg leading-8 text-gray-600">
-                Distinctio et nulla eum soluta et neque labore quibusdam. Saepe et quasi iusto modi velit ut non voluptas in.
-                Explicabo id ut laborum.
+            <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-gray-600 sm:text-center">
+                Match and attempt a random question from the selected difficulty with a friend.
             </p>
-            <div className="isolate mx-auto mt-16 grid max-w-md grid-cols-1 gap-y-8 sm:mt-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-                {tiers.map((tier, tierIdx) => (
-                    <div
-                        key={tier.id}
-                        className={classNames(
-                            tier.mostPopular ? 'lg:z-10 lg:rounded-b-none' : 'lg:mt-8',
-                            tierIdx === 0 ? 'lg:rounded-r-none' : '',
-                            tierIdx === tiers.length - 1 ? 'lg:rounded-l-none' : '',
-                            'flex flex-col justify-between rounded-3xl bg-white p-8 ring-1 ring-gray-200 xl:p-10'
-                        )}
-                    >
-                        <div>
-                            <div className="flex items-center justify-between gap-x-4">
-                                <h3
-                                    id={tier.id}
-                                    className={classNames(
-                                        tier.mostPopular ? 'text-indigo-600' : 'text-gray-900',
-                                        'text-lg font-semibold leading-8'
-                                    )}
-                                >
-                                    {tier.name}
-                                </h3>
-                                {tier.mostPopular ? (
-                                    <p className="rounded-full bg-indigo-600/10 px-2.5 py-1 text-xs font-semibold leading-5 text-indigo-600">
-                                        Most popular
-                                    </p>
-                                ) : null}
-                            </div>
-                            <p className="mt-4 text-sm leading-6 text-gray-600">{tier.description}</p>
+            <div className="mt-20 flow-root">
+                <div className="isolate -mt-16 grid max-w-sm grid-cols-1 gap-y-16 divide-y divide-gray-100 sm:mx-auto lg:-mx-8 lg:mt-0 lg:max-w-none lg:grid-cols-3 lg:divide-x lg:divide-y-0 xl:-mx-4">
+                    {tiers.map((tier) => (
+                        <div key={tier.id} className="pt-16 lg:px-8 lg:pt-0 xl:px-14">
+                            <h3 id={tier.id} className="text-base font-semibold leading-7 text-gray-900">
+                                {titleCase(tier.name)}
+                            </h3>
                             <p className="mt-6 flex items-baseline gap-x-1">
-                                <span className="text-4xl font-bold tracking-tight text-gray-900">{tier.priceMonthly}</span>
-                                <span className="text-sm font-semibold leading-6 text-gray-600">/month</span>
+                                <span className="text-5xl font-bold tracking-tight text-gray-900">{tier.number}</span>
+                                <span className="text-sm font-semibold leading-6 text-gray-600">questions</span>
                             </p>
-                            <ul role="list" className="mt-8 space-y-3 text-sm leading-6 text-gray-600">
+                            <a
+                                href={tier.href}
+                                aria-describedby={tier.id}
+                                className="mt-10 block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                            >
+                                Match and Attempt
+                            </a>
+                            <p className="mt-10 text-sm font-semibold leading-6 text-gray-900">{tier.description}</p>
+                            <ul role="list" className="mt-6 space-y-3 text-sm leading-6 text-gray-600">
                                 {tier.features.map((feature) => (
                                     <li key={feature} className="flex gap-x-3">
-                                        <CheckIcon className="h-6 w-5 flex-none text-indigo-600" aria-hidden="true" />
-                                        {feature}
+                                        <CheckCircleIcon className="h-6 w-5 flex-none text-indigo-600" aria-hidden="true" />
+                                        {titleCase(feature)}
                                     </li>
                                 ))}
                             </ul>
                         </div>
-                        <a
-                            href={tier.href}
-                            aria-describedby={tier.id}
-                            className={classNames(
-                                tier.mostPopular
-                                    ? 'bg-indigo-600 text-white shadow-sm hover:bg-indigo-500'
-                                    : 'text-indigo-600 ring-1 ring-inset ring-indigo-200 hover:ring-indigo-300',
-                                'mt-8 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
-                            )}
-                        >
-                            Buy plan
-                        </a>
-                    </div>
-                ))}
+                    ))}
+                </div>
             </div>
         </Container>
     )
