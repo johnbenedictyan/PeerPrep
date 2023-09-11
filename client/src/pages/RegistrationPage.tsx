@@ -1,6 +1,16 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const RegistrationPage = () => {
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [password2, setPassword2] = useState<string>('');
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        console.log('submit');
+    }
+
     return (
         <div className="flex min-h-full flex-1">
             <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
@@ -16,7 +26,7 @@ const RegistrationPage = () => {
                         </h2>
                         <p className="mt-2 text-sm leading-6 text-gray-500">
                             Already have an account?{' '}
-                            <Link to="/log-in" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                            <Link to="/sign-in" className="font-semibold text-indigo-600 hover:text-indigo-500">
                                 Log In
                             </Link>
                         </p>
@@ -24,7 +34,7 @@ const RegistrationPage = () => {
 
                     <div className="mt-10">
                         <div>
-                            <form action="#" method="POST" className="space-y-6">
+                            <form onSubmit={handleSubmit} method="POST" className="space-y-6">
                                 <div>
                                     <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                                         Email address
@@ -37,6 +47,8 @@ const RegistrationPage = () => {
                                             autoComplete="email"
                                             required
                                             className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
                                         />
                                     </div>
                                 </div>
@@ -53,6 +65,8 @@ const RegistrationPage = () => {
                                             autoComplete="current-password"
                                             required
                                             className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
                                         />
                                     </div>
                                 </div>
@@ -65,10 +79,12 @@ const RegistrationPage = () => {
                                         <input
                                             id="password2"
                                             name="password2"
-                                            type="password2"
+                                            type="password"
                                             autoComplete="current-password"
                                             required
                                             className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                            value={password2}
+                                            onChange={(e) => setPassword2(e.target.value)}
                                         />
                                     </div>
                                 </div>
