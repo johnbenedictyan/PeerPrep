@@ -148,8 +148,6 @@ const Navbar = () => {
                             {navigation.map((item) => (
                                 <Disclosure.Button
                                     key={item.name}
-                                    as="a"
-                                    href={item.href}
                                     className={classNames(
                                         item.current
                                             ? 'border-indigo-500 bg-indigo-50 text-indigo-700'
@@ -158,7 +156,12 @@ const Navbar = () => {
                                     )}
                                     aria-current={item.current ? 'page' : undefined}
                                 >
-                                    {item.name}
+                                    <Link
+                                        to={item.href}
+                                    >
+                                        {item.name}
+                                    </Link>
+
                                 </Disclosure.Button>
                             ))}
                         </div>
