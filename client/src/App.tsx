@@ -9,6 +9,9 @@ import LandingPage from './pages/LandingPage';
 import MatchPage from './pages/MatchPage';
 import NotFoundPage from './pages/NotFoundPage';
 import QuestionPage from './pages/QuestionPage';
+import RegistrationPage from './pages/RegistrationPage';
+import SignInPage from './pages/SignInPage';
+import SignOutPage from './pages/SignOutPage';
 import SingleQuestionPage from './pages/SingleQuestionPage';
 
 function App() {
@@ -17,7 +20,10 @@ function App() {
             <Routes>
                 <Route path="/" element={<Layout />}>
                     <Route path="/" element={<LandingPage />} />
-                    <Route path="/match" element={<MatchPage />} />
+                    <Route path="match" element={<MatchPage />} />
+                    <Route path="sign-in" element={<SignInPage />} />
+                    <Route path="sign-out" element={<SignOutPage />} />
+                    <Route path="register" element={<RegistrationPage />} />
                     <Route path="dashboard" element={<DashboardPage />} />
                     <Route path="questions" element={<QuestionPage />} />
                     <Route path="questions/:questionId" element={<SingleQuestionPage />} />
