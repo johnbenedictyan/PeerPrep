@@ -1,4 +1,4 @@
-import { ArrowLongLeftIcon, ArrowLongRightIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
+import { ArrowLongLeftIcon, ArrowLongRightIcon, ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -63,6 +63,15 @@ const QuestionPage = () => {
     const [pageNumber, setPageNumber] = useState<number>(0);
     const [maxPageNumber, setMaxPageNumber] = useState<number>(Math.floor(questions.length / PAGINATION_SIZE));
 
+    enum SortBy {
+        ASC = 'asc',
+        DESC = 'desc',
+    }
+
+    const [sortByStatus, setSortByStatus] = useState<SortBy>(SortBy.ASC);
+    const [sortByTitle, setSortByTitle] = useState<SortBy>(SortBy.ASC);
+    const [sortByDifficulty, setSortByDifficulty] = useState<SortBy>(SortBy.ASC);
+
     return (
         <div className="min-h-full">
             <div className="py-5">
@@ -91,28 +100,40 @@ const QuestionPage = () => {
                                         <thead>
                                             <tr>
                                                 <th scope="col" className="px-3 py-3.5 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
-                                                    <a href="#" className="group inline-flex">
+                                                    <button className="group inline-flex">
                                                         Status
                                                         <span className="ml-2 flex-none rounded bg-gray-100 text-gray-900 group-hover:bg-gray-200">
-                                                            <ChevronDownIcon className="h-4 w-4" aria-hidden="true" />
+                                                            {
+                                                                sortByStatus == SortBy.ASC
+                                                                    ? <ChevronUpIcon className="h-4 w-4" aria-hidden="true" onClick={() => setSortByStatus(SortBy.DESC)} />
+                                                                    : <ChevronDownIcon className="h-4 w-4" aria-hidden="true" onClick={() => setSortByStatus(SortBy.ASC)} />
+                                                            }
                                                         </span>
-                                                    </a>
+                                                    </button>
                                                 </th>
                                                 <th scope="col" className="px-3 py-3.5 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
-                                                    <a href="#" className="group inline-flex">
+                                                    <button className="group inline-flex">
                                                         Title
                                                         <span className="ml-2 flex-none rounded bg-gray-100 text-gray-900 group-hover:bg-gray-200">
-                                                            <ChevronDownIcon className="h-4 w-4" aria-hidden="true" />
+                                                            {
+                                                                sortByTitle == SortBy.ASC
+                                                                    ? <ChevronUpIcon className="h-4 w-4" aria-hidden="true" onClick={() => setSortByTitle(SortBy.DESC)} />
+                                                                    : <ChevronDownIcon className="h-4 w-4" aria-hidden="true" onClick={() => setSortByTitle(SortBy.ASC)} />
+                                                            }
                                                         </span>
-                                                    </a>
+                                                    </button>
                                                 </th>
                                                 <th scope="col" className="px-3 py-3.5 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
-                                                    <a href="#" className="group inline-flex">
+                                                    <button className="group inline-flex">
                                                         Difficulty
                                                         <span className="ml-2 flex-none rounded bg-gray-100 text-gray-900 group-hover:bg-gray-200">
-                                                            <ChevronDownIcon className="h-4 w-4" aria-hidden="true" />
+                                                            {
+                                                                sortByDifficulty == SortBy.ASC
+                                                                    ? <ChevronUpIcon className="h-4 w-4" aria-hidden="true" onClick={() => setSortByDifficulty(SortBy.DESC)} />
+                                                                    : <ChevronDownIcon className="h-4 w-4" aria-hidden="true" onClick={() => setSortByDifficulty(SortBy.ASC)} />
+                                                            }
                                                         </span>
-                                                    </a>
+                                                    </button>
                                                 </th>
                                                 <th
                                                     scope="col"
