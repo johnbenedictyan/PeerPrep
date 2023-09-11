@@ -1,5 +1,6 @@
 import { useState } from "react";
 import MatchingModal from "../components/MatchingModal";
+import ThreeTier from "../components/ThreeTier";
 
 const MatchPage = () => {
     const difficulty = [
@@ -19,6 +20,7 @@ const MatchPage = () => {
                         Recent activity
                     </h2>
                 </div> */}
+                <ThreeTier />
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-none">
                         <div className="bg-white py-24 sm:py-32">
