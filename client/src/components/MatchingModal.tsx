@@ -1,11 +1,13 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
+import { titleCase } from '../util/titleCase';
 
 interface IModalProps {
+    difficulty: string;
     open: boolean;
     setOpen: (open: boolean) => void;
 }
-const MatchingModal: React.FC<IModalProps> = ({ open, setOpen }) => {
+const MatchingModal: React.FC<IModalProps> = ({ difficulty, open, setOpen }) => {
     return (
         <Transition.Root show={open} as={Fragment}>
             <Dialog as="div" className="relative z-10" onClose={setOpen}>
@@ -44,7 +46,10 @@ const MatchingModal: React.FC<IModalProps> = ({ open, setOpen }) => {
                                         </div>
                                         <div className="mt-5">
                                             <p className="text-sm text-gray-500">
-                                                Matching
+                                                {`Difficulty Chosen: ${titleCase(difficulty)}`}
+                                            </p>
+                                            <p className="text-sm text-gray-500">
+                                                Matching...
                                             </p>
                                         </div>
                                     </div>

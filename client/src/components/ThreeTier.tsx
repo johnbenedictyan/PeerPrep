@@ -1,6 +1,6 @@
 import { CheckCircleIcon } from '@heroicons/react/20/solid'
-import Container from './Container'
 import { titleCase } from '../util/titleCase'
+import ComponentContainer from './Container/Component'
 
 const tiers = [
     {
@@ -41,9 +41,14 @@ const tiers = [
     },
 ]
 
-export default function ThreeTier() {
+interface IThreeTierProps {
+    modalController: React.Dispatch<React.SetStateAction<boolean>>
+    difficultyController: React.Dispatch<React.SetStateAction<string>>
+}
+
+const ThreeTier: React.FC<IThreeTierProps> = ({ modalController, difficultyController }) => {
     return (
-        <Container>
+        <ComponentContainer>
             <div className="mx-auto max-w-4xl sm:text-center">
                 <h2 className="text-base font-semibold leading-7 text-indigo-600">Matching</h2>
                 <p className="mt-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
@@ -64,13 +69,16 @@ export default function ThreeTier() {
                                 <span className="text-5xl font-bold tracking-tight text-gray-900">{tier.number}</span>
                                 <span className="text-sm font-semibold leading-6 text-gray-600">questions</span>
                             </p>
-                            <a
-                                href={tier.href}
+                            <button
                                 aria-describedby={tier.id}
                                 className="mt-10 block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                onClick={() => {
+                                    difficultyController(tier.name);
+                                    modalController(true)
+                                }}
                             >
                                 Match and Attempt
-                            </a>
+                            </button>
                             <p className="mt-10 text-sm font-semibold leading-6 text-gray-900">{tier.description}</p>
                             <ul role="list" className="mt-6 space-y-3 text-sm leading-6 text-gray-600">
                                 {tier.features.map((feature) => (
@@ -84,6 +92,8 @@ export default function ThreeTier() {
                     ))}
                 </div>
             </div>
-        </Container>
+        </ComponentContainer>
     )
 }
+
+export default ThreeTier
