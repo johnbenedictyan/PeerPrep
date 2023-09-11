@@ -1,3 +1,5 @@
+import { ArrowLongLeftIcon, ArrowLongRightIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 interface IQuestion {
@@ -56,6 +58,11 @@ const QuestionPage = () => {
         { id: 45, title: "Merge two sorted linked lists", difficulty: "easy", tags: ['algo'] },
     ]
 
+    const PAGINATION_SIZE = 10;
+
+    const [pageNumber, setPageNumber] = useState<number>(0);
+    const [maxPageNumber, setMaxPageNumber] = useState<number>(Math.floor(questions.length / PAGINATION_SIZE));
+
     return (
         <div className="min-h-full">
             <div className="py-5">
@@ -83,23 +90,29 @@ const QuestionPage = () => {
                                     <table className="min-w-full divide-y divide-gray-300">
                                         <thead>
                                             <tr>
-                                                <th
-                                                    scope="col"
-                                                    className="py-3 pl-4 pr-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500 sm:pl-0"
-                                                >
-                                                    Status
+                                                <th scope="col" className="px-3 py-3.5 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
+                                                    <a href="#" className="group inline-flex">
+                                                        Status
+                                                        <span className="ml-2 flex-none rounded bg-gray-100 text-gray-900 group-hover:bg-gray-200">
+                                                            <ChevronDownIcon className="h-4 w-4" aria-hidden="true" />
+                                                        </span>
+                                                    </a>
                                                 </th>
-                                                <th
-                                                    scope="col"
-                                                    className="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500"
-                                                >
-                                                    Title
+                                                <th scope="col" className="px-3 py-3.5 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
+                                                    <a href="#" className="group inline-flex">
+                                                        Title
+                                                        <span className="ml-2 flex-none rounded bg-gray-100 text-gray-900 group-hover:bg-gray-200">
+                                                            <ChevronDownIcon className="h-4 w-4" aria-hidden="true" />
+                                                        </span>
+                                                    </a>
                                                 </th>
-                                                <th
-                                                    scope="col"
-                                                    className="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500"
-                                                >
-                                                    Difficulty
+                                                <th scope="col" className="px-3 py-3.5 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
+                                                    <a href="#" className="group inline-flex">
+                                                        Difficulty
+                                                        <span className="ml-2 flex-none rounded bg-gray-100 text-gray-900 group-hover:bg-gray-200">
+                                                            <ChevronDownIcon className="h-4 w-4" aria-hidden="true" />
+                                                        </span>
+                                                    </a>
                                                 </th>
                                                 <th
                                                     scope="col"
@@ -113,7 +126,7 @@ const QuestionPage = () => {
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-gray-200 bg-white">
-                                            {questions.map((question) => (
+                                            {questions.slice(pageNumber * PAGINATION_SIZE, (pageNumber + 1) * PAGINATION_SIZE).map((question) => (
                                                 <tr key={question.id}>
                                                     <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
                                                         {'Not Done'}
@@ -139,6 +152,33 @@ const QuestionPage = () => {
                                 </div>
                             </div>
                         </div>
+                        <nav
+                            className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6"
+                            aria-label="Pagination"
+                        >
+                            <div className="hidden sm:block">
+                                <p className="text-sm text-gray-700">
+                                    Showing <span className="font-medium">{pageNumber * PAGINATION_SIZE + 1}</span> to <span className="font-medium">{(pageNumber + 1) * PAGINATION_SIZE > questions.length ? questions.length : (pageNumber + 1) * PAGINATION_SIZE}</span> of{' '}
+                                    <span className="font-medium">{questions.length}</span> results
+                                </p>
+                            </div>
+                            <div className="flex flex-1 justify-between sm:justify-end">
+                                <button
+                                    onClick={() => setPageNumber(pageNumber - 1 > 0 ? pageNumber - 1 : 0)}
+                                    disabled={pageNumber === 0}
+                                    className="relative inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:outline-offset-0"
+                                >
+                                    Previous
+                                </button>
+                                <button
+                                    onClick={() => setPageNumber(pageNumber + 1 < maxPageNumber ? pageNumber + 1 : maxPageNumber)}
+                                    disabled={pageNumber === maxPageNumber}
+                                    className="relative ml-3 inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:outline-offset-0"
+                                >
+                                    Next
+                                </button>
+                            </div>
+                        </nav>
                     </div>
                 </main>
             </div>
