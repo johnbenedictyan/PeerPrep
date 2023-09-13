@@ -6,6 +6,7 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
+  createUserWithEmailAndPassword,
 } from "firebase/auth";
 
 const firebaseConfig = {
@@ -24,6 +25,12 @@ export const signInUser = async (email: string, password: string) => {
   if (!email && !password) return;
 
   return await signInWithEmailAndPassword(auth, email, password);
+};
+
+export const registerUser = async (email: string, password: string) => {
+  if (!email && !password) return;
+
+  return await createUserWithEmailAndPassword(auth, email, password);
 };
 
 export const userStateListener = (callback: NextOrObserver<User>) => {

@@ -1,14 +1,29 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { signInUser } from "../util/auth";
 
 const SignInPage = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [rememberMe, setRememberMe] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(false);
+    const navigate = useNavigate()
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log('submit');
+        setLoading(true);
+        try {
+            // Send the email and password to firebase
+            const userCredential = await signInUser(email, password)
+
+            if (userCredential) {
+                setLoading(false);
+                navigate('/profile');
+            }
+        } catch (error: any) {
+            console.log('User Sign In Failed', error.message);
+            setLoading(false);
+        }
     }
 
     return (
@@ -97,8 +112,18 @@ const SignInPage = () => {
                                     <button
                                         type="submit"
                                         className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                        disabled={loading}
                                     >
-                                        Sign in
+                                        {
+                                            loading
+                                                ?
+                                                <>
+                                                    <svg className="animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
+                                                    </svg>
+                                                    Processing
+                                                </>
+                                                : <p>Sign in</p>
+                                        }
                                     </button>
                                 </div>
                             </form>

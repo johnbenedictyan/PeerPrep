@@ -1,14 +1,25 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { registerUser } from "../util/auth";
 
 const RegistrationPage = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [password2, setPassword2] = useState<string>('');
+    const navigate = useNavigate()
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log('submit');
+        try {
+            // Send the email and password to firebase
+            const userCredential = await registerUser(email, password)
+
+            if (userCredential) {
+                navigate('/profile')
+            }
+        } catch (error: any) {
+            console.log('User Sign In Failed', error.message);
+        }
     }
 
     return (
