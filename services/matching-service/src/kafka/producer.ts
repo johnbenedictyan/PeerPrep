@@ -1,31 +1,34 @@
-import { IMatching, IMatchingRequest } from "../interfaces/IMatching";
+import {
+    ICreatedMatching,
+    ICreatedMatchingRequest
+} from "../interfaces/IMatching";
 import { kafka } from "./kafka";
 import { MATCHING_SERVICE_TOPICS } from "./topics/matching";
 
 const producer = kafka.producer();
 
 const matchingEventProducer = {
-  createMatchingRequest: async (matchingRequest: IMatchingRequest) => {
+  createMatchingRequest: async (matchingRequest: ICreatedMatchingRequest) => {
     await producer.connect();
     await producer.send({
-      topic: MATCHING_SERVICE_TOPICS.CREATE_MATCHING,
+      topic: MATCHING_SERVICE_TOPICS.CREATE_MATCHING_REQUEST,
       messages: [
         {
-          value: `Matching Requested: ${matchingRequest.userId} at ${matchingRequest.dateRequested}`,
-          matching: matchingRequest,
+          key: matchingRequest.id.toString(),
+          value: JSON.stringify(matchingRequest),
         },
       ],
     });
     await producer.disconnect();
   },
-  createMatching: async (matching: IMatching) => {
+  createMatching: async (matching: ICreatedMatching) => {
     await producer.connect();
     await producer.send({
       topic: MATCHING_SERVICE_TOPICS.CREATE_MATCHING,
       messages: [
         {
-          value: `Matching Created: ${matching.user1Id} and ${matching.user2Id} at ${matching.dateTimeMatched}`,
-          matching: matching,
+          key: matching.id.toString(),
+          value: JSON.stringify(matching),
         },
       ],
     });

@@ -1,19 +1,22 @@
 import { Request, Response } from "express";
+import { validationResult } from "express-validator";
 import httpStatus from "http-status";
+import createMatchingRequestParser from "../parser/createMatchingRequest.parser";
 import { matchingService } from "../services/matching.service";
 
 const createMatchingRequest = async (req: Request, res: Response) => {
-  if (
-    !req.body ||
-    !req.body.userId ||
-    !req.body.dateRequested ||
-    !req.body.difficulty
-  ) {
-    res
-      .status(httpStatus.BAD_REQUEST)
-      .json({ message: "Invalid Request Body" });
+  const errors = validationResult(req);
+
+  // if there is error then return Error
+  if (!errors.isEmpty()) {
+    return res.status(400).json({
+      success: false,
+      errors: errors.array(),
+    });
   } else {
-    const matching = await matchingService.createMatchingRequest(req.body);
+    const matching = await matchingService.createMatchingRequest(
+      createMatchingRequestParser(req.body)
+    );
     res.status(httpStatus.CREATED).send(matching);
   }
 };
@@ -23,4 +26,5 @@ const createMatching = async (req: Request, res: Response) => {
   res.status(httpStatus.CREATED).send(matching);
 };
 
-export { createMatchingRequest, createMatching };
+export { createMatching, createMatchingRequest };
+

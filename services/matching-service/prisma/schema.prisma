@@ -22,5 +22,5 @@ model MatchingRequest {
     userId        Int
     questionId    Int?
     difficulty    String
-    dateRequested DateTime
+    dateRequested DateTime @default(now())
 }

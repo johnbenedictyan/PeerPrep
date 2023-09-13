@@ -1,6 +1,18 @@
+import { EachMessagePayload, KafkaMessage } from "kafkajs";
+import isInEnum from "../util/isInEnum";
+import createMatchingRequestConsumer from "./consumers/createMatchingRequest.consumer";
 import { kafka } from "./kafka";
+import { MATCHING_SERVICE_TOPICS } from "./topics/matching";
 
-const MATCHING_SUBSCRIBED_TOPICS: string[] = [];
+export type IMessageConsumerFunc = (message: KafkaMessage) => void;
+
+const MATCHING_SUBSCRIBED_TOPIC_MAPPER: Map<string, IMessageConsumerFunc> =
+  new Map([
+    [
+      MATCHING_SERVICE_TOPICS.CREATE_MATCHING_REQUEST,
+      createMatchingRequestConsumer,
+    ],
+  ]);
 
 const consumer = kafka.consumer({ groupId: "test-group" });
 
@@ -9,15 +21,20 @@ const matchingEventConsumer = async () => {
   // first, we wait for the client to connect and subscribe to the given topic
   await consumer.connect();
 
-  for (const topic of MATCHING_SUBSCRIBED_TOPICS) {
-    await consumer.subscribe({ topic: topic });
-  }
+  await consumer.subscribe({
+    topics: Array.from(MATCHING_SUBSCRIBED_TOPIC_MAPPER.keys()),
+  });
 
   await consumer.run({
     // this function is called every time the consumer gets a new message
-    eachMessage: ({ message }: any) => {
+    eachMessage: ({ topic, message }: EachMessagePayload) => {
       // here, we just log the message to the standard output
-      console.log(`received message: ${message.value}, ${message.key}`);
+      if (
+        isInEnum(MATCHING_SERVICE_TOPICS, topic) &&
+        MATCHING_SUBSCRIBED_TOPIC_MAPPER.has(topic)
+      ) {
+        MATCHING_SUBSCRIBED_TOPIC_MAPPER.get(topic)!(message);
+      }
     },
   });
 };

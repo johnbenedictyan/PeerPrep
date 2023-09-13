@@ -5,9 +5,9 @@ const prisma = new PrismaClient();
 
 export interface IMatchingRequestCreateInput {
   userId: number;
-  dateRequested: Date | string;
   questionId?: number;
   difficulty: string;
+  dateRequested?: Date | string;
 }
 
 interface IMatchingCreateInput {
@@ -22,7 +22,7 @@ export const matchingService = {
       data: body,
     });
     if (matchingRequest) {
-      matchingEventProducer.createMatchingRequest(matchingRequest);
+      await matchingEventProducer.createMatchingRequest(matchingRequest);
     }
     return matchingRequest;
   },
