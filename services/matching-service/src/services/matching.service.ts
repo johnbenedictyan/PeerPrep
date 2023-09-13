@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { ICreatedMatchingRequest } from "../interfaces/IMatching";
 import matchingEventProducer from "../kafka/producer";
 
 const prisma = new PrismaClient();
@@ -16,6 +17,11 @@ interface IMatchingCreateInput {
   dateTimeMatched: Date | string;
 }
 
+interface IMatchingFindMatchInput {
+  questionId?: number;
+  difficulty: string;
+}
+
 export const matchingService = {
   createMatchingRequest: async (body: IMatchingRequestCreateInput) => {
     const matchingRequest = await prisma.matchingRequest.create({
@@ -31,5 +37,24 @@ export const matchingService = {
       data: body,
     });
     return matching;
+  },
+  findMatchRequest: async (
+    body: IMatchingFindMatchInput
+  ): Promise<ICreatedMatchingRequest | null> => {
+    let foundMatchRequest;
+    if (body.questionId) {
+      foundMatchRequest = await prisma.matchingRequest.findFirst({
+        where: {
+          questionId: body.questionId,
+        },
+      });
+    } else {
+      foundMatchRequest = await prisma.matchingRequest.findFirst({
+        where: {
+          difficulty: body.difficulty,
+        },
+      });
+    }
+    return foundMatchRequest;
   },
 };
