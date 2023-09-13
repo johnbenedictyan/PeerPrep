@@ -16,3 +16,11 @@ model Matching {
     user2Id         Int
     dateTimeMatched DateTime
 }
+
+model MatchingRequest {
+    id            Int      @id @default(autoincrement())
+    userId        Int
+    questionId    Int?
+    difficulty    String
+    dateRequested DateTime
+}

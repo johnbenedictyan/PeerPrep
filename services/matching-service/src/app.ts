@@ -1,10 +1,19 @@
-import express, { Express, Request, Response } from "express";
+import bodyParser from "body-parser";
 import dotenv from "dotenv";
+import express, { Express, Request, Response } from "express";
+import matchingEventConsumer from "../kafka/consumer";
+import matchingRouter from "./routes/matching.routes";
 
 dotenv.config();
 
 const app: Express = express();
 const port = process.env.PORT;
+
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use(bodyParser.json());
+
+app.use("/api", matchingRouter);
 
 app.get("/", (req: Request, res: Response) => {
   // Get All Matchings
@@ -30,4 +39,8 @@ app.listen(port, () => {
   console.log(
     `⚡️[server]: Matching Service is running at http://localhost:${port}`
   );
+
+  matchingEventConsumer().catch((err: any) => {
+    console.error("Error in Matching Service Consumer: ", err);
+  });
 });
