@@ -1,8 +1,8 @@
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import express, { Express, Request, Response } from "express";
-import matchingEventConsumer from "../kafka/consumer";
 import matchingRouter from "./routes/matching.routes";
+import matchingEventConsumer from "./kafka/consumer";
 
 dotenv.config();
 

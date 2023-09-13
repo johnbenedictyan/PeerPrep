@@ -2,7 +2,7 @@ import express from "express";
 import {
   createMatching,
   createMatchingRequest,
-} from "../../controllers/matching.controller";
+} from "../controllers/matching.controller";
 
 const matchingRouter = express.Router();
 
