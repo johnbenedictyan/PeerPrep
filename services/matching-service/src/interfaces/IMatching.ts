@@ -3,6 +3,7 @@ interface IMatchingRequest {
   questionId?: number | null;
   difficulty: string;
   dateRequested?: Date;
+  success: boolean;
 }
 
 export interface ICreatedMatchingRequest extends IMatchingRequest {

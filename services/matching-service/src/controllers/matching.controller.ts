@@ -14,10 +14,10 @@ const createMatchingRequest = async (req: Request, res: Response) => {
       errors: errors.array(),
     });
   } else {
-    const matching = await matchingService.createMatchingRequest(
+    const matchingRequest = await matchingService.createMatchingRequest(
       createMatchingRequestParser(req.body)
     );
-    res.status(httpStatus.CREATED).send(matching);
+    res.status(httpStatus.CREATED).send(matchingRequest);
   }
 };
 
@@ -27,4 +27,3 @@ const createMatching = async (req: Request, res: Response) => {
 };
 
 export { createMatching, createMatchingRequest };
-

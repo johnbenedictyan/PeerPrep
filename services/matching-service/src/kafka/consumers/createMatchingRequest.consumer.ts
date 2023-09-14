@@ -18,9 +18,8 @@ const createMatchingRequestConsumer: IMessageConsumerFunc = async (message) => {
     );
 
     setTimeout(async () => {
-      const foundMatchingRequest = await matchingService.findMatchRequest(
-        matchingRequest
-      );
+      const foundMatchingRequest: ICreatedMatchingRequest | null =
+        await matchingService.findMatchRequest(matchingRequest);
 
       if (foundMatchingRequest) {
         const matching: ICreatedMatching = await matchingService.createMatching(
@@ -30,6 +29,12 @@ const createMatchingRequestConsumer: IMessageConsumerFunc = async (message) => {
             dateTimeMatched: new Date(),
           }
         );
+
+        // Update matching request
+        await matchingService.updateMatchingRequest({
+          ...foundMatchingRequest,
+          success: true,
+        });
 
         matchingEventProducer.successfulMatch(matching);
       } else {

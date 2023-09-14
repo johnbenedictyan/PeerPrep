@@ -18,6 +18,16 @@ interface IMatchingCreateInput {
 }
 
 export const matchingService = {
+  updateMatchingRequest: async (body: ICreatedMatchingRequest) => {
+    const matchingRequest = await prisma.matchingRequest.update({
+      where: {
+        id: body.id,
+      },
+      data: body,
+    });
+    return matchingRequest;
+  },
+
   createMatchingRequest: async (body: IMatchingRequestCreateInput) => {
     const matchingRequest = await prisma.matchingRequest.create({
       data: body,
