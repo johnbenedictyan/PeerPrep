@@ -1,6 +1,8 @@
 import { EachMessagePayload, KafkaMessage } from "kafkajs";
 import isInEnum from "../util/isInEnum";
 import createMatchingRequestConsumer from "./consumers/createMatchingRequest.consumer";
+import successfulMatchingConsumer from "./consumers/successfulMatching.consumer";
+import unsuccessfulMatchingConsumer from "./consumers/unsuccessfulMatching.consumer";
 import { kafka } from "./kafka";
 import { MATCHING_SERVICE_TOPICS } from "./topics/matching";
 
@@ -11,6 +13,11 @@ const MATCHING_SUBSCRIBED_TOPIC_MAPPER: Map<string, IMessageConsumerFunc> =
     [
       MATCHING_SERVICE_TOPICS.CREATE_MATCHING_REQUEST,
       createMatchingRequestConsumer,
+    ],
+    [MATCHING_SERVICE_TOPICS.SUCCESS_MATCHING, successfulMatchingConsumer],
+    [
+      MATCHING_SERVICE_TOPICS.UNSUCCESSFUL_MATCHING,
+      unsuccessfulMatchingConsumer,
     ],
   ]);
 

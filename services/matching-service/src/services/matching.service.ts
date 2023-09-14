@@ -17,11 +17,6 @@ interface IMatchingCreateInput {
   dateTimeMatched: Date | string;
 }
 
-interface IMatchingFindMatchInput {
-  questionId?: number;
-  difficulty: string;
-}
-
 export const matchingService = {
   createMatchingRequest: async (body: IMatchingRequestCreateInput) => {
     const matchingRequest = await prisma.matchingRequest.create({
@@ -39,19 +34,25 @@ export const matchingService = {
     return matching;
   },
   findMatchRequest: async (
-    body: IMatchingFindMatchInput
+    body: ICreatedMatchingRequest
   ): Promise<ICreatedMatchingRequest | null> => {
     let foundMatchRequest;
     if (body.questionId) {
       foundMatchRequest = await prisma.matchingRequest.findFirst({
         where: {
           questionId: body.questionId,
+          userId: {
+            not: body.userId,
+          },
         },
       });
     } else {
       foundMatchRequest = await prisma.matchingRequest.findFirst({
         where: {
           difficulty: body.difficulty,
+          userId: {
+            not: body.userId,
+          },
         },
       });
     }
