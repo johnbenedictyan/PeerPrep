@@ -42,11 +42,11 @@ const tiers = [
 ]
 
 interface IThreeTierProps {
-    modalController: React.Dispatch<React.SetStateAction<boolean>>
+    handleSubmitMatchReq: () => void
     difficultyController: React.Dispatch<React.SetStateAction<string>>
 }
 
-const ThreeTier: React.FC<IThreeTierProps> = ({ modalController, difficultyController }) => {
+const ThreeTier: React.FC<IThreeTierProps> = ({ handleSubmitMatchReq, difficultyController }) => {
     return (
         <ComponentContainer>
             <div className="mx-auto max-w-4xl sm:text-center">
@@ -74,7 +74,7 @@ const ThreeTier: React.FC<IThreeTierProps> = ({ modalController, difficultyContr
                                 className="mt-10 block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                 onClick={() => {
                                     difficultyController(tier.name);
-                                    modalController(true)
+                                    handleSubmitMatchReq();
                                 }}
                             >
                                 Match and Attempt
