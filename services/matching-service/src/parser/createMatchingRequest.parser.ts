@@ -10,7 +10,7 @@ const createMatchingRequestParser = (
 ) => {
   const { userId, questionId, difficulty, dateRequested } = input;
   const parsedInput = {
-    userId: parseInt(userId),
+    userId: userId,
     questionId: questionId ? parseInt(questionId) : undefined,
     difficulty,
     dateRequested: dateRequested ? new Date(dateRequested) : undefined,

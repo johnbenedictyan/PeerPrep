@@ -12,14 +12,14 @@ datasource db {
 
 model Matching {
     id              Int      @id @default(autoincrement())
-    user1Id         Int
-    user2Id         Int
+    user1Id         String
+    user2Id         String
     dateTimeMatched DateTime
 }
 
 model MatchingRequest {
     id            Int      @id @default(autoincrement())
-    userId        Int
+    userId        String
     questionId    Int?
     difficulty    String
     dateRequested DateTime @default(now())

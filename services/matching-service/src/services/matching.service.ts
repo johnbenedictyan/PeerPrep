@@ -1,21 +1,13 @@
 import { PrismaClient } from "@prisma/client";
-import { ICreatedMatchingRequest } from "../interfaces/IMatching";
+
+import {
+  ICreatedMatchingRequest,
+  IMatchingCreateInput,
+  IMatchingRequestCreateInput,
+} from "../interfaces/IMatching";
 import matchingEventProducer from "../kafka/producer";
 
 const prisma = new PrismaClient();
-
-export interface IMatchingRequestCreateInput {
-  userId: number;
-  questionId?: number;
-  difficulty: string;
-  dateRequested?: Date | string;
-}
-
-interface IMatchingCreateInput {
-  user1Id: number;
-  user2Id: number;
-  dateTimeMatched: Date | string;
-}
 
 export const matchingService = {
   updateMatchingRequest: async (body: ICreatedMatchingRequest) => {
@@ -37,13 +29,25 @@ export const matchingService = {
     }
     return matchingRequest;
   },
+
   createMatching: async (body: IMatchingCreateInput) => {
     const matching = await prisma.matching.create({
       data: body,
     });
     return matching;
   },
+
   findMatchRequest: async (
+    body: ICreatedMatchingRequest
+  ): Promise<ICreatedMatchingRequest | null> => {
+    return prisma.matchingRequest.findFirst({
+      where: {
+        id: body.id,
+      },
+    });
+  },
+
+  findMatch: async (
     body: ICreatedMatchingRequest
   ): Promise<ICreatedMatchingRequest | null> => {
     let foundMatchRequest;
@@ -54,6 +58,7 @@ export const matchingService = {
           userId: {
             not: body.userId,
           },
+          success: false,
         },
       });
     } else {
@@ -63,6 +68,7 @@ export const matchingService = {
           userId: {
             not: body.userId,
           },
+          success: false,
         },
       });
     }

@@ -1,5 +1,5 @@
 interface IMatchingRequest {
-  userId: number;
+  userId: string;
   questionId?: number | null;
   difficulty: string;
   dateRequested?: Date;
@@ -11,11 +11,24 @@ export interface ICreatedMatchingRequest extends IMatchingRequest {
 }
 
 interface IMatching {
-  user1Id: number;
-  user2Id: number;
+  user1Id: string;
+  user2Id: string;
   dateTimeMatched: Date;
 }
 
 export interface ICreatedMatching extends IMatching {
   id: number;
+}
+
+export interface IMatchingRequestCreateInput {
+  userId: string;
+  questionId?: number;
+  difficulty: string;
+  dateRequested?: Date | string;
+}
+
+export interface IMatchingCreateInput {
+  user1Id: string;
+  user2Id: string;
+  dateTimeMatched: Date | string;
 }

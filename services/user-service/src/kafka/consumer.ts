@@ -5,7 +5,7 @@ const USER_SUBSCRIBED_TOPICS: string[] = [
   QUESTION_SERVICE_TOPICS.CREATE_QUESTION,
 ];
 
-const consumer = kafka.consumer({ groupId: "test-group" });
+const consumer = kafka.consumer({ groupId: "user-service" });
 
 const userEventConsumer = async () => {
   console.log("User Service Starting to Listen");

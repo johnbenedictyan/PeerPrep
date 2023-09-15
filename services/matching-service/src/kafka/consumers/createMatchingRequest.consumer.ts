@@ -13,34 +13,43 @@ const createMatchingRequestConsumer: IMessageConsumerFunc = async (message) => {
   );
   if (message.value) {
     // Parse the json message
-    const matchingRequest: ICreatedMatchingRequest = JSON.parse(
+    const inputMatchingReq: ICreatedMatchingRequest = JSON.parse(
       message.value.toString()
     );
 
-    setTimeout(async () => {
-      const foundMatchingRequest: ICreatedMatchingRequest | null =
-        await matchingService.findMatchRequest(matchingRequest);
+    const matchReqFromDB: ICreatedMatchingRequest | null =
+      await matchingService.findMatchRequest(inputMatchingReq);
 
-      if (foundMatchingRequest) {
-        const matching: ICreatedMatching = await matchingService.createMatching(
-          {
-            user1Id: foundMatchingRequest.userId,
-            user2Id: matchingRequest.userId,
-            dateTimeMatched: new Date(),
-          }
-        );
+    if (!matchReqFromDB || matchReqFromDB.success) {
+      return;
+    }
 
-        // Update matching request
-        await matchingService.updateMatchingRequest({
-          ...foundMatchingRequest,
-          success: true,
-        });
+    const counterPartyMatchReq: ICreatedMatchingRequest | null =
+      await matchingService.findMatch(inputMatchingReq);
 
-        matchingEventProducer.successfulMatch(matching);
-      } else {
-        matchingEventProducer.unsuccessfulMatch(matchingRequest);
-      }
-    }, TIME_TO_WAIT);
+    if (!counterPartyMatchReq) {
+      matchingEventProducer.unsuccessfulMatch(matchReqFromDB);
+      return;
+    }
+
+    const matching: ICreatedMatching = await matchingService.createMatching({
+      user1Id: counterPartyMatchReq.userId,
+      user2Id: matchReqFromDB.userId,
+      dateTimeMatched: new Date(),
+    });
+
+    // Update matching request
+    await matchingService.updateMatchingRequest({
+      ...counterPartyMatchReq,
+      success: true,
+    });
+
+    await matchingService.updateMatchingRequest({
+      ...matchReqFromDB,
+      success: true,
+    });
+
+    matchingEventProducer.successfulMatch(matching);
   }
 };
 

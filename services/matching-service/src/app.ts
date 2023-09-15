@@ -1,13 +1,21 @@
 import bodyParser from "body-parser";
+import cors from "cors";
 import dotenv from "dotenv";
 import express, { Express, Request, Response } from "express";
-import matchingRouter from "./routes/matching.routes";
 import matchingEventConsumer from "./kafka/consumer";
+import matchingRouter from "./routes/matching.routes";
 
 dotenv.config();
 
 const app: Express = express();
 const port = process.env.PORT;
+
+const corsOptions = {
+  origin: "http://localhost:3000",
+  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
+
+app.use(cors(corsOptions));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 

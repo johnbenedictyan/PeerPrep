@@ -21,7 +21,7 @@ const MATCHING_SUBSCRIBED_TOPIC_MAPPER: Map<string, IMessageConsumerFunc> =
     ],
   ]);
 
-const consumer = kafka.consumer({ groupId: "test-group" });
+const consumer = kafka.consumer({ groupId: "matching-service" });
 
 const matchingEventConsumer = async () => {
   console.log("Matching Service Starting to Listen");

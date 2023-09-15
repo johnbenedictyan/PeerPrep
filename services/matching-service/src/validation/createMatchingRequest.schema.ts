@@ -5,7 +5,7 @@ const createMatchingRequestSchema = {
       errorMessage: "User id is required",
       options: { checkFalsy: true },
     },
-    isInt: { errorMessage: "User Id should be integer" },
+    isString: { errorMessage: "User Id should be string" },
   },
   difficulty: {
     exists: { errorMessage: "Difficulty is required" },
