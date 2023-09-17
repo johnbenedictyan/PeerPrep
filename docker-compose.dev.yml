@@ -21,6 +21,9 @@ services:
   #   links:
   #     - broker
   #     - postgres_user_service
+  #   depends_on:
+  #     broker:
+  #       condition: service_healthy
 
   # postgres_user_service:
   #   image: postgres:latest
@@ -43,6 +46,9 @@ services:
       - ./services/socket-service/.env
     links:
       - broker
+    depends_on:
+      broker:
+        condition: service_healthy
 
   matching:
     container_name: matching-service
@@ -58,6 +64,9 @@ services:
     links:
       - broker
       - postgres_matching_service
+    depends_on:
+      broker:
+        condition: service_healthy
 
   postgres_matching_service:
     image: postgres:latest
@@ -81,6 +90,9 @@ services:
   #   links:
   #     - broker
   #     - postgres_question_service
+  #   depends_on:
+  #     broker:
+  #       condition: service_healthy
 
   # postgres_question_service:
   #   image: postgres:latest
@@ -104,6 +116,9 @@ services:
   #   links:
   #     - broker
   #     - postgres_chat_service
+  #   depends_on:
+  #     broker:
+  #       condition: service_healthy
 
   # postgres_chat_service:
   #   image: postgres:latest
@@ -127,6 +142,9 @@ services:
   #   links:
   #     - broker
   #     - postgres_video_call_service
+  #   depends_on:
+  #     broker:
+  #       condition: service_healthy
 
   # postgres_video_call_service:
   #   image: postgres:latest
@@ -187,6 +205,11 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+    healthcheck:
+      test: ["CMD", "kafka-topics", "--bootstrap-server", "broker:9092", "--list"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
 
 volumes:
   progresDB:
