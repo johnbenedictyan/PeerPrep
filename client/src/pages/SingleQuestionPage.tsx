@@ -8,7 +8,7 @@ import { MatchingContext } from '../context/MatchingContext';
 
 export default function SingleQuestionPage() {
     const { matchedUserId, setMatchedUserId } = useContext(MatchingContext)!;
-    const  currentMatchedId = useRef<string>('');
+    const currentMatchedId = useRef<string>('');
 
     useEffect(() => {
         if (matchedUserId) {
@@ -90,7 +90,31 @@ export default function SingleQuestionPage() {
 
                                         {/* Image gallery */}
                                         <div className="flex flex-col">
-                                            <p>You have been matched with: {currentMatchedId.current}</p>
+                                            <div className="flex mb-4">
+                                                <div className="mr-4 flex-shrink-0">
+                                                    <svg
+                                                        className="h-16 w-16 border border-gray-300 bg-white text-gray-300 rounded-full"
+                                                        preserveAspectRatio="none"
+                                                        stroke="currentColor"
+                                                        fill="none"
+                                                        viewBox="0 0 200 200"
+                                                        aria-hidden="true"
+                                                    >
+                                                        <path vectorEffect="non-scaling-stroke" strokeWidth={1} d="M0 0l200 200M0 200L200 0" />
+                                                    </svg>
+                                                </div>
+                                                <div className='grid grid-cols-3 mt-3'>
+                                                    {
+                                                        currentMatchedId.current === '' ?
+                                                            <div className="animate-pulse h-5 bg-slate-700 rounded col-span-3"></div>
+                                                            : <h4 className="text-lg font-bold">{currentMatchedId.current}</h4>
+                                                    }
+
+                                                    <p className="col-span-2 mt-1">
+                                                        Current Match
+                                                    </p>
+                                                </div>
+                                            </div>
                                             <VideoCall />
                                             <Chat />
                                         </div>
