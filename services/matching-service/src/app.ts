@@ -48,7 +48,7 @@ app.listen(port, () => {
     `⚡️[server]: Matching Service is running at http://localhost:${port}`
   );
 
-  matchingEventConsumer().catch((err: any) => {
+  matchingEventConsumer().catch((err: Error) => {
     console.error("Error in Matching Service Consumer: ", err);
   });
 });

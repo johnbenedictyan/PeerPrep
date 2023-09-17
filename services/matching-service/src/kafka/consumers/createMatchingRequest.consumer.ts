@@ -2,12 +2,13 @@ import {
   ICreatedMatching,
   ICreatedMatchingRequest,
 } from "../../interfaces/IMatching";
-import { matchingService } from "../../services/matching.service";
+import matchingService from "../../services/matching.service";
 import { IMessageConsumerFunc } from "../consumer";
 import matchingEventProducer from "../producer";
 
+const service = new matchingService();
+
 const createMatchingRequestConsumer: IMessageConsumerFunc = async (message) => {
-  const TIME_TO_WAIT = 2000;
   console.log(
     "WE HAVE RECEIVED A MESSAGE FOR THE CREATION OF A MATCHING REQUEST"
   );
@@ -18,33 +19,33 @@ const createMatchingRequestConsumer: IMessageConsumerFunc = async (message) => {
     );
 
     const matchReqFromDB: ICreatedMatchingRequest | null =
-      await matchingService.findMatchRequest(inputMatchingReq);
+      await service.findMatchRequest(inputMatchingReq);
 
     if (!matchReqFromDB || matchReqFromDB.success) {
       return;
     }
 
     const counterPartyMatchReq: ICreatedMatchingRequest | null =
-      await matchingService.findMatch(inputMatchingReq);
+      await service.findMatch(inputMatchingReq);
 
     if (!counterPartyMatchReq) {
       matchingEventProducer.unsuccessfulMatch(matchReqFromDB);
       return;
     }
 
-    const matching: ICreatedMatching = await matchingService.createMatching({
+    const matching: ICreatedMatching = await service.createMatching({
       user1Id: counterPartyMatchReq.userId,
       user2Id: matchReqFromDB.userId,
       dateTimeMatched: new Date(),
     });
 
     // Update matching request
-    await matchingService.updateMatchingRequest({
+    await service.updateMatchingRequest({
       ...counterPartyMatchReq,
       success: true,
     });
 
-    await matchingService.updateMatchingRequest({
+    await service.updateMatchingRequest({
       ...matchReqFromDB,
       success: true,
     });
