@@ -9,8 +9,10 @@ import matchingEventProducer from "../kafka/producer";
 
 const prisma = new PrismaClient();
 
-export const matchingService = {
-  updateMatchingRequest: async (body: ICreatedMatchingRequest) => {
+class MatchingService {
+  constructor() {}
+
+  public async updateMatchingRequest(body: ICreatedMatchingRequest) {
     const matchingRequest = await prisma.matchingRequest.update({
       where: {
         id: body.id,
@@ -18,9 +20,9 @@ export const matchingService = {
       data: body,
     });
     return matchingRequest;
-  },
+  }
 
-  createMatchingRequest: async (body: IMatchingRequestCreateInput) => {
+  public async createMatchingRequest(body: IMatchingRequestCreateInput) {
     const matchingRequest = await prisma.matchingRequest.create({
       data: body,
     });
@@ -28,28 +30,28 @@ export const matchingService = {
       await matchingEventProducer.createMatchingRequest(matchingRequest);
     }
     return matchingRequest;
-  },
+  }
 
-  createMatching: async (body: IMatchingCreateInput) => {
+  public async createMatching(body: IMatchingCreateInput) {
     const matching = await prisma.matching.create({
       data: body,
     });
     return matching;
-  },
+  }
 
-  findMatchRequest: async (
+  public async findMatchRequest(
     body: ICreatedMatchingRequest
-  ): Promise<ICreatedMatchingRequest | null> => {
+  ): Promise<ICreatedMatchingRequest | null> {
     return prisma.matchingRequest.findFirst({
       where: {
         id: body.id,
       },
     });
-  },
+  }
 
-  findMatch: async (
+  public async findMatch(
     body: ICreatedMatchingRequest
-  ): Promise<ICreatedMatchingRequest | null> => {
+  ): Promise<ICreatedMatchingRequest | null> {
     let foundMatchRequest;
     if (body.questionId) {
       foundMatchRequest = await prisma.matchingRequest.findFirst({
@@ -61,17 +63,18 @@ export const matchingService = {
           success: false,
         },
       });
-    } else {
-      foundMatchRequest = await prisma.matchingRequest.findFirst({
-        where: {
-          difficulty: body.difficulty,
-          userId: {
-            not: body.userId,
-          },
-          success: false,
-        },
-      });
     }
+    foundMatchRequest = await prisma.matchingRequest.findFirst({
+      where: {
+        difficulty: body.difficulty,
+        userId: {
+          not: body.userId,
+        },
+        success: false,
+      },
+    });
     return foundMatchRequest;
-  },
-};
+  }
+}
+
+export default MatchingService;

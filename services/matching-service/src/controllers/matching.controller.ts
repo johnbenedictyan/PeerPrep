@@ -2,28 +2,35 @@ import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 import httpStatus from "http-status";
 import createMatchingRequestParser from "../parser/createMatchingRequest.parser";
-import { matchingService } from "../services/matching.service";
+import MatchingService from "../services/matching.service";
 
-const createMatchingRequest = async (req: Request, res: Response) => {
-  const errors = validationResult(req);
+class MatchingController {
+  private matchingService;
 
-  // if there is error then return Error
-  if (!errors.isEmpty()) {
-    return res.status(400).json({
-      success: false,
-      errors: errors.array(),
-    });
-  } else {
-    const matchingRequest = await matchingService.createMatchingRequest(
+  constructor() {
+    this.matchingService = new MatchingService();
+  }
+
+  public async createMatchingRequest(req: Request, res: Response) {
+    const errors = validationResult(req);
+
+    // if there is error then return Error
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        success: false,
+        errors: errors.array(),
+      });
+    }
+    const matchingRequest = await this.matchingService.createMatchingRequest(
       createMatchingRequestParser(req.body)
     );
     res.status(httpStatus.CREATED).send(matchingRequest);
   }
-};
 
-const createMatching = async (req: Request, res: Response) => {
-  const matching = await matchingService.createMatching(req.body);
-  res.status(httpStatus.CREATED).send(matching);
-};
+  public async createMatching(req: Request, res: Response) {
+    const matching = await this.matchingService.createMatching(req.body);
+    res.status(httpStatus.CREATED).send(matching);
+  }
+}
 
-export { createMatching, createMatchingRequest };
+export default MatchingController;
