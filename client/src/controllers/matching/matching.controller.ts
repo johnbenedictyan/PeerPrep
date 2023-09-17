@@ -6,9 +6,17 @@ interface ICreateMatchingRequest {
   questionId?: string;
 }
 
+interface ICancelMatchingRequest {
+  userId: string;
+}
+
 class MatchingController extends GenericController {
   constructor() {
     super("http://localhost:5002", "api");
+  }
+
+  public async cancelMatchingRequest(data: ICancelMatchingRequest) {
+    console.log("cancelMatchingRequest");
   }
 
   public async createMatchingRequest(data: ICreateMatchingRequest) {

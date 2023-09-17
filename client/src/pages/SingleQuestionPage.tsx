@@ -1,9 +1,26 @@
+import { useContext, useEffect, useRef } from 'react';
+
 import Chat from '../components/Chat';
 import CodingSpace from '../components/CodingSpace';
 import Question, { IQuestion } from '../components/Question';
 import VideoCall from '../components/VideoCall';
+import { MatchingContext } from '../context/MatchingContext';
 
 export default function SingleQuestionPage() {
+    const { matchedUserId, setMatchedUserId } = useContext(MatchingContext)!;
+    const  currentMatchedId = useRef<string>('');
+
+    useEffect(() => {
+        if (matchedUserId) {
+            currentMatchedId.current = matchedUserId;
+        }
+        return () => {
+            console.log('unmounting')
+            setMatchedUserId(null);
+            // currentMatchedId.current = '';
+        }
+    }, [])
+
     const question: IQuestion = {
         name: 'Two Sum',
         difficulty: 'Easy',
@@ -73,6 +90,7 @@ export default function SingleQuestionPage() {
 
                                         {/* Image gallery */}
                                         <div className="flex flex-col">
+                                            <p>You have been matched with: {currentMatchedId.current}</p>
                                             <VideoCall />
                                             <Chat />
                                         </div>

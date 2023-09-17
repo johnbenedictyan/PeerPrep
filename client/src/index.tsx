@@ -6,6 +6,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 import App from './App';
 import { AuthProvider } from './context/FirebaseAuthContext';
+import { MatchingProvider } from './context/MatchingContext';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(
@@ -16,7 +17,9 @@ root.render(
     <React.StrictMode>
         <BrowserRouter>
             <AuthProvider>
-                <App />
+                <MatchingProvider>
+                    <App />
+                </MatchingProvider>
             </AuthProvider>
         </BrowserRouter>
     </React.StrictMode>

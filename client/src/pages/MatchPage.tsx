@@ -1,15 +1,19 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 
+import { useNavigate } from 'react-router-dom';
 import MatchingModal from '../components/MatchingModal';
 import ThreeTier from '../components/ThreeTier';
 import { AuthContext } from '../context/FirebaseAuthContext';
-import { socket } from '../util/socket';
+import { MatchingContext } from '../context/MatchingContext';
 import MatchingController from '../controllers/matching/matching.controller';
-import { useNavigate } from 'react-router-dom';
+import { socket } from '../util/socket';
+
 
 
 const MatchPage = () => {
     const { currentUser } = useContext(AuthContext);
+    const { matchedUserId, setMatchedUserId } = useContext(MatchingContext)!;
+
     const [difficulty, setDifficulty] = useState<string>('');
     const [open, setOpen] = useState(false);
 
@@ -20,6 +24,16 @@ const MatchPage = () => {
     const [matchLoading, setMatchLoading] = useState<boolean>(true);
 
     const navigate = useNavigate();
+
+    const matchingController = useRef<MatchingController>(new MatchingController());
+
+
+    useEffect(() => {
+        if (matchedUserId) {
+            console.log(matchedUserId)
+            navigate('/questions/1');
+        }
+    }, [matchedUserId]);
 
 
     useEffect(() => {
@@ -35,12 +49,16 @@ const MatchPage = () => {
         }
 
         function onMatchEvent(value: any) {
-            console.log(value);
             setFoundMatch(true);
             setMatchLoading(false);
-            setTimeout(() => {
-                navigate('/');
-            }, 3000);
+            // parse the value from json
+            const { user1Id, user2Id } = JSON.parse(value);
+
+            if (user1Id === currentUser?.uid) {
+                setMatchedUserId(user2Id);
+            } else {
+                setMatchedUserId(user1Id);
+            }
         }
 
         socket.on('joined', onJoined);
@@ -56,7 +74,6 @@ const MatchPage = () => {
     }, [navigate]);
 
     useEffect(() => {
-        console.log("Trying to join")
         if (currentUser) {
             if (!establishedConnection) {
                 socket.connect();
@@ -70,23 +87,32 @@ const MatchPage = () => {
         };
     }, [currentUser]);
 
-    const handleSubmitMatchReq = () => {
-        if (foundMatch && !establishedConnection && !currentUser) {
+    useEffect(() => {
+        if (difficulty == '' || foundMatch || !establishedConnection || !currentUser) {
             return;
         }
         setOpen(true);
-        const matchingController = new MatchingController();
-        matchingController.createMatchingRequest({
+
+        matchingController.current.createMatchingRequest({
             userId: currentUser!.uid,
             difficulty
         });
+    }, [difficulty]);
+
+    const cancelMatch = () => {
+        setOpen(false);
+        setFoundMatch(false);
+        setMatchLoading(true);
+        matchingController.current.cancelMatchingRequest({
+            userId: currentUser!.uid
+        });
     }
+
 
     return (
         <div className="space-y-16 py-16 xl:space-y-20">
             <ThreeTier
-                handleSubmitMatchReq={handleSubmitMatchReq}
-                difficultyController={setDifficulty}
+                setDifficulty={setDifficulty}
             />
             <MatchingModal
                 difficulty={difficulty}
@@ -96,6 +122,7 @@ const MatchPage = () => {
                 connectionSuccess={establishedConnection}
                 matchLoading={matchLoading}
                 matchSuccess={foundMatch}
+                cancelMatch={cancelMatch}
             />
         </div>
     )
