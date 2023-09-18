@@ -1,24 +1,24 @@
 import { PrismaClient } from "@prisma/client";
 
 import {
-  ICreatedMatchingRequest,
-  IMatchingCreateInput,
-  IMatchingRequestCreateInput,
+    ICreatedMatchingRequest,
+    IMatchingCreateInput,
+    IMatchingRequestCreateInput,
 } from "../interfaces/IMatching";
 import MatchingEventProducer from "../kafka/producer/producer";
 import { IMatchingService } from "./matching.service.interface";
 
-const prisma = new PrismaClient();
-
 class MatchingService implements IMatchingService {
   private producer: MatchingEventProducer;
+  private prismaClient: PrismaClient;
 
-  constructor(producer: MatchingEventProducer) {
+  constructor(producer: MatchingEventProducer, prismaClient: PrismaClient) {
     this.producer = producer;
+    this.prismaClient = prismaClient;
   }
 
   public async updateMatchingRequest(body: ICreatedMatchingRequest) {
-    const matchingRequest = await prisma.matchingRequest.update({
+    const matchingRequest = await this.prismaClient.matchingRequest.update({
       where: {
         id: body.id,
       },
@@ -28,7 +28,7 @@ class MatchingService implements IMatchingService {
   }
 
   public async createMatchingRequest(body: IMatchingRequestCreateInput) {
-    const matchingRequest = await prisma.matchingRequest.create({
+    const matchingRequest = await this.prismaClient.matchingRequest.create({
       data: body,
     });
     if (matchingRequest) {
@@ -38,7 +38,7 @@ class MatchingService implements IMatchingService {
   }
 
   public async createMatching(body: IMatchingCreateInput) {
-    const matching = await prisma.matching.create({
+    const matching = await this.prismaClient.matching.create({
       data: body,
     });
     return matching;
@@ -47,7 +47,7 @@ class MatchingService implements IMatchingService {
   public async findMatchRequest(
     body: ICreatedMatchingRequest
   ): Promise<ICreatedMatchingRequest | null> {
-    return prisma.matchingRequest.findFirst({
+    return this.prismaClient.matchingRequest.findFirst({
       where: {
         id: body.id,
       },
@@ -59,7 +59,7 @@ class MatchingService implements IMatchingService {
   ): Promise<ICreatedMatchingRequest | null> {
     let foundMatchRequest;
     if (body.questionId) {
-      foundMatchRequest = await prisma.matchingRequest.findFirst({
+      foundMatchRequest = await this.prismaClient.matchingRequest.findFirst({
         where: {
           questionId: body.questionId,
           userId: {
@@ -69,7 +69,7 @@ class MatchingService implements IMatchingService {
         },
       });
     }
-    foundMatchRequest = await prisma.matchingRequest.findFirst({
+    foundMatchRequest = await this.prismaClient.matchingRequest.findFirst({
       where: {
         difficulty: body.difficulty,
         userId: {

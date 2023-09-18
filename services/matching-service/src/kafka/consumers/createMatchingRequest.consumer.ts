@@ -2,13 +2,14 @@ import {
   ICreatedMatching,
   ICreatedMatchingRequest,
 } from "../../interfaces/IMatching";
+import prismaClient from "../../prismaClient/client";
 import MatchingService from "../../services/matching.service";
 import { IMessageConsumerFunc } from "../consumer";
 import { kafka } from "../kafka";
 import MatchingEventProducer from "../producer/producer";
 
 const producer = new MatchingEventProducer(kafka);
-const service = new MatchingService(producer);
+const service = new MatchingService(producer, prismaClient);
 
 const createMatchingRequestConsumer: IMessageConsumerFunc = async (message) => {
   console.log(
