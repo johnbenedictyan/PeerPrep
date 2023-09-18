@@ -14,6 +14,7 @@ RUN npx prisma generate
 # Copy source
 COPY src ./src
 COPY tsconfig.json ./tsconfig.json
+COPY tsconfig.build.json ./tsconfig.build.json
 
 # Build dist
 RUN yarn build
