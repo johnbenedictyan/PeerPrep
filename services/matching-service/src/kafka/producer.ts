@@ -1,3 +1,4 @@
+import { Producer } from "kafkajs";
 import {
   ICreatedMatching,
   ICreatedMatchingRequest,
@@ -5,12 +6,16 @@ import {
 import { kafka } from "./kafka";
 import { MATCHING_SERVICE_TOPICS } from "./topics/matching";
 
-const producer = kafka.producer();
+class MatchingEventProducer {
+  private producer: Producer;
 
-const matchingEventProducer = {
-  createMatchingRequest: async (matchingRequest: ICreatedMatchingRequest) => {
-    await producer.connect();
-    await producer.send({
+  constructor() {
+    this.producer = kafka.producer();
+  }
+
+  public async requestMatch(matchingRequest: ICreatedMatchingRequest) {
+    await this.producer.connect();
+    await this.producer.send({
       topic: MATCHING_SERVICE_TOPICS.CREATE_MATCHING_REQUEST,
       messages: [
         {
@@ -19,11 +24,12 @@ const matchingEventProducer = {
         },
       ],
     });
-    await producer.disconnect();
-  },
-  successfulMatch: async (matching: ICreatedMatching) => {
-    await producer.connect();
-    await producer.send({
+    await this.producer.disconnect();
+  }
+
+  public async successfulMatch(matching: ICreatedMatching) {
+    await this.producer.connect();
+    await this.producer.send({
       topic: MATCHING_SERVICE_TOPICS.SUCCESS_MATCHING,
       messages: [
         {
@@ -32,11 +38,12 @@ const matchingEventProducer = {
         },
       ],
     });
-    await producer.disconnect();
-  },
-  unsuccessfulMatch: async (matchingRequest: ICreatedMatchingRequest) => {
-    await producer.connect();
-    await producer.send({
+    await this.producer.disconnect();
+  }
+
+  public async unsuccessfulMatch(matchingRequest: ICreatedMatchingRequest) {
+    await this.producer.connect();
+    await this.producer.send({
       topic: MATCHING_SERVICE_TOPICS.UNSUCCESSFUL_MATCHING,
       messages: [
         {
@@ -45,8 +52,8 @@ const matchingEventProducer = {
         },
       ],
     });
-    await producer.disconnect();
-  },
-};
+    await this.producer.disconnect();
+  }
+}
 
-export default matchingEventProducer;
+export default MatchingEventProducer;

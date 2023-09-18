@@ -8,7 +8,7 @@ import matchingRouter from "./routes/matching.routes";
 dotenv.config();
 
 const app: Express = express();
-const port = process.env.PORT;
+const port = process.env['PORT'];
 
 const corsOptions = {
   origin: "http://localhost:3000",
@@ -23,22 +23,22 @@ app.use(bodyParser.json());
 
 app.use("/api", matchingRouter);
 
-app.get("/", (req: Request, res: Response) => {
+app.get("/", (_req: Request, res: Response) => {
   // Get All Matchings
   res.send("Matching Service Server");
 });
 
-app.post("/", (req: Request, res: Response) => {
+app.post("/", (_req: Request, res: Response) => {
   // Create a single Matching
   res.send("Create single Matching");
 });
 
-app.put("/", (req: Request, res: Response) => {
+app.put("/", (_req: Request, res: Response) => {
   // Update a single Matching
   res.send("Update single Matching");
 });
 
-app.delete("/", (req: Request, res: Response) => {
+app.delete("/", (_req: Request, res: Response) => {
   // Delete a single Matching
   res.send("Delete single Matching");
 });

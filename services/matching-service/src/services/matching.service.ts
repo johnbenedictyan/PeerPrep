@@ -5,12 +5,16 @@ import {
   IMatchingCreateInput,
   IMatchingRequestCreateInput,
 } from "../interfaces/IMatching";
-import matchingEventProducer from "../kafka/producer";
+import MatchingEventProducer from "../kafka/producer";
 
 const prisma = new PrismaClient();
 
 class MatchingService {
-  constructor() {}
+  private producer: MatchingEventProducer;
+
+  constructor() {
+    this.producer = new MatchingEventProducer();
+  }
 
   public async updateMatchingRequest(body: ICreatedMatchingRequest) {
     const matchingRequest = await prisma.matchingRequest.update({
@@ -27,7 +31,7 @@ class MatchingService {
       data: body,
     });
     if (matchingRequest) {
-      await matchingEventProducer.createMatchingRequest(matchingRequest);
+      await this.producer.requestMatch(matchingRequest);
     }
     return matchingRequest;
   }

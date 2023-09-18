@@ -34,7 +34,7 @@ const matchingEventConsumer = async () => {
 
   await consumer.run({
     // this function is called every time the consumer gets a new message
-    eachMessage: ({ topic, message }: EachMessagePayload) => {
+    eachMessage: async ({ topic, message }: EachMessagePayload) => {
       // here, we just log the message to the standard output
       if (
         isInEnum(MATCHING_SERVICE_TOPICS, topic) &&

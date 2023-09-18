@@ -24,12 +24,12 @@ class MatchingController {
     const matchingRequest = await this.matchingService.createMatchingRequest(
       createMatchingRequestParser(req.body)
     );
-    res.status(httpStatus.CREATED).send(matchingRequest);
+    return res.status(httpStatus.CREATED).send(matchingRequest);
   }
 
   public async createMatching(req: Request, res: Response) {
     const matching = await this.matchingService.createMatching(req.body);
-    res.status(httpStatus.CREATED).send(matching);
+    return res.status(httpStatus.CREATED).send(matching);
   }
 }
 

@@ -1,3 +1,5 @@
+import { IMatchingRequestCreateInput } from "../interfaces/IMatching";
+
 interface ICreateMatchingRequestParserInput {
   userId: string;
   questionId?: string;
@@ -7,15 +9,27 @@ interface ICreateMatchingRequestParserInput {
 
 const createMatchingRequestParser = (
   input: ICreateMatchingRequestParserInput
-) => {
+): IMatchingRequestCreateInput => {
   const { userId, questionId, difficulty, dateRequested } = input;
-  const parsedInput = {
+  if (questionId && dateRequested) {
+    return {
+      userId: userId,
+      questionId: parseInt(questionId),
+      difficulty,
+      dateRequested: new Date(dateRequested),
+    };
+  }
+  if (questionId) {
+    return {
+      userId: userId,
+      questionId: parseInt(questionId),
+      difficulty,
+    };
+  }
+  return {
     userId: userId,
-    questionId: questionId ? parseInt(questionId) : undefined,
     difficulty,
-    dateRequested: dateRequested ? new Date(dateRequested) : undefined,
   };
-  return parsedInput;
 };
 
 export default createMatchingRequestParser;

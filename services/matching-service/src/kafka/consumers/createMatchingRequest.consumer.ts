@@ -2,11 +2,12 @@ import {
   ICreatedMatching,
   ICreatedMatchingRequest,
 } from "../../interfaces/IMatching";
-import matchingService from "../../services/matching.service";
+import MatchingService from "../../services/matching.service";
 import { IMessageConsumerFunc } from "../consumer";
-import matchingEventProducer from "../producer";
+import MatchingEventProducer from "../producer";
 
-const service = new matchingService();
+const service = new MatchingService();
+const producer = new MatchingEventProducer();
 
 const createMatchingRequestConsumer: IMessageConsumerFunc = async (message) => {
   console.log(
@@ -29,7 +30,7 @@ const createMatchingRequestConsumer: IMessageConsumerFunc = async (message) => {
       await service.findMatch(inputMatchingReq);
 
     if (!counterPartyMatchReq) {
-      matchingEventProducer.unsuccessfulMatch(matchReqFromDB);
+      producer.unsuccessfulMatch(matchReqFromDB);
       return;
     }
 
@@ -50,7 +51,7 @@ const createMatchingRequestConsumer: IMessageConsumerFunc = async (message) => {
       success: true,
     });
 
-    matchingEventProducer.successfulMatch(matching);
+    producer.successfulMatch(matching);
   }
 };
 
