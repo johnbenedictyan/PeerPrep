@@ -33,6 +33,7 @@ class MatchingController {
   }
 
   public healthCheck(_req: Request, res: Response) {
+    console.log("Health Check");
     return res.status(httpStatus.OK).json("OK");
   }
 }

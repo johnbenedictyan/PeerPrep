@@ -2,26 +2,30 @@ import express from "express";
 import { checkSchema } from "express-validator";
 
 import MatchingController from "../controllers/matching.controller";
-import { kafka } from "../kafka/kafka";
-import MatchingEventProducer from "../kafka/producer/producer";
-import prismaClient from "../prismaClient/client";
-import MatchingService from "../services/matching.service";
 import createMatchingRequestSchema from "../validation/createMatchingRequest.schema";
 
-const matchingRouter = express.Router();
+class MatchingRouter {
+  private controller: MatchingController;
+  private router: express.Router;
 
-const ctrl = new MatchingController(
-  new MatchingService(new MatchingEventProducer(kafka), prismaClient)
-);
+  constructor(controller: MatchingController) {
+    this.controller = controller;
+    this.router = express.Router();
+  }
 
-matchingRouter.post(
-  "/matchingRequest",
-  checkSchema(createMatchingRequestSchema),
-  ctrl.createMatchingRequest
-);
+  registerRoutes(): express.Router {
+    this.router.post(
+      "/matchingRequest",
+      checkSchema(createMatchingRequestSchema),
+      this.controller.createMatchingRequest
+    );
 
-matchingRouter.route("/matching").post(ctrl.createMatching);
+    this.router.route("/matching").post(this.controller.createMatching);
 
-matchingRouter.route("/healthCheck").get(ctrl.healthCheck);
+    this.router.route("/healthCheck").get(this.controller.healthCheck);
 
-export default matchingRouter;
+    return this.router;
+  }
+}
+
+export default MatchingRouter;
