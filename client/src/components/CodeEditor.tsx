@@ -1,10 +1,10 @@
-import CodeMirror, { ViewUpdate } from '@uiw/react-codemirror';
-
 import { cpp } from '@codemirror/lang-cpp';
 import { java } from '@codemirror/lang-java';
 import { javascript } from '@codemirror/lang-javascript';
 import { python } from '@codemirror/lang-python';
+import CodeMirror, { ViewUpdate } from '@uiw/react-codemirror';
 import { useCallback, useState } from 'react';
+
 import CodeResult from './CodeResult';
 
 interface ICodeEditorProps {
