@@ -5,15 +5,16 @@ import {
   IMatchingCreateInput,
   IMatchingRequestCreateInput,
 } from "../interfaces/IMatching";
-import MatchingEventProducer from "../kafka/producer";
+import MatchingEventProducer from "../kafka/producer/producer";
+import { IMatchingService } from "./matching.service.interface";
 
 const prisma = new PrismaClient();
 
-class MatchingService {
+class MatchingService implements IMatchingService {
   private producer: MatchingEventProducer;
 
-  constructor() {
-    this.producer = new MatchingEventProducer();
+  constructor(producer: MatchingEventProducer) {
+    this.producer = producer;
   }
 
   public async updateMatchingRequest(body: ICreatedMatchingRequest) {

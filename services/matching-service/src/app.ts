@@ -1,14 +1,13 @@
-import bodyParser from "body-parser";
-import cors from "cors";
-import dotenv from "dotenv";
-import express, { Express, Request, Response } from "express";
-import matchingEventConsumer from "./kafka/consumer";
-import matchingRouter from "./routes/matching.routes";
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import express, { Express, Request, Response } from 'express';
+
+import matchingRouter from './routes/matching.routes';
 
 dotenv.config();
 
 const app: Express = express();
-const port = process.env['PORT'];
 
 const corsOptions = {
   origin: "http://localhost:3000",
@@ -43,12 +42,4 @@ app.delete("/", (_req: Request, res: Response) => {
   res.send("Delete single Matching");
 });
 
-app.listen(port, () => {
-  console.log(
-    `⚡️[server]: Matching Service is running at http://localhost:${port}`
-  );
-
-  matchingEventConsumer().catch((err: Error) => {
-    console.error("Error in Matching Service Consumer: ", err);
-  });
-});
+export default app;

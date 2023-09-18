@@ -3,12 +3,11 @@ import { validationResult } from "express-validator";
 import httpStatus from "http-status";
 import createMatchingRequestParser from "../parser/createMatchingRequest.parser";
 import MatchingService from "../services/matching.service";
-import MatchingServiceMock from "../services/matching.service.mock";
 
 class MatchingController {
   private matchingService;
 
-  constructor(matchingService: MatchingService | MatchingServiceMock) {
+  constructor(matchingService: MatchingService) {
     this.matchingService = matchingService;
   }
 
