@@ -4,10 +4,11 @@ import {
 } from "../../interfaces/IMatching";
 import MatchingService from "../../services/matching.service";
 import { IMessageConsumerFunc } from "../consumer";
-import MatchingEventProducer from "../producer";
+import { kafka } from "../kafka";
+import MatchingEventProducer from "../producer/producer";
 
-const service = new MatchingService();
-const producer = new MatchingEventProducer();
+const producer = new MatchingEventProducer(kafka);
+const service = new MatchingService(producer);
 
 const createMatchingRequestConsumer: IMessageConsumerFunc = async (message) => {
   console.log(

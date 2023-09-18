@@ -2,6 +2,7 @@ import express from "express";
 import { checkSchema } from "express-validator";
 
 import MatchingController from "../controllers/matching.controller";
+import { kafka } from "../kafka/kafka";
 import MatchingEventProducer from "../kafka/producer/producer";
 import MatchingService from "../services/matching.service";
 import createMatchingRequestSchema from "../validation/createMatchingRequest.schema";
@@ -9,7 +10,7 @@ import createMatchingRequestSchema from "../validation/createMatchingRequest.sch
 const matchingRouter = express.Router();
 
 const ctrl = new MatchingController(
-  new MatchingService(new MatchingEventProducer())
+  new MatchingService(new MatchingEventProducer(kafka))
 );
 
 matchingRouter.post(

@@ -1,18 +1,17 @@
-import { Producer } from "kafkajs";
+import { Kafka, Producer } from "kafkajs";
 
 import {
-  ICreatedMatching,
-  ICreatedMatchingRequest,
+    ICreatedMatching,
+    ICreatedMatchingRequest,
 } from "../../interfaces/IMatching";
-import { kafka } from "../kafka";
 import { MATCHING_SERVICE_TOPICS } from "../topics/matching";
 import { IMatchingEventProducer } from "./producer.interface";
 
 class MatchingEventProducer implements IMatchingEventProducer {
   private producer: Producer;
 
-  constructor() {
-    this.producer = kafka.producer();
+  constructor(kafkaInstance: Kafka) {
+    this.producer = kafkaInstance.producer();
   }
 
   public async requestMatch(matchingRequest: ICreatedMatchingRequest) {

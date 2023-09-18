@@ -3,7 +3,7 @@
     "version": "0.0.0",
     "private": true,
     "scripts": {
-        "build": "tsc",
+        "build": "tsc --project tsconfig.build.json",
         "start": "node dist/src/server.js",
         "dev": "concurrently \"tsc --watch\" \"nodemon -q dist/server.js\"",
         "start:migrate": "prisma db push && yarn run start",

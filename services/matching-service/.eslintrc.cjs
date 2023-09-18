@@ -4,4 +4,10 @@ module.exports = {
     parser: '@typescript-eslint/parser',
     plugins: ['@typescript-eslint'],
     root: true,
-  };
+    overrides: [{
+        files: ['*.test.ts'],
+        rules: {
+            '@typescript-eslint/no-var-requires': 'off',
+        },
+    }, ],
+};
