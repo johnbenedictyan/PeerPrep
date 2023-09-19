@@ -1,38 +1,35 @@
-import { Request, Response } from "express";
-import { Result, ValidationError, validationResult } from "express-validator";
-import httpStatus from "http-status";
+import { Request, Response } from 'express';
+import { validationResult } from 'express-validator';
 
-import MatchingParser from "../../parser/matching/matching.parser";
-import MatchingService from "../../services/matching/matching.service";
+import MatchingParser from '../../parser/matching/matching.parser';
+import MatchingService from '../../services/matching/matching.service';
+import Controller from '../controller.abstract';
+import CRUDController from '../crudController.interface';
 
-class MatchingController {
+class MatchingController extends Controller implements CRUDController {
   constructor(
     private readonly service: MatchingService,
     private readonly parser: MatchingParser
-  ) {}
-
-  private handleValidationError(
-    res: Response,
-    errors: Result<ValidationError>
   ) {
-    return res.status(httpStatus.BAD_REQUEST).json({
-      success: false,
-      errors: errors.array(),
-    });
+    super();
   }
 
-  private handleSuccess(res: Response, data: any) {
-    return res.status(httpStatus.OK).json(data);
+  public async create(req: Request, res: Response) {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return this.handleValidationError(res, errors);
+    }
+    try {
+      const parsedMatchingRequest = this.parser.parseCreateInput(req.body);
+      const matchingRequest = await this.service.create(parsedMatchingRequest);
+      return this.handleSuccess(res, matchingRequest);
+    } catch (e: any) {
+      return this.handleBadRequest(res, e.message);
+    }
   }
 
-  private handleBadRequest(res: Response, message: string) {
-    return res.status(httpStatus.BAD_REQUEST).json({
-      success: false,
-      errors: message,
-    });
-  }
-
-  public async createMatching(req: Request, res: Response) {
+  public async findById(req: Request, res: Response) {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -40,17 +37,76 @@ class MatchingController {
     }
 
     try {
-      const parsedMatching = this.parser.parseCreateInput(req.body);
-      const matching = await this.service.create(parsedMatching);
-      return this.handleSuccess(res, matching);
+      const parsedId = this.parser.parseFindByIdInput(req.params["id"]);
+      const matchingRequest = await this.service.findById(parsedId);
+      return this.handleSuccess(res, matchingRequest);
     } catch (e: any) {
       return this.handleBadRequest(res, e.message);
     }
   }
 
-  public healthCheck(_req: Request, res: Response) {
-    console.log("Health Check");
-    return this.handleSuccess(res, { message: "OK" });
+  public async findOne(req: Request, res: Response) {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return this.handleValidationError(res, errors);
+    }
+
+    try {
+      const parsedFindOneInput = this.parser.parseFindOneInput(req.body);
+      const matchingRequest = await this.service.findOne(parsedFindOneInput);
+      return this.handleSuccess(res, matchingRequest);
+    } catch (e: any) {
+      return this.handleBadRequest(res, e.message);
+    }
+  }
+
+  findAll(req: Request, res: Response) {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return this.handleValidationError(res, errors);
+    }
+
+    try {
+      const matchingRequests = this.service.findAll();
+      return this.handleSuccess(res, matchingRequests);
+    } catch (e: any) {
+      return this.handleBadRequest(res, e.message);
+    }
+  }
+
+  update(req: Request, res: Response) {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return this.handleValidationError(res, errors);
+    }
+
+    try {
+      const parsedId = this.parser.parseFindByIdInput(req.params["id"]);
+      const parsedUpdateInput = this.parser.parseUpdateInput(req.body);
+      const matchingRequest = this.service.update(parsedId, parsedUpdateInput);
+      return this.handleSuccess(res, matchingRequest);
+    } catch (e: any) {
+      return this.handleBadRequest(res, e.message);
+    }
+  }
+
+  delete(req: Request, res: Response) {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return this.handleValidationError(res, errors);
+    }
+
+    try {
+      const parsedId = this.parser.parseFindByIdInput(req.params["id"]);
+      const matchingRequest = this.service.delete(parsedId);
+      return this.handleSuccess(res, matchingRequest);
+    } catch (e: any) {
+      return this.handleBadRequest(res, e.message);
+    }
   }
 }
 

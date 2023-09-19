@@ -18,7 +18,7 @@ class MatchingRouter {
       .route("/matchingRequest")
       .post(
         checkSchema(createMatchingRequestSchema),
-        this.MatchingRequestController.createMatchingRequest
+        this.MatchingRequestController.create
       );
 
     this.router
@@ -29,7 +29,7 @@ class MatchingRouter {
       .route("/matching")
       .post(
         checkSchema(createMatchingSchema),
-        this.matchingController.createMatching
+        this.matchingController.create
       );
 
     this.router

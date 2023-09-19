@@ -14,6 +14,7 @@ model Matching {
     id              Int      @id @default(autoincrement())
     user1Id         String
     user2Id         String
+    requestId       Int
     dateTimeMatched DateTime
 }
 
