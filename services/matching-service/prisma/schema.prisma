@@ -15,7 +15,7 @@ model Matching {
     user1Id         String
     user2Id         String
     requestId       Int
-    dateTimeMatched DateTime
+    dateTimeMatched DateTime @default(now())
 }
 
 model MatchingRequest {

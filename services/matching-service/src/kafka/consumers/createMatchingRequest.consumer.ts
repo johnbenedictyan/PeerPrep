@@ -1,6 +1,6 @@
 import { MatchingRequest } from "@prisma/client";
 
-import { ICreatedMatching } from "../../interfaces/IMatching";
+import { Matching } from "../../interfaces/matching/object";
 import MatchingService from "../../services/matching/matching.service";
 import MatchingRequestService from "../../services/matchingRequest/matchingRequest.service";
 import prismaClient from "../../util/prisma/client";
@@ -40,10 +40,10 @@ const createMatchingRequestConsumer: IMessageConsumerFunc = async (message) => {
       return;
     }
 
-    const matching: ICreatedMatching = await matchingService.create({
+    const matching: Matching = await matchingService.create({
       user1Id: counterPartyMatchReq.userId,
       user2Id: matchReqFromDB.userId,
-      dateTimeMatched: new Date(),
+      requestId: matchReqFromDB.id,
     });
 
     // Update matching request
