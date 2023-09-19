@@ -1,67 +1,79 @@
 import { Request, Response } from "express";
-import { validationResult } from "express-validator";
+import { Result, ValidationError, validationResult } from "express-validator";
 import httpStatus from "http-status";
 import MatchingParser from "../../parser/matching/matching.parser";
 import MatchingRequestParser from "../../parser/matchingRequest/matchingRequest.parser";
 import MatchingService from "../../services/matching/matching.service";
 
 class MatchingController {
-  private matchingService: MatchingService;
-  private matchingParser: MatchingParser;
-  private matchingRequestParser: MatchingRequestParser;
+  constructor(
+    private readonly matchingService: MatchingService,
+    private readonly matchingParser: MatchingParser,
+    private readonly matchingRequestParser: MatchingRequestParser
+  ) {}
 
-  constructor(matchingService: MatchingService) {
-    this.matchingService = matchingService;
-    this.matchingParser = new MatchingParser();
-    this.matchingRequestParser = new MatchingRequestParser();
+  private handleValidationError(
+    res: Response,
+    errors: Result<ValidationError>
+  ) {
+    return res.status(httpStatus.BAD_REQUEST).json({
+      success: false,
+      errors: errors.array(),
+    });
+  }
+
+  private handleSuccess(res: Response, data: any) {
+    return res.status(httpStatus.OK).json(data);
+  }
+
+  private handleBadRequest(res: Response, message: string) {
+    return res.status(httpStatus.BAD_REQUEST).json({
+      success: false,
+      errors: message,
+    });
   }
 
   public async createMatchingRequest(req: Request, res: Response) {
     const errors = validationResult(req);
 
-    // if there is error then return Error
     if (!errors.isEmpty()) {
-      return res.status(400).json({
-        success: false,
-        errors: errors.array(),
-      });
+      return this.handleValidationError(res, errors);
     }
-
-    let parsedInput;
 
     try {
-      parsedInput = this.matchingRequestParser.parseCreateInput(req.body);
+      const parsedMatchingRequest = this.matchingRequestParser.parseCreateInput(
+        req.body
+      );
+      const matchingRequest = await this.matchingService.createMatchingRequest(
+        parsedMatchingRequest
+      );
+      return this.handleSuccess(res, matchingRequest);
     } catch (e: any) {
-      return res.status(400).json({
-        success: false,
-        errors: e.message,
-      });
+      return this.handleBadRequest(res, e.message);
     }
-
-    const matchingRequest = await this.matchingService.createMatchingRequest(
-      parsedInput
-    );
-    return res.status(httpStatus.CREATED).json(matchingRequest);
   }
 
   public async createMatching(req: Request, res: Response) {
-    let parsedInput;
-    try {
-      parsedInput = this.matchingParser.parseCreateInput(req.body);
-    } catch (e: any) {
-      return res.status(400).json({
-        success: false,
-        errors: e.message,
-      });
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return this.handleValidationError(res, errors);
     }
 
-    const matching = await this.matchingService.createMatching(parsedInput);
-    return res.status(httpStatus.CREATED).json(matching);
+    try {
+      const parsedMatching = this.matchingParser.parseCreateInput(req.body);
+      const matching = await this.matchingService.createMatching(
+        parsedMatching
+      );
+      return this.handleSuccess(res, matching);
+    } catch (e: any) {
+      return this.handleBadRequest(res, e.message);
+    }
   }
 
   public healthCheck(_req: Request, res: Response) {
     console.log("Health Check");
-    return res.status(httpStatus.OK).json("OK");
+    return this.handleSuccess(res, { message: "OK" });
   }
 }
 
