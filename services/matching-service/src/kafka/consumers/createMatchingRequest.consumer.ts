@@ -1,7 +1,5 @@
-import {
-  ICreatedMatching,
-  ICreatedMatchingRequest,
-} from "../../interfaces/IMatching";
+import { ICreatedMatching } from "../../interfaces/IMatching";
+import MatchingRequest from "../../interfaces/matchingRequest/object";
 import MatchingService from "../../services/matching/matching.service";
 import prismaClient from "../../util/prisma/client";
 import { IMessageConsumerFunc } from "../consumer";
@@ -17,18 +15,18 @@ const createMatchingRequestConsumer: IMessageConsumerFunc = async (message) => {
   );
   if (message.value) {
     // Parse the json message
-    const inputMatchingReq: ICreatedMatchingRequest = JSON.parse(
+    const inputMatchingReq: MatchingRequest = JSON.parse(
       message.value.toString()
     );
 
-    const matchReqFromDB: ICreatedMatchingRequest | null =
+    const matchReqFromDB: MatchingRequest | null =
       await service.findMatchRequest(inputMatchingReq);
 
     if (!matchReqFromDB || matchReqFromDB.success) {
       return;
     }
 
-    const counterPartyMatchReq: ICreatedMatchingRequest | null =
+    const counterPartyMatchReq: MatchingRequest | null =
       await service.findMatch(inputMatchingReq);
 
     if (!counterPartyMatchReq) {

@@ -2,10 +2,10 @@ import { Kafka, Producer } from "kafkajs";
 
 import {
     ICreatedMatching,
-    ICreatedMatchingRequest,
 } from "../../interfaces/IMatching";
 import { MATCHING_SERVICE_TOPICS } from "../topics/matching";
 import { IMatchingEventProducer } from "./producer.interface";
+import MatchingRequest from "../../interfaces/matchingRequest/object";
 
 class MatchingEventProducer implements IMatchingEventProducer {
   private producer: Producer;
@@ -14,7 +14,7 @@ class MatchingEventProducer implements IMatchingEventProducer {
     this.producer = kafkaInstance.producer();
   }
 
-  public async requestMatch(matchingRequest: ICreatedMatchingRequest) {
+  public async requestMatch(matchingRequest: MatchingRequest) {
     await this.producer.connect();
     await this.producer.send({
       topic: MATCHING_SERVICE_TOPICS.CREATE_MATCHING_REQUEST,
@@ -42,7 +42,7 @@ class MatchingEventProducer implements IMatchingEventProducer {
     await this.producer.disconnect();
   }
 
-  public async unsuccessfulMatch(matchingRequest: ICreatedMatchingRequest) {
+  public async unsuccessfulMatch(matchingRequest: MatchingRequest) {
     await this.producer.connect();
     await this.producer.send({
       topic: MATCHING_SERVICE_TOPICS.UNSUCCESSFUL_MATCHING,

@@ -1,10 +1,10 @@
-import { ICreatedMatchingRequest } from "../../interfaces/IMatching";
+import MatchingRequest from "../../interfaces/matchingRequest/object";
 import { IMessageConsumerFunc } from "../consumer";
 
 const unsuccessfulMatchingConsumer: IMessageConsumerFunc = (message) => {
   // Parse ICreatedMatchRequest from message
   if (message.value) {
-    const matchingRequest: ICreatedMatchingRequest = JSON.parse(
+    const matchingRequest: MatchingRequest = JSON.parse(
       message.value.toString()
     );
 

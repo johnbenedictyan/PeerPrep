@@ -1,20 +1,19 @@
 import { PrismaClient } from "@prisma/client";
 
 import {
-  ICreatedMatchingRequest,
   IMatchingCreateInput,
   IMatchingRequestCreateInput,
 } from "../../interfaces/IMatching";
+import MatchingRequest from "../../interfaces/matchingRequest/object";
 import MatchingEventProducer from "../../kafka/producer/producer";
-import { IMatchingService } from "./matching.service.interface";
 
-class MatchingService implements IMatchingService {
+class MatchingService {
   constructor(
     private readonly producer: MatchingEventProducer,
     private readonly prismaClient: PrismaClient
   ) {}
 
-  public async updateMatchingRequest(body: ICreatedMatchingRequest) {
+  public async updateMatchingRequest(body: MatchingRequest) {
     try {
       const matchingRequest = await this.prismaClient.matchingRequest.update({
         where: {
@@ -54,8 +53,8 @@ class MatchingService implements IMatchingService {
   }
 
   public async findMatchRequest(
-    body: ICreatedMatchingRequest
-  ): Promise<ICreatedMatchingRequest | null> {
+    body: MatchingRequest
+  ): Promise<MatchingRequest | null> {
     try {
       return this.prismaClient.matchingRequest.findFirst({
         where: {
@@ -68,8 +67,8 @@ class MatchingService implements IMatchingService {
   }
 
   public async findMatch(
-    body: ICreatedMatchingRequest
-  ): Promise<ICreatedMatchingRequest | null> {
+    body: MatchingRequest
+  ): Promise<MatchingRequest | null> {
     try {
       let foundMatchRequest;
       if (body.questionId) {

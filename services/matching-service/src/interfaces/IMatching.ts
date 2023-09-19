@@ -1,15 +1,3 @@
-interface IMatchingRequest {
-  userId: string;
-  questionId?: number | null;
-  difficulty: string;
-  dateRequested?: Date;
-  success: boolean;
-}
-
-export interface ICreatedMatchingRequest extends IMatchingRequest {
-  id: number;
-}
-
 interface IMatching {
   user1Id: string;
   user2Id: string;

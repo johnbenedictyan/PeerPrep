@@ -1,7 +1,8 @@
-import { ICreatedMatching, ICreatedMatchingRequest } from "../../interfaces/IMatching";
+import { ICreatedMatching } from "../../interfaces/IMatching";
+import MatchingRequest from "../../interfaces/matchingRequest/object";
 
 export interface IMatchingEventProducer {
-  requestMatch(matchingRequest: ICreatedMatchingRequest): Promise<void>;
+  requestMatch(matchingRequest: MatchingRequest): Promise<void>;
   successfulMatch(matching: ICreatedMatching): Promise<void>;
-  unsuccessfulMatch(matchingRequest: ICreatedMatchingRequest): Promise<void>;
+  unsuccessfulMatch(matchingRequest: MatchingRequest): Promise<void>;
 }
