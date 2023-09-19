@@ -1,11 +1,11 @@
 import { PrismaClient } from "@prisma/client";
 
 import {
-    ICreatedMatchingRequest,
-    IMatchingCreateInput,
-    IMatchingRequestCreateInput,
-} from "../interfaces/IMatching";
-import MatchingEventProducer from "../kafka/producer/producer";
+  ICreatedMatchingRequest,
+  IMatchingCreateInput,
+  IMatchingRequestCreateInput,
+} from "../../interfaces/IMatching";
+import MatchingEventProducer from "../../kafka/producer/producer";
 import { IMatchingService } from "./matching.service.interface";
 
 class MatchingService implements IMatchingService {

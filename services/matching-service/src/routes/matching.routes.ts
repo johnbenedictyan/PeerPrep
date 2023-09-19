@@ -1,8 +1,8 @@
 import express from "express";
 import { checkSchema } from "express-validator";
+import MatchingController from "../controllers/matching/matching.controller";
+import createMatchingRequestSchema from "../validation/matchingRequest/createMatchingRequest.schema";
 
-import MatchingController from "../controllers/matching.controller";
-import createMatchingRequestSchema from "../validation/createMatchingRequest.schema";
 
 class MatchingRouter {
   private controller: MatchingController;

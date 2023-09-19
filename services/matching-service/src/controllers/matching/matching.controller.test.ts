@@ -8,7 +8,7 @@ import {
   test,
 } from "@jest/globals";
 import httpStatus from "http-status";
-import { IMatchingRequestCreateInput } from "../interfaces/IMatching";
+import { IMatchingRequestCreateInput } from "../../interfaces/IMatching";
 import MatchingController from "./matching.controller";
 
 describe("Test matching controller", () => {

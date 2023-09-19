@@ -2,8 +2,8 @@ import {
   ICreatedMatching,
   ICreatedMatchingRequest,
 } from "../../interfaces/IMatching";
-import prismaClient from "../../prismaClient/client";
-import MatchingService from "../../services/matching.service";
+import MatchingService from "../../services/matching/matching.service";
+import prismaClient from "../../util/prisma/client";
 import { IMessageConsumerFunc } from "../consumer";
 import { kafka } from "../kafka";
 import MatchingEventProducer from "../producer/producer";

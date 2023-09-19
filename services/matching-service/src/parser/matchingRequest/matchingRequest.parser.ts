@@ -1,4 +1,4 @@
-import { IMatchingRequestCreateInput } from "../interfaces/IMatching";
+import { IMatchingRequestCreateInput } from "../../interfaces/IMatching";
 
 interface ICreateMatchingRequestParserInput {
   userId: string;

@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 import httpStatus from "http-status";
-import MatchingParser from "../parser/matching.parser";
-import MatchingRequestParser from "../parser/matchingRequest.parser";
-import MatchingService from "../services/matching.service";
+import MatchingParser from "../../parser/matching/matching.parser";
+import MatchingRequestParser from "../../parser/matchingRequest/matchingRequest.parser";
+import MatchingService from "../../services/matching/matching.service";
 
 class MatchingController {
   private matchingService: MatchingService;

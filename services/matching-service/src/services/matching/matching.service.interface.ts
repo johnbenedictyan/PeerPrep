@@ -3,7 +3,7 @@ import {
   ICreatedMatchingRequest,
   IMatchingCreateInput,
   IMatchingRequestCreateInput,
-} from "../interfaces/IMatching";
+} from "../../interfaces/IMatching";
 
 export interface IMatchingService {
   updateMatchingRequest(

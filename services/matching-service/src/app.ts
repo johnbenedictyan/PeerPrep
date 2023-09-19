@@ -3,12 +3,12 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express, { Express } from "express";
 
-import MatchingController from "./controllers/matching.controller";
+import MatchingController from "./controllers/matching/matching.controller";
 import { kafka } from "./kafka/kafka";
 import MatchingEventProducer from "./kafka/producer/producer";
-import prismaClient from "./prismaClient/client";
 import MatchingRouter from "./routes/matching.routes";
-import MatchingService from "./services/matching.service";
+import MatchingService from "./services/matching/matching.service";
+import prismaClient from "./util/prisma/client";
 
 dotenv.config();
 
