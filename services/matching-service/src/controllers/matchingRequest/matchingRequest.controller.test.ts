@@ -80,7 +80,7 @@ describe("Test matching request controller", () => {
       mockServiceInstance,
       mockMatchingRequestParserInstance
     );
-    await controller.createMatchingRequest(req, res);
+    await controller.create(req, res);
 
     expect(res.status).toHaveBeenCalledWith(httpStatus.OK);
     expect(res.json).toHaveBeenCalledWith(expectedMatchingRequest);
@@ -109,7 +109,7 @@ describe("Test matching request controller", () => {
       mockServiceInstance,
       mockMatchingRequestParserInstance
     );
-    await controller.createMatchingRequest(req, res);
+    await controller.create(req, res);
 
     expect(res.status).toHaveBeenCalledWith(httpStatus.OK);
     expect(res.json).toHaveBeenCalledWith(expectedMatchingRequest);
@@ -130,7 +130,7 @@ describe("Test matching request controller", () => {
         throw new Error("Parser Error");
       });
 
-    await controller.createMatchingRequest(req, res);
+    await controller.create(req, res);
 
     expect(res.status).toHaveBeenCalledWith(httpStatus.BAD_REQUEST);
   });

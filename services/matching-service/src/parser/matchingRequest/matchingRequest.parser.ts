@@ -1,30 +1,92 @@
 import { MatchingRequestCreateDTO } from "../../interfaces/matchingRequest/createDTO";
+import { MatchingRequest } from "../../interfaces/matchingRequest/object";
+import { MatchingRequestUpdateDTO } from "../../interfaces/matchingRequest/updateDTO";
+import { OptionalInterface } from "../../util/optionalInterface";
+import { StringInterface } from "../../util/stringInterface";
+import { Parser } from "../parser.interface";
 
-interface ICreateMatchingRequestParserInput {
-  userId: string;
-  questionId?: string;
-  difficulty: string;
-}
-
-class MatchingRequestParser {
+class MatchingRequestParser
+  implements
+    Parser<MatchingRequestCreateDTO, MatchingRequestUpdateDTO, MatchingRequest>
+{
   constructor() {}
 
-  parseCreateInput(
-    input: ICreateMatchingRequestParserInput
+  public parseCreateInput(
+    input: StringInterface<MatchingRequestCreateDTO>
   ): MatchingRequestCreateDTO {
-    const { userId, questionId, difficulty } = input;
-    if (!userId || !difficulty) throw new Error("Invalid input");
-    if (questionId) {
+    if (!input.userId || !input.difficulty) {
+      throw new Error("Invalid input");
+    }
+    if (input.questionId) {
       return {
-        userId: userId,
-        questionId: parseInt(questionId),
-        difficulty,
+        userId: input.userId,
+        questionId: parseInt(input.questionId),
+        difficulty: input.difficulty,
       };
     }
     return {
-      userId: userId,
-      difficulty,
+      userId: input.userId,
+      difficulty: input.difficulty,
     };
+  }
+
+  public parseFindByIdInput(id: string | undefined): number {
+    if (!id) {
+      throw new Error("Invalid input");
+    }
+    return parseInt(id);
+  }
+
+  public parseFindOneInput(
+    input: OptionalInterface<StringInterface<MatchingRequest>>
+  ): OptionalInterface<MatchingRequest> {
+    if (!input) {
+      throw new Error("Invalid input");
+    }
+    const result: OptionalInterface<MatchingRequest> = {};
+    if (input.id) {
+      result.id = parseInt(input.id);
+    }
+    if (input.userId) {
+      result.userId = input.userId;
+    }
+    if (input.questionId) {
+      result.questionId = parseInt(input.questionId);
+    }
+    if (input.difficulty) {
+      result.difficulty = input.difficulty;
+    }
+    return result;
+  }
+
+  public parseUpdateInput(
+    input: StringInterface<MatchingRequestUpdateDTO>
+  ): MatchingRequestUpdateDTO {
+    if (!input.userId || !input.difficulty) {
+      throw new Error("Invalid input");
+    }
+    if (input.questionId) {
+      return {
+        userId: input.userId,
+        questionId: parseInt(input.questionId),
+        difficulty: input.difficulty,
+        success: input.success == "true",
+      };
+    }
+    return {
+      userId: input.userId,
+      questionId: null,
+      difficulty: input.difficulty,
+      success: input.success == "true",
+    };
+  }
+
+  public parseDeleteInput(id: string | undefined): number {
+    if (!id) {
+      throw new Error("Invalid input");
+    }
+
+    return parseInt(id);
   }
 }
 
