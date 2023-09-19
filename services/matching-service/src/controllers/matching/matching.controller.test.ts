@@ -55,6 +55,16 @@ describe("Test matching controller", () => {
       dateRequested: new Date(),
     };
 
+    const expectedMatchingRequest = {
+      ...completedMatchingRequestInput,
+      id: 1,
+      success: false,
+    };
+
+    jest
+      .spyOn(mockServiceInstance, "createMatchingRequest")
+      .mockResolvedValue(expectedMatchingRequest as any);
+
     const { res } = getMockRes({ locals: {} });
     const req = getMockReq({ body: completedMatchingRequestInput });
 
@@ -62,6 +72,7 @@ describe("Test matching controller", () => {
     await controller.createMatchingRequest(req, res);
 
     expect(res.status).toHaveBeenCalledWith(httpStatus.CREATED);
+    expect(res.json).toHaveBeenCalledWith(expectedMatchingRequest);
   });
 
   test("Happy Path: No Optional Create Matching Request should be 200", async () => {
@@ -70,13 +81,24 @@ describe("Test matching controller", () => {
       difficulty: "easy",
     };
 
+    const expectedMatchingRequest = {
+      ...completedMatchingRequestInput,
+      id: 1,
+      success: false,
+    };
+
     const { res } = getMockRes({ locals: {} });
     const req = getMockReq({ body: completedMatchingRequestInput });
+
+    jest
+      .spyOn(mockServiceInstance, "createMatchingRequest")
+      .mockResolvedValue(expectedMatchingRequest as any);
 
     const controller = new MatchingController(mockServiceInstance);
     await controller.createMatchingRequest(req, res);
 
     expect(res.status).toHaveBeenCalledWith(httpStatus.CREATED);
+    expect(res.json).toHaveBeenCalledWith(expectedMatchingRequest);
   });
 
   test("Unhappy Path: User ID Missing Create Matching Request should be 400", async () => {

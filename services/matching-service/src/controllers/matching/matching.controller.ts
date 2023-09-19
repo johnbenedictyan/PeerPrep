@@ -41,7 +41,7 @@ class MatchingController {
     const matchingRequest = await this.matchingService.createMatchingRequest(
       parsedInput
     );
-    return res.status(httpStatus.CREATED).send(matchingRequest);
+    return res.status(httpStatus.CREATED).json(matchingRequest);
   }
 
   public async createMatching(req: Request, res: Response) {
@@ -56,7 +56,7 @@ class MatchingController {
     }
 
     const matching = await this.matchingService.createMatching(parsedInput);
-    return res.status(httpStatus.CREATED).send(matching);
+    return res.status(httpStatus.CREATED).json(matching);
   }
 
   public healthCheck(_req: Request, res: Response) {
