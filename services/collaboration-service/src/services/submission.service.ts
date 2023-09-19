@@ -1,4 +1,6 @@
 import { PrismaClient } from "@prisma/client";
+import { SubmissionCreateDTO } from "../interfaces/submissionCreate.interface";
+import { SubmissionUpdateDTO } from "../interfaces/submissionUpdate.interface";
 
 class SubmissionService {
   //   private producer: CollaborationEventProducer;
@@ -12,7 +14,7 @@ class SubmissionService {
     this.prismaClient = prismaClient;
   }
 
-  public async createSubmission(body: any) {
+  public async createSubmission(body: SubmissionCreateDTO) {
     return await this.prismaClient.submission.create({
       data: body,
     });
@@ -31,7 +33,10 @@ class SubmissionService {
     return await this.prismaClient.submission.findMany();
   }
 
-  public async updateSubmission(id: number | undefined, body: any) {
+  public async updateSubmission(
+    id: number | undefined,
+    body: SubmissionUpdateDTO
+  ) {
     if (!id) throw new Error("No id provided");
     return await this.prismaClient.submission.update({
       where: {

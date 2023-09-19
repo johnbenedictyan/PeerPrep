@@ -14,7 +14,7 @@ class SubmissionController {
   }
 
   async createSubmission(req: Request, res: Response) {
-    const parsedBody = this.parser.parseBody(req.body);
+    const parsedBody = this.parser.parseCreateBody(req.body);
     const submission: Submission = await this.service.createSubmission(
       parsedBody
     );
@@ -36,7 +36,7 @@ class SubmissionController {
 
   async updateSubmission(req: Request, res: Response) {
     const parsedId = this.parser.parseId(req.params["id"]);
-    const parsedBody = this.parser.parseBody(req.body);
+    const parsedBody = this.parser.parseUpdateBody(req.body);
     const submission: Submission = await this.service.updateSubmission(
       parsedId,
       parsedBody

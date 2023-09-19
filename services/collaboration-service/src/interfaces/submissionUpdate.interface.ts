@@ -1,4 +1,4 @@
-export type SubmissionCreateDTO = {
+export type SubmissionUpdateDTO = {
   sourceCode: string;
   stdin: string;
   expectedOutput: string;
