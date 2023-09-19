@@ -1,11 +1,9 @@
-import { Kafka, Producer } from "kafkajs";
+import { Kafka, Producer } from 'kafkajs';
 
-import {
-    ICreatedMatching,
-} from "../../interfaces/IMatching";
-import { MATCHING_SERVICE_TOPICS } from "../topics/matching";
-import { IMatchingEventProducer } from "./producer.interface";
-import MatchingRequest from "../../interfaces/matchingRequest/object";
+import { ICreatedMatching } from '../../interfaces/IMatching';
+import { MatchingRequest } from '../../interfaces/matchingRequest/object';
+import { MATCHING_SERVICE_TOPICS } from '../topics/matching';
+import { IMatchingEventProducer } from './producer.interface';
 
 class MatchingEventProducer implements IMatchingEventProducer {
   private producer: Producer;

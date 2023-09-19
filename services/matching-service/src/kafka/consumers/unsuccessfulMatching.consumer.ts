@@ -1,4 +1,4 @@
-import MatchingRequest from "../../interfaces/matchingRequest/object";
+import { MatchingRequest } from "../../interfaces/matchingRequest/object";
 import { IMessageConsumerFunc } from "../consumer";
 
 const unsuccessfulMatchingConsumer: IMessageConsumerFunc = (message) => {

@@ -1,10 +1,9 @@
-import { IMatchingRequestCreateInput } from "../../interfaces/IMatching";
+import { MatchingRequestCreateDTO } from "../../interfaces/matchingRequest/createDTO";
 
 interface ICreateMatchingRequestParserInput {
   userId: string;
   questionId?: string;
   difficulty: string;
-  dateRequested?: string;
 }
 
 class MatchingRequestParser {
@@ -12,17 +11,9 @@ class MatchingRequestParser {
 
   parseCreateInput(
     input: ICreateMatchingRequestParserInput
-  ): IMatchingRequestCreateInput {
-    const { userId, questionId, difficulty, dateRequested } = input;
+  ): MatchingRequestCreateDTO {
+    const { userId, questionId, difficulty } = input;
     if (!userId || !difficulty) throw new Error("Invalid input");
-    if (questionId && dateRequested) {
-      return {
-        userId: userId,
-        questionId: parseInt(questionId),
-        difficulty,
-        dateRequested: new Date(dateRequested),
-      };
-    }
     if (questionId) {
       return {
         userId: userId,

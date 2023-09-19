@@ -1,31 +1,40 @@
 import express from "express";
 import { checkSchema } from "express-validator";
+
 import MatchingController from "../controllers/matching/matching.controller";
-import createMatchingRequestSchema from "../util/validation/matchingRequest/createMatchingRequest.schema";
+import MatchingRequestController from "../controllers/matchingRequest/matchingRequest.controller";
 import createMatchingSchema from "../util/validation/matching/createMatching.schema";
+import createMatchingRequestSchema from "../util/validation/matchingRequest/createMatchingRequest.schema";
 
 class MatchingRouter {
-  private controller: MatchingController;
-  private router: express.Router;
-
-  constructor(controller: MatchingController) {
-    this.controller = controller;
-    this.router = express.Router();
-  }
+  constructor(
+    private readonly matchingController: MatchingController,
+    private readonly MatchingRequestController: MatchingRequestController,
+    private router: express.Router
+  ) {}
 
   registerRoutes(): express.Router {
     this.router
       .route("/matchingRequest")
       .post(
         checkSchema(createMatchingRequestSchema),
-        this.controller.createMatchingRequest
+        this.MatchingRequestController.createMatchingRequest
       );
 
     this.router
-      .route("/matching")
-      .post(checkSchema(createMatchingSchema), this.controller.createMatching);
+      .route("/matchingRequest/healthCheck")
+      .get(this.MatchingRequestController.healthCheck);
 
-    this.router.route("/healthCheck").get(this.controller.healthCheck);
+    this.router
+      .route("/matching")
+      .post(
+        checkSchema(createMatchingSchema),
+        this.matchingController.createMatching
+      );
+
+    this.router
+      .route("/matching/healthCheck")
+      .get(this.matchingController.healthCheck);
 
     return this.router;
   }

@@ -5,20 +5,16 @@ describe("Test matching request parser", () => {
   it("should parse create full input", () => {
     const parser = new MatchingRequestParser();
 
-    const testDate = new Date();
-
     const input = {
       userId: "123",
       questionId: "456",
       difficulty: "easy",
-      dateRequested: testDate.toISOString(),
     };
 
     const expectedOutput = {
       userId: "123",
       questionId: 456,
       difficulty: "easy",
-      dateRequested: testDate,
     };
 
     expect(parser.parseCreateInput(input)).toEqual(expectedOutput);

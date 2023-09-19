@@ -2,13 +2,13 @@ import { Request, Response } from "express";
 import { Result, ValidationError, validationResult } from "express-validator";
 import httpStatus from "http-status";
 
-import MatchingParser from "../../parser/matching/matching.parser";
-import MatchingService from "../../services/matching/matching.service";
+import MatchingRequestParser from "../../parser/matchingRequest/matchingRequest.parser";
+import MatchingRequestService from "../../services/matchingRequest/matchingRequest.service";
 
-class MatchingController {
+class MatchingRequestController {
   constructor(
-    private readonly service: MatchingService,
-    private readonly parser: MatchingParser
+    private readonly service: MatchingRequestService,
+    private readonly parser: MatchingRequestParser
   ) {}
 
   private handleValidationError(
@@ -32,17 +32,16 @@ class MatchingController {
     });
   }
 
-  public async createMatching(req: Request, res: Response) {
+  public async createMatchingRequest(req: Request, res: Response) {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
       return this.handleValidationError(res, errors);
     }
-
     try {
-      const parsedMatching = this.parser.parseCreateInput(req.body);
-      const matching = await this.service.create(parsedMatching);
-      return this.handleSuccess(res, matching);
+      const parsedMatchingRequest = this.parser.parseCreateInput(req.body);
+      const matchingRequest = await this.service.create(parsedMatchingRequest);
+      return this.handleSuccess(res, matchingRequest);
     } catch (e: any) {
       return this.handleBadRequest(res, e.message);
     }
@@ -54,4 +53,4 @@ class MatchingController {
   }
 }
 
-export default MatchingController;
+export default MatchingRequestController;

@@ -1,4 +1,6 @@
-interface MatchingRequest {
+import { OptionalInterface } from '../../util/optionalInterface';
+
+export type MatchingRequest = {
   id: number;
   userId: string;
   questionId: number | null;
@@ -7,4 +9,4 @@ interface MatchingRequest {
   success: boolean;
 }
 
-export default MatchingRequest;
+export type OptionalMatchingRequest = OptionalInterface<MatchingRequest>;
