@@ -1,10 +1,10 @@
-import { Request, Response } from 'express';
-import { validationResult } from 'express-validator';
+import { Request, Response } from "express";
+import { validationResult } from "express-validator";
 
-import MatchingParser from '../../parser/matching/matching.parser';
-import MatchingService from '../../services/matching/matching.service';
-import Controller from '../controller.abstract';
-import CRUDController from '../crudController.interface';
+import MatchingParser from "../../parser/matching/matching.parser";
+import MatchingService from "../../services/matching/matching.service";
+import Controller from "../controller.abstract";
+import CRUDController from "../crudController.interface";
 
 class MatchingController extends Controller implements CRUDController {
   constructor(
@@ -14,7 +14,7 @@ class MatchingController extends Controller implements CRUDController {
     super();
   }
 
-  public async create(req: Request, res: Response) {
+  public create = async (req: Request, res: Response) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -27,9 +27,9 @@ class MatchingController extends Controller implements CRUDController {
     } catch (e: any) {
       return this.handleBadRequest(res, e.message);
     }
-  }
+  };
 
-  public async findById(req: Request, res: Response) {
+  public findById = async (req: Request, res: Response) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -43,9 +43,9 @@ class MatchingController extends Controller implements CRUDController {
     } catch (e: any) {
       return this.handleBadRequest(res, e.message);
     }
-  }
+  };
 
-  public async findOne(req: Request, res: Response) {
+  public findOne = async (req: Request, res: Response) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -59,9 +59,9 @@ class MatchingController extends Controller implements CRUDController {
     } catch (e: any) {
       return this.handleBadRequest(res, e.message);
     }
-  }
+  };
 
-  findAll(req: Request, res: Response) {
+  public findAll = async (req: Request, res: Response) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -74,9 +74,9 @@ class MatchingController extends Controller implements CRUDController {
     } catch (e: any) {
       return this.handleBadRequest(res, e.message);
     }
-  }
+  };
 
-  update(req: Request, res: Response) {
+  public update = async (req: Request, res: Response) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -91,9 +91,9 @@ class MatchingController extends Controller implements CRUDController {
     } catch (e: any) {
       return this.handleBadRequest(res, e.message);
     }
-  }
+  };
 
-  delete(req: Request, res: Response) {
+  public delete = async (req: Request, res: Response) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -107,7 +107,7 @@ class MatchingController extends Controller implements CRUDController {
     } catch (e: any) {
       return this.handleBadRequest(res, e.message);
     }
-  }
+  };
 }
 
 export default MatchingController;

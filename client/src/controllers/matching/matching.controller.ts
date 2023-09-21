@@ -20,7 +20,11 @@ class MatchingController extends GenericController {
   }
 
   public async createMatchingRequest(data: ICreateMatchingRequest) {
-    return await this.post("matchingRequest", data);
+    try {
+      return await this.post("matchingRequest", data);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   public async successfulMatching() {

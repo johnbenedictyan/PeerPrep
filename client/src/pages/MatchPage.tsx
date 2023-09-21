@@ -63,12 +63,12 @@ const MatchPage = () => {
 
         socket.on('joined', onJoined);
         socket.on('disconnect', onDisconnect);
-        socket.on('success-matching', onMatchEvent);
+        socket.on('matching-created', onMatchEvent);
 
         return () => {
             socket.off('joined', onJoined);
             socket.off('disconnect', onDisconnect);
-            socket.off('success-matching', onMatchEvent);
+            socket.off('matching-created', onMatchEvent);
             socket.disconnect();
         };
     }, [navigate]);

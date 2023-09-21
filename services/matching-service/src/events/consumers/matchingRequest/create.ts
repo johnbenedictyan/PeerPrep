@@ -1,21 +1,25 @@
 import { MatchingRequest } from "@prisma/client";
 
-import { Matching } from "../../interfaces/matching/object";
-import MatchingService from "../../services/matching/matching.service";
-import MatchingRequestService from "../../services/matchingRequest/matchingRequest.service";
-import prismaClient from "../../util/prisma/client";
-import { IMessageConsumerFunc } from "../consumer";
-import { kafka } from "../kafka";
-import MatchingEventProducer from "../producer/producer";
+import { Matching } from "../../../interfaces/matching/object";
+import MatchingService from "../../../services/matching/matching.service";
+import MatchingRequestService from "../../../services/matchingRequest/matchingRequest.service";
+import prismaClient from "../../../util/prisma/client";
+import { kafka } from "../../kafka";
+import MatchingProducer from "../../producers/matching/producer";
+import MatchingRequestProducer from "../../producers/matchingRequest/producer";
+import { ConsumerFunction } from "../main.interface";
 
-const producer = new MatchingEventProducer(kafka);
+const matchingEventProducer = new MatchingProducer(kafka.producer());
+const matchingRequestEventProducer = new MatchingRequestProducer(
+  kafka.producer()
+);
 const matchingService = new MatchingService(prismaClient);
 const matchingRequestService = new MatchingRequestService(
-  producer,
+  matchingRequestEventProducer,
   prismaClient
 );
 
-const createMatchingRequestConsumer: IMessageConsumerFunc = async (message) => {
+const createMatchingRequestConsumer: ConsumerFunction = async (message) => {
   console.log(
     "WE HAVE RECEIVED A MESSAGE FOR THE CREATION OF A MATCHING REQUEST"
   );
@@ -36,7 +40,7 @@ const createMatchingRequestConsumer: IMessageConsumerFunc = async (message) => {
       await matchingService.findMatch(inputMatchingReq);
 
     if (!counterPartyMatchReq) {
-      producer.unsuccessfulMatch(matchReqFromDB);
+      matchingRequestEventProducer.fail(matchReqFromDB);
       return;
     }
 
@@ -57,7 +61,7 @@ const createMatchingRequestConsumer: IMessageConsumerFunc = async (message) => {
       success: true,
     });
 
-    producer.successfulMatch(matching);
+    matchingEventProducer.create(matching);
   }
 };
 

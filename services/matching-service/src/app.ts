@@ -5,8 +5,8 @@ import express, { Express } from "express";
 
 import MatchingController from "./controllers/matching/matching.controller";
 import MatchingRequestController from "./controllers/matchingRequest/matchingRequest.controller";
-import { kafka } from "./kafka/kafka";
-import MatchingEventProducer from "./kafka/producer/producer";
+import { kafka } from "./events/kafka";
+import MatchingRequestProducer from "./events/producers/matchingRequest/producer";
 import MatchingParser from "./parser/matching/matching.parser";
 import MatchingRequestParser from "./parser/matchingRequest/matchingRequest.parser";
 import MatchingRouter from "./routes/matching.routes";
@@ -19,17 +19,19 @@ dotenv.config();
 const app: Express = express();
 
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: "*",
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 
 // Event Producer
-const eventProducer = new MatchingEventProducer(kafka);
+const matchingRequestEventProducer = new MatchingRequestProducer(
+  kafka.producer()
+);
 
 // Services
 const matchingService = new MatchingService(prismaClient);
 const matchingRequestService = new MatchingRequestService(
-  eventProducer,
+  matchingRequestEventProducer,
   prismaClient
 );
 

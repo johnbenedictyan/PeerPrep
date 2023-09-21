@@ -2,7 +2,7 @@ import { EachMessagePayload } from "kafkajs";
 import { io } from "../app";
 import { kafka } from "./kafka";
 
-const SOCKET_SUBSCRIBED_TOPICS: string[] = ["success-matching"];
+const SOCKET_SUBSCRIBED_TOPICS: string[] = ["matching-created"];
 
 const consumer = kafka.consumer({ groupId: "socket-service" });
 

@@ -3,8 +3,8 @@ import { MatchingRequest, PrismaClient } from '@prisma/client';
 import { MatchingRequestCreateDTO } from '../../interfaces/matchingRequest/createDTO';
 import { OptionalMatchingRequest } from '../../interfaces/matchingRequest/object';
 import { MatchingRequestUpdateDTO } from '../../interfaces/matchingRequest/updateDTO';
-import MatchingEventProducer from '../../kafka/producer/producer';
 import Service from '../service.interface';
+import { EventProducer } from '../../events/producers/main.interface';
 
 class MatchingRequestService
   implements
@@ -15,7 +15,7 @@ class MatchingRequestService
     >
 {
   constructor(
-    private readonly eventProducer: MatchingEventProducer,
+    private readonly eventProducer: EventProducer<MatchingRequest>,
     private readonly prismaClient: PrismaClient
   ) {}
 
@@ -27,7 +27,7 @@ class MatchingRequestService
         data: body,
       });
       if (matchingRequest) {
-        this.eventProducer.requestMatch(matchingRequest);
+        this.eventProducer.create(matchingRequest);
       }
       return matchingRequest;
     } catch (error) {

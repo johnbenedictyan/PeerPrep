@@ -3,9 +3,9 @@ import isInEnum from "../../isInEnum";
 import { kafka } from "../kafka";
 import { COLLABORATION_SERVICE_TOPICS } from "../topics/collaboration";
 
-export type IMessageConsumerFunc = (message: KafkaMessage) => void;
+export type ConsumerFunction = (message: KafkaMessage) => void;
 
-const COLLABORATION_SUBSCRIBED_TOPIC_MAPPER: Map<string, IMessageConsumerFunc> =
+const COLLABORATION_SUBSCRIBED_TOPIC_MAPPER: Map<string, ConsumerFunction> =
   new Map([]);
 
 const consumer = kafka.consumer({ groupId: "collaboration-service" });

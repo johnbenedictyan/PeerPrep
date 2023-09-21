@@ -1,5 +1,5 @@
 import app from "./app";
-import matchingEventConsumer from "./kafka/consumer";
+import matchingEventConsumer from "./events/consumers/main";
 
 const port = process.env["PORT"];
 

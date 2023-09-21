@@ -1,7 +1,7 @@
-import { Matching } from "../../interfaces/matching/object";
-import { IMessageConsumerFunc } from "../consumer";
+import { Matching } from "../../../interfaces/matching/object";
+import { ConsumerFunction } from "../main.interface";
 
-const successfulMatchingConsumer: IMessageConsumerFunc = (message) => {
+const MatchingRequestSuccess: ConsumerFunction = (message) => {
   // Parse ICreatedMatchRequest from message
   if (message.value) {
     const matching: Matching = JSON.parse(message.value.toString());
@@ -12,4 +12,4 @@ const successfulMatchingConsumer: IMessageConsumerFunc = (message) => {
   }
 };
 
-export default successfulMatchingConsumer;
+export default MatchingRequestSuccess;
