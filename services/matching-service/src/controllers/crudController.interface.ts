@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 
-interface CRUDController {
+type CRUDController = {
   create(req: Request, res: Response): any;
   findById(req: Request, res: Response): any;
   findOne(req: Request, res: Response): any;

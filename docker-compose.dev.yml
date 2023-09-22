@@ -203,6 +203,36 @@ services:
   #   ports:
   #     - "9000:9000"
 
+  kong:
+    image: kong:alpine
+    hostname: kong
+    container_name: kong
+    ports:
+      - "8000:8000"
+      - "8443:8443"
+      - "8001:8001"
+      - "8444:8444"
+    environment:
+      KONG_DATABASE: "postgres"
+      KONG_PG_HOST: "kong"
+      KONG_PG_PASSWORD: "kong"
+    networks:
+      - kong-net
+    depends_on:
+      - kongDB
+
+  kongDB:
+    image: postgres:latest
+    container_name: kong-database
+    volumes:
+      - kongDB:/data/postgres/kong
+    environment:
+      - POSTGRES_USER=kong
+      - POSTGRES_DB=kong
+      - POSTGRES_PASSWORD=kong
+    networks:
+      - kong-net
+
   zookeeper:
     image: confluentinc/cp-zookeeper:7.3.0
     hostname: zookeeper
@@ -233,12 +263,26 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
     healthcheck:
-      test: ["CMD", "kafka-topics", "--bootstrap-server", "broker:9092", "--list"]
+      test:
+        ["CMD", "kafka-topics", "--bootstrap-server", "broker:9092", "--list"]
       interval: 5s
       timeout: 10s
       retries: 5
+
+networks:
+  kong-net:
+    external: false
 
 volumes:
   progresDB:
   zookeeperDB:
   brokerDB:
+  kong_data: {}
+  kong_prefix_vol:
+    driver_opts:
+     type: tmpfs
+     device: tmpfs
+  kong_tmp_vol:
+    driver_opts:
+     type: tmpfs
+     device: tmpfs

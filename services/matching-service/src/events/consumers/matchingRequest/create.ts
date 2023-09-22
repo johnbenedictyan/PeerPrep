@@ -37,7 +37,7 @@ const createMatchingRequestConsumer: ConsumerFunction = async (message) => {
     }
 
     const counterPartyMatchReq: MatchingRequest | null =
-      await matchingService.findMatch(inputMatchingReq);
+      await matchingService.findMatch(matchReqFromDB);
 
     if (!counterPartyMatchReq) {
       matchingRequestEventProducer.fail(matchReqFromDB);

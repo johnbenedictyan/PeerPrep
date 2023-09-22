@@ -9,7 +9,8 @@ import { kafka } from "./events/kafka";
 import MatchingRequestProducer from "./events/producers/matchingRequest/producer";
 import MatchingParser from "./parser/matching/matching.parser";
 import MatchingRequestParser from "./parser/matchingRequest/matchingRequest.parser";
-import MatchingRouter from "./routes/matching.routes";
+import MatchingRouter from "./routers/matching/router";
+import MatchingRequestRouter from "./routers/matchingRequest/router";
 import MatchingService from "./services/matching/matching.service";
 import MatchingRequestService from "./services/matchingRequest/matchingRequest.service";
 import prismaClient from "./util/prisma/client";
@@ -50,8 +51,9 @@ const matchingRequestController = new MatchingRequestController(
 );
 
 // Routers
-const matchingRouter = new MatchingRouter(
-  matchingController,
+const matchingRouter = new MatchingRouter(matchingController, express.Router());
+
+const matchingRequestRouter = new MatchingRequestRouter(
   matchingRequestController,
   express.Router()
 );
@@ -62,6 +64,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(bodyParser.json());
 
-app.use("/api", matchingRouter.registerRoutes());
+app.use("/api/matching", matchingRouter.registerRoutes());
+app.use("/api/matchingRequest", matchingRequestRouter.registerRoutes());
 
 export default app;
