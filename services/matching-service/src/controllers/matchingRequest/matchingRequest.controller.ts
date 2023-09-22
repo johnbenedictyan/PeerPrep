@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 
-import MatchingRequestParser from "../../parser/matchingRequest/matchingRequest.parser";
+import MatchingRequestParser from "../../parsers/matchingRequest/matchingRequest.parser";
 import MatchingRequestService from "../../services/matchingRequest/matchingRequest.service";
 import Controller from "../controller.abstract";
 import CRUDController from "../crudController.interface";

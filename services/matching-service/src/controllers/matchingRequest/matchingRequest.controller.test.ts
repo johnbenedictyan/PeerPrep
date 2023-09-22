@@ -6,7 +6,7 @@ import { Kafka } from "kafkajs";
 
 import { IMatchingRequestCreateInput } from "../../interfaces/IMatching";
 import MatchingEventProducer from "../../kafka/producer/producer";
-import MatchingRequestParser from "../../parser/matchingRequest/matchingRequest.parser";
+import MatchingRequestParser from "../../parsers/matchingRequest/matchingRequest.parser";
 import MatchingRequestService from "../../services/matchingRequest/matchingRequest.service";
 import MatchingRequestController from "./matchingRequest.controller";
 
