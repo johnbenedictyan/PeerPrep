@@ -20,7 +20,7 @@ services:
   #   env_file:
   #     - ./services/user-service/.env
   #   links:
-  #     - broker
+  #     - kafka
   #     - postgres_user_service
   #   depends_on:
   #     broker:
@@ -45,11 +45,15 @@ services:
       - PORT=5000
     env_file:
       - ./services/socket-service/.env
-    links:
-      - broker
+    # links:
+    #   - broker
     depends_on:
       broker:
         condition: service_healthy
+    networks:
+      - socket-service-network
+      - api-network
+      - kafka-network
 
   matching:
     container_name: matching-service
@@ -63,11 +67,15 @@ services:
     env_file:
       - ./services/matching-service/.env
     links:
-      - broker
+      # - broker
       - postgres_matching_service
     depends_on:
       broker:
         condition: service_healthy
+    networks:
+      - matching-service-network
+      - api-network
+      - kafka-network
 
   postgres_matching_service:
     image: postgres:latest
@@ -76,32 +84,38 @@ services:
       - progresDB:/data/postgres/matching-service
     env_file:
       - ./services/matching-service/.env
+    networks:
+      - matching-service-network
 
-  collaboration:
-    container_name: collaboration-service
-    build:
-      context: ./services/collaboration-service
-      dockerfile: Dockerfile
-    ports:
-      - "5007:5000"
-    environment:
-      - PORT=5000
-    env_file:
-      - ./services/collaboration-service/.env
-    links:
-      - broker
-      - postgres_collaboration_service
-    depends_on:
-      broker:
-        condition: service_healthy
+  # collaboration:
+  #   container_name: collaboration-service
+  #   build:
+  #     context: ./services/collaboration-service
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "5007:5000"
+  #   environment:
+  #     - PORT=5000
+  #   env_file:
+  #     - ./services/collaboration-service/.env
+  #   links:
+  #     - broker
+  #     - postgres_collaboration_service
+  #   depends_on:
+  #     broker:
+  #       condition: service_healthy
+  #   networks:
+  #     - collaboration-service-network
 
-  postgres_collaboration_service:
-    image: postgres:latest
-    container_name: postgres-collaboration-service
-    volumes:
-      - progresDB:/data/postgres/collaboration-service
-    env_file:
-      - ./services/collaboration-service/.env
+  # postgres_collaboration_service:
+  #   image: postgres:latest
+  #   container_name: postgres-collaboration-service
+  #   volumes:
+  #     - progresDB:/data/postgres/collaboration-service
+  #   env_file:
+  #     - ./services/collaboration-service/.env
+  #   networks:
+  #     - collaboration-service-network
 
   # question:
   #   container_name: question-service
@@ -203,86 +217,88 @@ services:
   #   ports:
   #     - "9000:9000"
 
-  kong:
-    image: kong:alpine
-    hostname: kong
-    container_name: kong
-    ports:
-      - "8000:8000"
-      - "8443:8443"
-      - "8001:8001"
-      - "8444:8444"
-    environment:
-      KONG_DATABASE: "postgres"
-      KONG_PG_HOST: "kong"
-      KONG_PG_PASSWORD: "kong"
-    networks:
-      - kong-net
-    depends_on:
-      - kongDB
-
-  kongDB:
-    image: postgres:latest
-    container_name: kong-database
-    volumes:
-      - kongDB:/data/postgres/kong
-    environment:
-      - POSTGRES_USER=kong
-      - POSTGRES_DB=kong
-      - POSTGRES_PASSWORD=kong
-    networks:
-      - kong-net
-
   zookeeper:
-    image: confluentinc/cp-zookeeper:7.3.0
-    hostname: zookeeper
+    image: confluentinc/cp-zookeeper:latest
     container_name: zookeeper
-    volumes:
-      - zookeeperDB:/var/lib/zookeeper/data
     environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-      ZOOKEEPER_TICK_TIME: 2000
+      - ZOOKEEPER_CLIENT_PORT=2181
+      - ZOOKEEPER_TICK_TIME=2000
+    volumes:
+      - zookeeper-data:/var/lib/zookeeper/data
+      - zookeeper-logs:/var/lib/zookeeper/log
+    ports:
+      - "2181:2181"
+    networks:
+      - kafka-network
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "2181"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
   broker:
-    image: confluentinc/cp-kafka:7.3.0
-    container_name: broker
-    ports:
-      - "9092:9092"
-    links:
-      - zookeeper
+    image: confluentinc/cp-kafka:latest
+    container_name: kafka
     depends_on:
-      - zookeeper
-    volumes:
-      - brokerDB:/var/lib/broker/data
+      zookeeper:
+        condition: service_healthy
     environment:
       KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:9092,PLAINTEXT_INTERNAL://broker:29092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_INTERNAL://broker:29092
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT_INTERNAL
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: true
+
+    volumes:
+      - kafka-data:/var/lib/kafka/data
+    ports:
+      - "9092:9092"
+    networks:
+      - kafka-network
     healthcheck:
-      test:
-        ["CMD", "kafka-topics", "--bootstrap-server", "broker:9092", "--list"]
-      interval: 5s
-      timeout: 10s
-      retries: 5
+      test: ["CMD", "nc", "-z", "localhost", "9092"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
 networks:
-  kong-net:
-    external: false
+  user-service-network:
+    driver: bridge
+
+  matching-service-network:
+    driver: bridge
+
+  question-service-network:
+    driver: bridge
+
+  chat-service-network:
+    driver: bridge
+
+  video-call-service-network:
+    driver: bridge
+
+  socket-service-network:
+    driver: bridge
+
+  collaboration-service-network:
+    driver: bridge
+
+  client-network:
+    driver: bridge
+
+  kafka-network:
+    driver: bridge
+
+  api-network:
+    driver: bridge
 
 volumes:
   progresDB:
-  zookeeperDB:
-  brokerDB:
-  kong_data: {}
-  kong_prefix_vol:
-    driver_opts:
-     type: tmpfs
-     device: tmpfs
-  kong_tmp_vol:
-    driver_opts:
-     type: tmpfs
-     device: tmpfs
+  zookeeper-data:
+  zookeeper-logs:
+  kafka-data:
