@@ -5,7 +5,7 @@ import httpStatus from "http-status";
 abstract class Controller {
   constructor() {}
 
-  protected handleValidationError(
+  protected static handleValidationError(
     res: Response,
     errors: Result<ValidationError>
   ) {
@@ -15,11 +15,11 @@ abstract class Controller {
     });
   }
 
-  protected handleSuccess(res: Response, data: any) {
+  protected static handleSuccess(res: Response, data: any) {
     return res.status(httpStatus.OK).json(data);
   }
 
-  protected handleBadRequest(res: Response, message: string) {
+  protected static handleBadRequest(res: Response, message: string) {
     return res.status(httpStatus.BAD_REQUEST).json({
       success: false,
       errors: message,
@@ -28,7 +28,7 @@ abstract class Controller {
 
   public healthCheck(_req: Request, res: Response) {
     console.log("Health Check");
-    return this.handleSuccess(res, { message: "OK" });
+    return Controller.handleSuccess(res, { message: "OK" });
   }
 }
 
