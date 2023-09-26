@@ -1,10 +1,7 @@
-import { cpp } from '@codemirror/lang-cpp';
-import { java } from '@codemirror/lang-java';
-import { javascript } from '@codemirror/lang-javascript';
-import { python } from '@codemirror/lang-python';
-import CodeMirror, { ViewUpdate } from '@uiw/react-codemirror';
-import { useCallback, useState } from 'react';
+import CodeMirror, { Extension, ViewUpdate } from '@uiw/react-codemirror';
+import { useCallback, useEffect, useState } from 'react';
 
+import { langs } from '@uiw/codemirror-extensions-langs';
 import CodeResult from './CodeResult';
 
 interface ICodeEditorProps {
@@ -12,19 +9,14 @@ interface ICodeEditorProps {
 }
 
 const CodeEditor: React.FC<ICodeEditorProps> = ({ selectedLanguage }) => {
+    const [code, setCode] = useState('');
     const [loading, setLoading] = useState<boolean>(false);
     const [codeSubmitted, setCodeSubmitted] = useState<boolean>(false);
     const [codeResult, setCodeResult] = useState<string>('');
-
-    const languageMap = {
-        'JavaScript': javascript,
-        'Python': python,
-        'Java': java,
-        'C++': cpp,
-    }
+    const [extensions, setExtensions] = useState<Extension[]>();
 
     const onChange = useCallback((value: string, viewUpdate: ViewUpdate) => {
-        console.log('value:', value);
+        setCode(value);
     }, []);
 
     const handleSubmit = () => {
@@ -33,19 +25,22 @@ const CodeEditor: React.FC<ICodeEditorProps> = ({ selectedLanguage }) => {
         setCodeSubmitted(true);
     }
 
+    useEffect(() => {
+        const lang = selectedLanguage.toLowerCase() as keyof typeof langs;
+        if (langs[lang]) {
+            setExtensions([langs[lang]()]);
+        } else {
+            setExtensions([]);
+        }
+    }, [selectedLanguage]);
+
     return (
         <div>
             <div className='h-144 border rounded-lg shadow'>
                 <CodeMirror
-                    value="console.log('hello world!');"
+                    value={code}
                     height="576px"
-                    extensions={[
-                        // Load all languages
-                        javascript(),
-                        python(),
-                        java(),
-                        cpp(),
-                    ]}
+                    extensions={extensions}
                     onChange={onChange}
                 />
             </div>
@@ -62,7 +57,6 @@ const CodeEditor: React.FC<ICodeEditorProps> = ({ selectedLanguage }) => {
                 <CodeResult result={codeResult} />
             </div>
         </div>
-
     )
 };
 

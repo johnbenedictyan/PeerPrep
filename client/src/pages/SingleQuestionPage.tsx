@@ -1,21 +1,26 @@
-import { useContext, useEffect, useRef } from 'react';
+import { createContext, useContext, useEffect, useRef } from 'react';
 
+import { useSearchParams } from 'react-router-dom';
 import Chat from '../components/Chat';
 import CodingSpace from '../components/CodingSpace';
 import Question, { IQuestion } from '../components/Question';
 import VideoCall from '../components/VideoCall';
 import { MatchingContext } from '../context/MatchingContext';
 
+export const QuestionLanguageContext = createContext<string | null>(null);
+
 export default function SingleQuestionPage() {
     const { matchedUserId, setMatchedUserId } = useContext(MatchingContext)!;
     const currentMatchedId = useRef<string>('');
+
+    const [searchParams, setSearchParams] = useSearchParams();
+    const selectedLanguage = searchParams.get('lang');
 
     useEffect(() => {
         if (matchedUserId) {
             currentMatchedId.current = matchedUserId;
         }
         return () => {
-            console.log('unmounting')
             setMatchedUserId(null);
             // currentMatchedId.current = '';
         }
@@ -83,8 +88,10 @@ export default function SingleQuestionPage() {
 
                                         {/* Product info */}
                                         <div className="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0 xl:col-span-2">
-                                            <Question question={question} />
-                                            <CodingSpace />
+                                            <QuestionLanguageContext.Provider value={selectedLanguage}>
+                                                <Question question={question} />
+                                                <CodingSpace />
+                                            </QuestionLanguageContext.Provider>
                                         </div>
 
 
