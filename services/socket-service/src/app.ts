@@ -26,6 +26,20 @@ io.on("connection", (socket) => {
     console.log(`User ${data.userId} joined`);
     io.to(data.userId).emit("joined", `User ${data.userId} joined`);
   });
+  socket.on("session-begin", (data) => {
+    const roomId = data.matchingId;
+    socket.join(roomId);
+    console.log(`User:${data.userId} joined Room:${roomId}`);
+    io.to(roomId).emit("joined", `User:${data.userId} joined Room:${roomId}`);
+  });
+  socket.on("edit-code", (data) => {
+    console.log(`Editing Code Matching: ${data.requestId} \t User Id: ${data.userId} \t Code: ${data.code}`);
+    io.to(data.requestId).emit("edit-code", data);
+  });
+  socket.on("cancel-match", (data) => {
+    console.log(`Cancelling Matching: ${data.requestId} \t User Id: ${data.userId} \t Code: ${data.code}`);
+    io.to(data.requestId).emit("edit-code", data);
+  });
 });
 
 server.listen(port, () => {

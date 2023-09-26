@@ -1,12 +1,12 @@
 import { initializeApp } from "firebase/app";
 import {
-  NextOrObserver,
-  User,
+  createUserWithEmailAndPassword,
   getAuth,
+  NextOrObserver,
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
-  createUserWithEmailAndPassword,
+  User,
 } from "firebase/auth";
 
 const firebaseConfig = {

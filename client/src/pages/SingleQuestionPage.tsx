@@ -1,30 +1,22 @@
-import { createContext, useContext, useEffect, useRef } from 'react';
+import { createContext, useContext } from 'react';
 
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import Chat from '../components/Chat';
 import CodingSpace from '../components/CodingSpace';
 import Question, { IQuestion } from '../components/Question';
 import VideoCall from '../components/VideoCall';
 import { MatchingContext } from '../context/MatchingContext';
+import { AuthContext } from '../context/FirebaseAuthContext';
 
 export const QuestionLanguageContext = createContext<string | null>(null);
 
 export default function SingleQuestionPage() {
-    const { matchedUserId, setMatchedUserId } = useContext(MatchingContext)!;
-    const currentMatchedId = useRef<string>('');
+    const { matchedUserId, matchingId, setMatchedUserId, setMatchingId } = useContext(MatchingContext);
+    const { currentUser } = useContext(AuthContext);
 
     const [searchParams, setSearchParams] = useSearchParams();
     const selectedLanguage = searchParams.get('lang');
-
-    useEffect(() => {
-        if (matchedUserId) {
-            currentMatchedId.current = matchedUserId;
-        }
-        return () => {
-            setMatchedUserId(null);
-            // currentMatchedId.current = '';
-        }
-    }, [])
+    const navigate = useNavigate();
 
     const question: IQuestion = {
         name: 'Two Sum',
@@ -62,6 +54,12 @@ export default function SingleQuestionPage() {
         ],
     };
 
+    const handleCancelMatch = () => {
+        setMatchedUserId(null);
+        setMatchingId(null);
+        navigate('/match');
+    }
+
     return (
         <>
             {/*
@@ -88,10 +86,12 @@ export default function SingleQuestionPage() {
 
                                         {/* Product info */}
                                         <div className="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0 xl:col-span-2">
-                                            <QuestionLanguageContext.Provider value={selectedLanguage}>
-                                                <Question question={question} />
-                                                <CodingSpace />
-                                            </QuestionLanguageContext.Provider>
+                                            {
+                                                currentUser && <QuestionLanguageContext.Provider value={selectedLanguage}>
+                                                    <Question question={question} />
+                                                    <CodingSpace />
+                                                </QuestionLanguageContext.Provider>
+                                            }
                                         </div>
 
 
@@ -110,16 +110,40 @@ export default function SingleQuestionPage() {
                                                         <path vectorEffect="non-scaling-stroke" strokeWidth={1} d="M0 0l200 200M0 200L200 0" />
                                                     </svg>
                                                 </div>
-                                                <div className='grid grid-cols-3 mt-3'>
-                                                    {
-                                                        currentMatchedId.current === '' ?
-                                                            <div className="animate-pulse h-5 bg-slate-700 rounded col-span-3"></div>
-                                                            : <h4 className="text-lg font-bold">{currentMatchedId.current}</h4>
-                                                    }
+                                                <div className='flex flex-col'>
+                                                    <div className='flex'>
+                                                        {
+                                                            matchedUserId === '' ?
+                                                                <div className="animate-pulse h-5 bg-slate-700 rounded col-span-3"></div>
+                                                                : <h4 className="text-lg font-bold">{matchedUserId}</h4>
+                                                        }
 
-                                                    <p className="col-span-2 mt-1">
-                                                        Current Match
-                                                    </p>
+                                                        <p>
+                                                            Current Match
+                                                        </p>
+                                                    </div>
+                                                    <div className='flex'>
+                                                        {
+                                                            matchingId === '' ?
+                                                                <div className="animate-pulse h-5 bg-slate-700 rounded col-span-3"></div>
+                                                                : <h4 className="text-lg font-bold">{matchingId}</h4>
+                                                        }
+
+                                                        <p className="col-span-2 mt-1">
+                                                            Match Id
+                                                        </p>
+                                                    </div>
+                                                    {
+                                                        matchedUserId && matchingId && <div className="flex">
+                                                            <button
+                                                                type="button"
+                                                                className="rounded-md bg-red-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+                                                                onClick={handleCancelMatch}
+                                                            >
+                                                                Cancel Match
+                                                            </button>
+                                                        </div>
+                                                    }
                                                 </div>
                                             </div>
                                             <VideoCall />

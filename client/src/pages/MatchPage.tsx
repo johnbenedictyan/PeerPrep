@@ -12,7 +12,7 @@ import { socket } from '../util/socket';
 
 const MatchPage = () => {
     const { currentUser } = useContext(AuthContext);
-    const { matchedUserId, setMatchedUserId } = useContext(MatchingContext)!;
+    const { matchedUserId, setMatchedUserId, matchingId, setMatchingId } = useContext(MatchingContext)!;
 
     const [difficulty, setDifficulty] = useState<string>('');
     const [open, setOpen] = useState(false);
@@ -30,8 +30,7 @@ const MatchPage = () => {
 
     useEffect(() => {
         if (matchedUserId) {
-            console.log(matchedUserId)
-            navigate('/questions/1');
+            navigate('/questions/1?lang=javascript');
         }
     }, [matchedUserId]);
 
@@ -52,13 +51,14 @@ const MatchPage = () => {
             setFoundMatch(true);
             setMatchLoading(false);
             // parse the value from json
-            const { user1Id, user2Id } = JSON.parse(value);
+            const { user1Id, user2Id, requestId } = JSON.parse(value);
 
             if (user1Id === currentUser?.uid) {
                 setMatchedUserId(user2Id);
             } else {
                 setMatchedUserId(user1Id);
             }
+            setMatchingId(requestId)
         }
 
         socket.on('joined', onJoined);

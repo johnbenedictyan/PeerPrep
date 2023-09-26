@@ -2704,6 +2704,11 @@
     "@lezer/highlight" "^1.0.0"
     "@lezer/lr" "^1.0.0"
 
+"@lucafabbian/firepad@^1.5.20":
+  version "1.5.20"
+  resolved "https://registry.yarnpkg.com/@lucafabbian/firepad/-/firepad-1.5.20.tgz#3c489b1418955dc4b364666ebb88f811f6d7e01c"
+  integrity sha512-heS/AzzH/Qch//a/+RCppHsBN2opck/r9CEBTYjEl7rch+7L5H766AhN5WXA7B0UaT8b9xboLBzcUx3kStnmEQ==
+
 "@nextjournal/lang-clojure@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@nextjournal/lang-clojure/-/lang-clojure-1.0.0.tgz#0efbd594769e606eea532758519a239f0d38959d"
