@@ -2,6 +2,7 @@ import CodeMirror, { Extension, ViewUpdate } from '@uiw/react-codemirror';
 import { useCallback, useContext, useEffect, useState } from 'react';
 
 import { langs } from '@uiw/codemirror-extensions-langs';
+import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/FirebaseAuthContext';
 import { MatchingContext } from '../context/MatchingContext';
 import { socket } from '../util/socket';
@@ -19,6 +20,7 @@ const CodeEditor: React.FC<ICodeEditorProps> = ({ selectedLanguage }) => {
     const [extensions, setExtensions] = useState<Extension[]>();
     const { matchingId, setMatchedUserId, setMatchingId } = useContext(MatchingContext);
     const { currentUser } = useContext(AuthContext);
+    const navigate = useNavigate();
 
     const onChange = useCallback((value: string, viewUpdate: ViewUpdate) => {
         setCurrentCode(value);
@@ -27,6 +29,7 @@ const CodeEditor: React.FC<ICodeEditorProps> = ({ selectedLanguage }) => {
     const handleCancelMatch = () => {
         setMatchedUserId(null);
         setMatchingId(null);
+        navigate('/match')
     }
 
     const handleSubmit = () => {

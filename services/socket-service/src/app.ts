@@ -37,8 +37,8 @@ io.on("connection", (socket) => {
     io.to(data.requestId).emit("edit-code", data);
   });
   socket.on("cancel-match", (data) => {
-    console.log(`Cancelling Matching: ${data.requestId} \t User Id: ${data.userId} \t Code: ${data.code}`);
-    io.to(data.requestId).emit("edit-code", data);
+    console.log(`Cancelling Matching: ${data.requestId} \t User Id: ${data.userId}`);
+    io.to(data.requestId).emit("cancel-match", data);
   });
 });
 

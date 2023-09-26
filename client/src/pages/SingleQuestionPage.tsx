@@ -11,7 +11,7 @@ import { AuthContext } from '../context/FirebaseAuthContext';
 export const QuestionLanguageContext = createContext<string | null>(null);
 
 export default function SingleQuestionPage() {
-    const { matchedUserId, matchingId, setMatchedUserId, setMatchingId } = useContext(MatchingContext);
+    const { matchedUserId, matchingId, setMatchedUserId, setMatchingId, cancelMatch } = useContext(MatchingContext);
     const { currentUser } = useContext(AuthContext);
 
     const [searchParams, setSearchParams] = useSearchParams();
@@ -55,6 +55,7 @@ export default function SingleQuestionPage() {
     };
 
     const handleCancelMatch = () => {
+        cancelMatch(currentUser!);
         setMatchedUserId(null);
         setMatchingId(null);
         navigate('/match');
