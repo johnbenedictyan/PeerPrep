@@ -1,20 +1,20 @@
 import { createContext, useContext } from 'react';
-
 import { useNavigate, useSearchParams } from 'react-router-dom';
+
 import Chat from '../components/Chat';
 import CodingSpace from '../components/CodingSpace';
 import Question, { IQuestion } from '../components/Question';
 import VideoCall from '../components/VideoCall';
-import { MatchingContext } from '../context/MatchingContext';
 import { AuthContext } from '../context/FirebaseAuthContext';
+import { MatchingContext } from '../context/MatchingContext';
 
 export const QuestionLanguageContext = createContext<string | null>(null);
 
 export default function SingleQuestionPage() {
-    const { matchedUserId, matchingId, setMatchedUserId, setMatchingId, cancelMatch } = useContext(MatchingContext);
+    const { matchedUserId, matchingId, cancelCollaboration } = useContext(MatchingContext);
     const { currentUser } = useContext(AuthContext);
 
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
     const selectedLanguage = searchParams.get('lang');
     const navigate = useNavigate();
 
@@ -54,10 +54,9 @@ export default function SingleQuestionPage() {
         ],
     };
 
-    const handleCancelMatch = () => {
-        cancelMatch(currentUser!);
-        setMatchedUserId(null);
-        setMatchingId(null);
+    const handleCancelCollaboration = () => {
+        if (!currentUser) return;
+        cancelCollaboration(currentUser);
         navigate('/match');
     }
 
@@ -139,7 +138,7 @@ export default function SingleQuestionPage() {
                                                             <button
                                                                 type="button"
                                                                 className="rounded-md bg-red-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
-                                                                onClick={handleCancelMatch}
+                                                                onClick={handleCancelCollaboration}
                                                             >
                                                                 Cancel Match
                                                             </button>
