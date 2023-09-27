@@ -49,7 +49,7 @@ const CodeEditor: React.FC<ICodeEditorProps> = ({ selectedLanguage }) => {
 
     useEffect(() => {
         if (!currentUser) return;
-        changeCode(currentUser, currentCode);
+        changeCode(currentCode);
     }, [currentCode]);
 
     return (

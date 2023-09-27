@@ -20,6 +20,7 @@ const events = new Map<string, string>([
   ["join", "joined"],
   ["begin-collaboration", "collaboration-begun"],
   ["change-code", "code-changed"],
+  ["change-language", "language-changed"],
   ["cancel-collaboration", "collaboration-cancelled"],
 ]);
 
@@ -33,6 +34,7 @@ io.on("connection", (socket) => {
     console.log(`User ${data.userId} joined`);
     io.to(data.userId).emit(events.get("join")!, `User ${data.userId} joined`);
   });
+
   socket.on("begin-collaboration", (data) => {
     const roomId = data.requestId;
     socket.join(roomId);
@@ -42,12 +44,21 @@ io.on("connection", (socket) => {
       `User:${data.userId} joined Room:${roomId}`
     );
   });
+
   socket.on("change-code", (data) => {
     console.log(
       `Editing Code Matching: ${data.requestId} \t User Id: ${data.userId} \t Code: ${data.code}`
     );
     io.to(data.requestId).emit(events.get("change-code")!, data);
   });
+
+  socket.on("change-language", (data) => {
+    console.log(
+      `Change Language: ${data.requestId} \t User Id: ${data.userId} \t to Language: ${data.language}`
+    );
+    io.to(data.requestId).emit(events.get("change-language")!, data);
+  });
+
   socket.on("cancel-collaboration", (data) => {
     console.log(
       `Cancelling Matching: ${data.requestId} \t User Id: ${data.userId}`

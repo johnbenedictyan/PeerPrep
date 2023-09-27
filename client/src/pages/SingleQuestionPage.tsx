@@ -56,7 +56,7 @@ export default function SingleQuestionPage() {
 
     const handleCancelCollaboration = () => {
         if (!currentUser) return;
-        cancelCollaboration(currentUser);
+        cancelCollaboration();
         navigate('/match');
     }
 

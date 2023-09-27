@@ -11,31 +11,35 @@ interface Props {
 interface MatchingContextType {
     matchingId: string,
     matchedUserId: string,
-    setMatchedUserId: React.Dispatch<React.SetStateAction<string>>,
-    setMatchingId: React.Dispatch<React.SetStateAction<string>>,
-    beginCollaboration: (currentUser: User) => void
-    cancelCollaboration: (currentUser: User) => void
-    changeCode: (currentUser: User, code: string) => void
     socketCode: string
+    socketLanguage: string,
     establishedConnection: boolean
     foundMatch: boolean
     connectionLoading: boolean
     matchLoading: boolean
+    setMatchedUserId: React.Dispatch<React.SetStateAction<string>>,
+    setMatchingId: React.Dispatch<React.SetStateAction<string>>,
+    beginCollaboration: () => void
+    cancelCollaboration: () => void
+    changeCode: (code: string) => void
+    changeLanguage: (language: string) => void
 }
 
 export const MatchingContext = createContext<MatchingContextType>({
     matchingId: '',
     matchedUserId: '',
+    socketCode: '',
+    socketLanguage: '',
+    establishedConnection: false,
+    foundMatch: false,
+    connectionLoading: true,
+    matchLoading: true,
     setMatchedUserId: () => { },
     setMatchingId: () => { },
     beginCollaboration: () => { },
     cancelCollaboration: () => { },
     changeCode: () => { },
-    socketCode: '',
-    establishedConnection: false,
-    foundMatch: false,
-    connectionLoading: true,
-    matchLoading: true,
+    changeLanguage: () => { },
 });
 
 export const MatchingProvider = ({ children }: Props) => {
@@ -58,40 +62,52 @@ export const MatchingProvider = ({ children }: Props) => {
     const [matchingId, setMatchingId] = useState<string>('')
 
     const [socketCode, setSocketCode] = useState<string>('')
+    const [socketLanguage, setSocketLanguage] = useState<string>('')
 
     const navigate = useNavigate();
 
-    const join = (currentUser: User) => {
+    const emitSocketEvent = (eventName: string, data: Record<string, any> = {}) => {
         if (!currentUser) return;
-        socket.emit("join", {
+        socket.emit(eventName, {
             userId: currentUser.uid,
+            ...data,
         });
+    };
+
+    const join = () => {
+        if (!currentUser) return;
+        emitSocketEvent("join");
     }
 
-    const cancelCollaboration = (currentUser: User) => {
+    const cancelCollaboration = () => {
         if (!matchingId) return;
-        socket.emit("cancel-collaboration", {
-            userId: currentUser.uid,
-            requestId: matchingId,
+        emitSocketEvent("cancel-collaboration", {
+            requestId: matchingId
         });
         setMatchedUserId('');
         setMatchingId('');
     }
 
-    const beginCollaboration = (currentUser: User) => {
+    const beginCollaboration = () => {
         if (!currentUser) return;
-        socket.emit("begin-collaboration", {
-            userId: currentUser.uid,
+        emitSocketEvent("begin-collaboration", {
             requestId: matchingId,
         });
     }
 
-    const changeCode = (currentUser: User, code: string) => {
+    const changeCode = (code: string) => {
         if (!currentUser || !matchingId) return;
-        socket.emit("change-code", {
-            userId: currentUser.uid,
+        emitSocketEvent("change-code", {
             requestId: matchingId,
             code
+        });
+    }
+
+    const changeLanguage = (language: string) => {
+        if (!currentUser || !matchingId) return;
+        emitSocketEvent("change-language", {
+            requestId: matchingId,
+            language
         });
     }
 
@@ -109,11 +125,8 @@ export const MatchingProvider = ({ children }: Props) => {
         if (!currentUser) return;
         const obj = JSON.parse(value);
         const { user1Id, user2Id, requestId } = obj;
-        if (user1Id == currentUser.uid) {
-            setMatchedUserId((prev) => user2Id);
-        } else {
-            setMatchedUserId((prev) => user1Id);
-        }
+        const newMatchedUserId = user1Id == currentUser.uid ? user2Id : user1Id;
+        setMatchedUserId((prev) => newMatchedUserId);
         setMatchingId((prev) => requestId)
         setMatchLoading(false);
         setFoundMatch(true);
@@ -125,6 +138,14 @@ export const MatchingProvider = ({ children }: Props) => {
         const { userId, requestId, code } = obj;
         if (userId == currentUser!.uid || requestId != matchingId) return;
         setSocketCode(code);
+    }
+
+    const onLanguageChanged = (value: any) => {
+        const valString = JSON.stringify(value);
+        const obj = JSON.parse(valString);
+        const { userId, requestId, language } = obj;
+        if (userId == currentUser!.uid || requestId != matchingId) return;
+        setSocketLanguage(language);
     }
 
     const onCollaborationCancelled = (value: any) => {
@@ -142,7 +163,7 @@ export const MatchingProvider = ({ children }: Props) => {
         socket.connect();
 
         if (currentUser) {
-            join(currentUser);
+            join();
         };
 
         socket.on('joined', onJoined);
@@ -162,14 +183,16 @@ export const MatchingProvider = ({ children }: Props) => {
         socket.connect();
 
         if (currentUser) {
-            join(currentUser);
+            join();
         };
 
         socket.on('code-changed', onCodeChanged);
+        socket.on('language-changed', onLanguageChanged);
         socket.on('collaboration-cancelled', onCollaborationCancelled);
 
         return () => {
             socket.off('code-changed', onCodeChanged);
+            socket.off('language-changed', onLanguageChanged);
             socket.off('collaboration-cancelled', onCollaborationCancelled);
             socket.disconnect();
         };
@@ -179,16 +202,18 @@ export const MatchingProvider = ({ children }: Props) => {
     const value = {
         matchingId,
         matchedUserId,
+        socketCode,
+        socketLanguage,
+        establishedConnection,
+        foundMatch,
+        connectionLoading,
+        matchLoading,
         setMatchedUserId,
         setMatchingId,
         beginCollaboration,
         cancelCollaboration,
         changeCode,
-        socketCode,
-        establishedConnection,
-        foundMatch,
-        connectionLoading,
-        matchLoading
+        changeLanguage
     }
 
     return <MatchingContext.Provider value={value}>{children}</MatchingContext.Provider>;

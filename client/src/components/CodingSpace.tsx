@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { QuestionLanguageContext } from "../pages/SingleQuestionPage";
 import CodeEditor from './CodeEditor';
+import { MatchingContext } from "../context/MatchingContext";
 
 const CodingSpace: React.FC = () => {
     const languageOptions = [
@@ -10,6 +11,7 @@ const CodingSpace: React.FC = () => {
     ]
 
     const selectedLanguage = useContext(QuestionLanguageContext)
+    const { socketLanguage, changeLanguage } = useContext(MatchingContext)
     const [language, setLanguage] = useState(selectedLanguage || languageOptions[0]);
     const navigate = useNavigate();
 
@@ -19,7 +21,14 @@ const CodingSpace: React.FC = () => {
 
     useEffect(() => {
         setLanguage(selectedLanguage || languageOptions[0]);
+        changeLanguage(selectedLanguage || languageOptions[0]);
     }, [selectedLanguage]);
+
+    useEffect(() => {
+        if (socketLanguage == '') return;
+        if (socketLanguage == language) return;
+        handleLanguageChange(socketLanguage);
+    }, [socketLanguage])
 
     return (
         <div>

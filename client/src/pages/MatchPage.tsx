@@ -38,9 +38,9 @@ const MatchPage = () => {
     }
 
     useEffect(() => {
-        if (foundMatch && matchedUserId != '' && matchingId != '') {
+        if (currentUser && foundMatch && matchedUserId != '' && matchingId != '') {
             setOpen(false);
-            beginCollaboration(currentUser!);
+            beginCollaboration();
             navigate('/questions/1?lang=javascript')
         }
     }, [foundMatch, matchedUserId, matchingId]);
