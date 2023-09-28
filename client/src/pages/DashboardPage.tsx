@@ -273,7 +273,10 @@ function DashboardPage() {
                       {client.name}
                     </div>
                     <Menu as="div" className="relative ml-auto">
-                      <Menu.Button className="-m-2.5 block p-2.5 text-gray-400 hover:text-gray-500">
+                      <Menu.Button
+                        type="button"
+                        className="-m-2.5 block p-2.5 text-gray-400 hover:text-gray-500"
+                      >
                         <span className="sr-only">Open options</span>
                         <EllipsisHorizontalIcon
                           className="h-5 w-5"

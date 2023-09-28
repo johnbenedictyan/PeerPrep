@@ -332,7 +332,7 @@ function QuestionPage() {
                           scope="col"
                           className="px-3 py-3.5 text-left text-xs font-medium uppercase tracking-wide text-gray-500"
                         >
-                          <button className="group inline-flex">
+                          <button type="button" className="group inline-flex">
                             Status
                             <span className="ml-2 flex-none rounded bg-gray-100 text-gray-900 group-hover:bg-gray-200">
                               {sortByStatus === SortBy.ASC ? (
@@ -355,7 +355,7 @@ function QuestionPage() {
                           scope="col"
                           className="px-3 py-3.5 text-left text-xs font-medium uppercase tracking-wide text-gray-500"
                         >
-                          <button className="group inline-flex">
+                          <button type="button" className="group inline-flex">
                             Title
                             <span className="ml-2 flex-none rounded bg-gray-100 text-gray-900 group-hover:bg-gray-200">
                               {sortByTitle === SortBy.ASC ? (
@@ -378,7 +378,7 @@ function QuestionPage() {
                           scope="col"
                           className="px-3 py-3.5 text-left text-xs font-medium uppercase tracking-wide text-gray-500"
                         >
-                          <button className="group inline-flex">
+                          <button type="button" className="group inline-flex">
                             Difficulty
                             <span className="ml-2 flex-none rounded bg-gray-100 text-gray-900 group-hover:bg-gray-200">
                               {sortByDifficulty === SortBy.ASC ? (

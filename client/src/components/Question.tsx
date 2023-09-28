@@ -53,7 +53,10 @@ const Question: React.FC<IQuestionProps> = ({ question }) => {
               {({ open }) => (
                 <>
                   <h3>
-                    <Disclosure.Button className="group relative flex w-full items-center justify-between py-6 text-left">
+                    <Disclosure.Button
+                      type="button"
+                      className="group relative flex w-full items-center justify-between py-6 text-left"
+                    >
                       <span
                         className={classNames(
                           open ? "text-indigo-600" : "text-gray-900",
