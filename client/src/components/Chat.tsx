@@ -1,101 +1,112 @@
-import React, { useEffect } from 'react';
+import React from "react";
 
-import { classNames } from '../util/ClassNames';
+import { classNames } from "../util/ClassNames";
 
 interface IMessage {
-    id: number;
-    sender: string;
-    message: string;
-    date: Date;
+  id: number;
+  sender: string;
+  message: string;
+  date: Date;
 }
 
 const Chat = () => {
-    // Sample Message Data
-    const messages: IMessage[] = [
-        {
-            id: 1,
-            sender: 'John Doe',
-            message: 'Hello, how are you?',
-            date: new Date()
-        },
-        {
-            id: 2,
-            sender: 'Jane Doe',
-            message: 'I am good, how about you?',
-            date: new Date()
-        }
-    ]
+  // Sample Message Data
+  const messages: IMessage[] = [
+    {
+      id: 1,
+      sender: "John Doe",
+      message: "Hello, how are you?",
+      date: new Date(),
+    },
+    {
+      id: 2,
+      sender: "Jane Doe",
+      message: "I am good, how about you?",
+      date: new Date(),
+    },
+  ];
 
-    const [message, setMessage] = React.useState<string>('')
+  const [message, setMessage] = React.useState<string>("");
 
-    // Send Message using peerjs
-    const sendMessage = () => {
-        console.log(message);
-    }
+  // Send Message using peerjs
+  const sendMessage = () => {
+    console.log(message);
+  };
 
-    return (
-        <div className='border rounded-lg shadow p-5'>
-            <h2 className="text-xl font-bold tracking-tight text-gray-900 mb-2">Chat</h2>
+  return (
+    <div className="border rounded-lg shadow p-5">
+      <h2 className="text-xl font-bold tracking-tight text-gray-900 mb-2">
+        Chat
+      </h2>
 
-            <div className="">
-                {messages.map((message, messageIdx) => (
-                    <div key={message.id} className="flex space-x-4 text-sm text-gray-500">
-                        <div className={classNames(messageIdx === 0 ? '' : 'border-t border-gray-200', 'flex-1 py-5')}>
-                            <div className='flex justify-between items-center'>
-                                <h3 className="font-medium text-gray-900">{message.sender}</h3>
-                                <p>
-                                    <time dateTime={message.date.toLocaleTimeString()}>{message.date.toLocaleTimeString()}</time>
-                                </p>
-                            </div>
+      <div className="">
+        {messages.map((message, messageIdx) => (
+          <div
+            key={message.id}
+            className="flex space-x-4 text-sm text-gray-500"
+          >
+            <div
+              className={classNames(
+                messageIdx === 0 ? "" : "border-t border-gray-200",
+                "flex-1 py-5",
+              )}
+            >
+              <div className="flex justify-between items-center">
+                <h3 className="font-medium text-gray-900">{message.sender}</h3>
+                <p>
+                  <time dateTime={message.date.toLocaleTimeString()}>
+                    {message.date.toLocaleTimeString()}
+                  </time>
+                </p>
+              </div>
 
-                            <div
-                                className="prose prose-sm mt-2 max-w-none text-gray-500"
-                                dangerouslySetInnerHTML={{ __html: message.message }}
-                            />
-                        </div>
-                    </div>
-                ))}
-                <div className="min-w-0 flex-1">
-                    <form className="relative" onSubmit={sendMessage}>
-                        <div className="overflow-hidden rounded-lg shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600">
-                            <label htmlFor="comment" className="sr-only">
-                                Add your comment
-                            </label>
-                            <textarea
-                                rows={3}
-                                name="comment"
-                                id="comment"
-                                className="block w-full resize-none border-0 bg-transparent py-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                                placeholder="Add your comment..."
-                                value={message}
-                                onChange={(e) => setMessage(e.target.value)}
-                            />
-
-                            {/* Spacer element to match the height of the toolbar */}
-                            <div className="py-2" aria-hidden="true">
-                                {/* Matches height of button in toolbar (1px border + 36px content height) */}
-                                <div className="py-px">
-                                    <div className="h-9" />
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="absolute inset-x-0 bottom-0 flex justify-between py-2 pl-3 pr-2">
-                            <div className="flex-col">
-                                <button
-                                    type="submit"
-                                    className="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                >
-                                    Post
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+              <div
+                className="prose prose-sm mt-2 max-w-none text-gray-500"
+                dangerouslySetInnerHTML={{ __html: message.message }}
+              />
             </div>
-        </div>
+          </div>
+        ))}
+        <div className="min-w-0 flex-1">
+          <form className="relative" onSubmit={sendMessage}>
+            <div className="overflow-hidden rounded-lg shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600">
+              <label htmlFor="comment" className="sr-only">
+                Add your comment
+              </label>
+              <textarea
+                rows={3}
+                name="comment"
+                id="comment"
+                className="block w-full resize-none border-0 bg-transparent py-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                placeholder="Add your comment..."
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+              />
 
-    );
-}
+              {/* Spacer element to match the height of the toolbar */}
+              <div className="py-2" aria-hidden="true">
+                {/* Matches height of button in toolbar (1px border + 36px content height) */}
+                <div className="py-px">
+                  <div className="h-9" />
+                </div>
+              </div>
+            </div>
+
+            <div className="absolute inset-x-0 bottom-0 flex justify-between py-2 pl-3 pr-2">
+              <div className="flex-col">
+                <button
+                  type="submit"
+                  className="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                >
+                  Post
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default Chat;

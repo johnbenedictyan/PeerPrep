@@ -1,14 +1,12 @@
 interface ICodeResultProps {
-    result: string;
+  result: string;
 }
 
-const CodeResult: React.FC<ICodeResultProps> = ({ result }) => {
-    return (
-        <div className='h-80 border rounded-lg shadow p-5'>
-            <h1 className="font-bold">Code Result</h1>
-            <p>{result}</p>
-        </div>
-    )
-}
+const CodeResult: React.FC<ICodeResultProps> = ({ result }) => (
+  <div className="h-80 border rounded-lg shadow p-5">
+    <h1 className="font-bold">Code Result</h1>
+    <p>{result}</p>
+  </div>
+);
 
 export default CodeResult;
