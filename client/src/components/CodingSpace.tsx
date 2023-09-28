@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { QuestionLanguageContext } from "../pages/SingleQuestionPage";
 import CodeEditor from "./CodeEditor";
 import { MatchingContext } from "../context/MatchingContext";
+import { QuestionLanguageContext } from "../context/QuestionLanguageContext";
 
 const CodingSpace: React.FC = () => {
   const languageOptions = ["javascript", "python"];
@@ -24,8 +24,8 @@ const CodingSpace: React.FC = () => {
   }, [selectedLanguage]);
 
   useEffect(() => {
-    if (socketLanguage == "") return;
-    if (socketLanguage == language) return;
+    if (socketLanguage === "") return;
+    if (socketLanguage === language) return;
     handleLanguageChange(socketLanguage);
   }, [socketLanguage]);
 

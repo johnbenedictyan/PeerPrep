@@ -335,7 +335,7 @@ function QuestionPage() {
                           <button className="group inline-flex">
                             Status
                             <span className="ml-2 flex-none rounded bg-gray-100 text-gray-900 group-hover:bg-gray-200">
-                              {sortByStatus == SortBy.ASC ? (
+                              {sortByStatus === SortBy.ASC ? (
                                 <ChevronUpIcon
                                   className="h-4 w-4"
                                   aria-hidden="true"
@@ -358,7 +358,7 @@ function QuestionPage() {
                           <button className="group inline-flex">
                             Title
                             <span className="ml-2 flex-none rounded bg-gray-100 text-gray-900 group-hover:bg-gray-200">
-                              {sortByTitle == SortBy.ASC ? (
+                              {sortByTitle === SortBy.ASC ? (
                                 <ChevronUpIcon
                                   className="h-4 w-4"
                                   aria-hidden="true"
@@ -381,7 +381,7 @@ function QuestionPage() {
                           <button className="group inline-flex">
                             Difficulty
                             <span className="ml-2 flex-none rounded bg-gray-100 text-gray-900 group-hover:bg-gray-200">
-                              {sortByDifficulty == SortBy.ASC ? (
+                              {sortByDifficulty === SortBy.ASC ? (
                                 <ChevronUpIcon
                                   className="h-4 w-4"
                                   aria-hidden="true"

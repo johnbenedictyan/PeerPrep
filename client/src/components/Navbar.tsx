@@ -89,7 +89,7 @@ const Navbar = () => {
               </div>
               <div className="inline-flex items-center px-1 pt-1 text-sm font-medium">
                 <p className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700">
-                  {currentUser != null
+                  {currentUser !== null
                     ? currentUser.email
                     : "No user signed in"}
                 </p>

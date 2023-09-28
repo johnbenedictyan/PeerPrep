@@ -40,8 +40,8 @@ const CodeEditor: React.FC<ICodeEditorProps> = ({ selectedLanguage }) => {
 
   useEffect(() => {
     if (!currentUser) return;
-    if (socketCode == "") return;
-    if (socketCode == currentCode) return;
+    if (socketCode === "") return;
+    if (socketCode === currentCode) return;
     setCurrentCode(socketCode);
   }, [socketCode]);
 

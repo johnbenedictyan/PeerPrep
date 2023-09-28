@@ -7,8 +7,7 @@ import Question, { IQuestion } from "../components/Question";
 import VideoCall from "../components/VideoCall";
 import { AuthContext } from "../context/FirebaseAuthContext";
 import { MatchingContext } from "../context/MatchingContext";
-
-export const QuestionLanguageContext = createContext<string | null>(null);
+import { QuestionLanguageContext } from "../context/QuestionLanguageContext";
 
 export default function SingleQuestionPage() {
   const { matchedUserId, matchingId, cancelCollaboration } =

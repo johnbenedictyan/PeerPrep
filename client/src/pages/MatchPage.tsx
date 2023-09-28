@@ -30,7 +30,7 @@ const MatchPage = () => {
 
   useEffect(() => {
     if (
-      difficulty == "" ||
+      difficulty === "" ||
       foundMatch ||
       !establishedConnection ||
       !currentUser
@@ -53,7 +53,12 @@ const MatchPage = () => {
   };
 
   useEffect(() => {
-    if (currentUser && foundMatch && matchedUserId != "" && matchingId != "") {
+    if (
+      currentUser &&
+      foundMatch &&
+      matchedUserId !== "" &&
+      matchingId !== ""
+    ) {
       setOpen(false);
       beginCollaboration();
       navigate("/questions/1?lang=javascript");
