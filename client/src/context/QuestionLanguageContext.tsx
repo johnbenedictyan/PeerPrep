@@ -1,3 +1,5 @@
-import React, { createContext } from "react";
+import { createContext } from "react";
 
-export const QuestionLanguageContext = createContext<string | null>(null);
+const QuestionLanguageContext = createContext<string | null>(null);
+
+export default QuestionLanguageContext;

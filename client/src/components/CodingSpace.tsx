@@ -2,9 +2,9 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CodeEditor from "./CodeEditor";
 import { MatchingContext } from "../context/MatchingContext";
-import { QuestionLanguageContext } from "../context/QuestionLanguageContext";
+import QuestionLanguageContext from "../context/QuestionLanguageContext";
 
-const CodingSpace: React.FC = () => {
+function CodingSpace() {
   const languageOptions = ["javascript", "python"];
 
   const selectedLanguage = useContext(QuestionLanguageContext);
@@ -49,8 +49,8 @@ const CodingSpace: React.FC = () => {
             value={language}
             onChange={(e) => handleLanguageChange(e.target.value)}
           >
-            {languageOptions.map((language, index) => (
-              <option key={index}>{language}</option>
+            {languageOptions.map((lang, index) => (
+              <option key={index}>{lang}</option>
             ))}
           </select>
         </div>
@@ -58,6 +58,6 @@ const CodingSpace: React.FC = () => {
       <CodeEditor selectedLanguage={language} />
     </div>
   );
-};
+}
 
 export default CodingSpace;

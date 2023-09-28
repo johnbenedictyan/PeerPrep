@@ -1,6 +1,6 @@
 import React from "react";
 
-import { classNames } from "../util/ClassNames";
+import classNames from "../util/ClassNames";
 
 interface IMessage {
   id: number;

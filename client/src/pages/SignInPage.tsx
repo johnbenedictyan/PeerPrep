@@ -115,7 +115,7 @@ function SignInPage() {
 
                   <div className="text-sm leading-6">
                     <a
-                      href="#"
+                      href="/forgot-password"
                       className="font-semibold text-indigo-600 hover:text-indigo-500"
                     >
                       Forgot password?
@@ -162,7 +162,7 @@ function SignInPage() {
 
               <div className="mt-6 grid grid-cols-2 gap-4">
                 <a
-                  href="#"
+                  href="/twitter"
                   className="flex w-full items-center justify-center gap-3 rounded-md bg-[#1D9BF0] px-3 py-1.5 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1D9BF0]"
                 >
                   <svg
@@ -179,7 +179,7 @@ function SignInPage() {
                 </a>
 
                 <a
-                  href="#"
+                  href="/github"
                   className="flex w-full items-center justify-center gap-3 rounded-md bg-[#24292F] px-3 py-1.5 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#24292F]"
                 >
                   <svg

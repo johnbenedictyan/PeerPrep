@@ -11,7 +11,7 @@ interface ICodeEditorProps {
   selectedLanguage: string;
 }
 
-const CodeEditor: React.FC<ICodeEditorProps> = ({ selectedLanguage }) => {
+function CodeEditor({ selectedLanguage }: ICodeEditorProps) {
   const [currentCode, setCurrentCode] = useState("");
   const [_codeSubmitted, setCodeSubmitted] = useState<boolean>(false);
   const [codeResult, setCodeResult] = useState<string>("");
@@ -74,6 +74,6 @@ const CodeEditor: React.FC<ICodeEditorProps> = ({ selectedLanguage }) => {
       </div>
     </div>
   );
-};
+}
 
 export default CodeEditor;

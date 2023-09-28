@@ -476,6 +476,7 @@ function QuestionPage() {
               </div>
               <div className="flex flex-1 justify-between sm:justify-end">
                 <button
+                  type="button"
                   onClick={() =>
                     setPageNumber(pageNumber - 1 > 0 ? pageNumber - 1 : 0)
                   }
@@ -485,6 +486,7 @@ function QuestionPage() {
                   Previous
                 </button>
                 <button
+                  type="button"
                   onClick={() =>
                     setPageNumber(
                       pageNumber + 1 < maxPageNumber

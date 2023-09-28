@@ -3,7 +3,7 @@ import { EllipsisHorizontalIcon } from "@heroicons/react/20/solid";
 import { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 
-import { classNames } from "../util/ClassNames";
+import classNames from "../util/ClassNames";
 
 const secondaryNavigation = [
   { name: "Last 7 days", href: "#", current: true },
@@ -90,7 +90,7 @@ function DashboardPage() {
               ))}
             </div>
             {/* <a
-                            href="#"
+                            href=""
                             className="ml-auto flex items-center gap-x-1 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                         >
                             <PlusSmallIcon className="-ml-1.5 h-5 w-5" aria-hidden="true" />
@@ -254,10 +254,7 @@ function DashboardPage() {
                 <span className="sr-only">, matches</span>
               </Link>
             </div>
-            <ul
-              role="list"
-              className="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 lg:grid-cols-3 xl:gap-x-8"
-            >
+            <ul className="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 lg:grid-cols-3 xl:gap-x-8">
               {clients.map((client) => (
                 <li
                   key={client.id}
@@ -296,7 +293,7 @@ function DashboardPage() {
                           <Menu.Item>
                             {({ active }) => (
                               <a
-                                href="#"
+                                href="/view"
                                 className={classNames(
                                   active ? "bg-gray-50" : "",
                                   "block px-3 py-1 text-sm leading-6 text-gray-900",
@@ -310,7 +307,7 @@ function DashboardPage() {
                           <Menu.Item>
                             {({ active }) => (
                               <a
-                                href="#"
+                                href="/edit"
                                 className={classNames(
                                   active ? "bg-gray-50" : "",
                                   "block px-3 py-1 text-sm leading-6 text-gray-900",

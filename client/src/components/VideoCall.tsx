@@ -2,7 +2,7 @@ import { Switch } from "@headlessui/react";
 import { MicrophoneIcon, VideoCameraIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 
-import { classNames } from "../util/ClassNames";
+import classNames from "../util/ClassNames";
 
 function VideoCall() {
   const [enableVideo, setEnableVideo] = useState(true);

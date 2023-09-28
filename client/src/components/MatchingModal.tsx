@@ -7,7 +7,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { Fragment, useContext } from "react";
 
-import { classNames } from "../util/ClassNames";
+import classNames from "../util/ClassNames";
 import { titleCase } from "../util/titleCase";
 import { MatchingContext } from "../context/MatchingContext";
 
@@ -96,7 +96,7 @@ const MatchingModal: React.FC<IModalProps> = ({
                   </div>
                 </div>
                 <div className="flex flex-col mt-4">
-                  <ul role="list" className="-mb-8">
+                  <ul className="-mb-8">
                     <li>
                       <div className="relative pb-8">
                         <span

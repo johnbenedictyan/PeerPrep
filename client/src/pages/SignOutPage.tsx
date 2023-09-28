@@ -4,7 +4,7 @@ import { Fragment, useContext, useRef, useState } from "react";
 
 import { AuthContext } from "../context/FirebaseAuthContext";
 
-const SignOutPage: React.FC = () => {
+function SignOutPage() {
   const [open, setOpen] = useState(true);
 
   const cancelButtonRef = useRef(null);
@@ -91,6 +91,6 @@ const SignOutPage: React.FC = () => {
       </Dialog>
     </Transition.Root>
   );
-};
+}
 
 export default SignOutPage;

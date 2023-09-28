@@ -6,7 +6,7 @@ import {
   LockClosedIcon,
 } from "@heroicons/react/24/outline";
 
-import { classNames } from "../util/ClassNames";
+import classNames from "../util/ClassNames";
 
 const features = [
   {
@@ -120,13 +120,13 @@ function LandingPage() {
                 </p>
                 <div className="mt-10 flex items-center justify-center gap-x-6">
                   <a
-                    href=""
+                    href="/get-started"
                     className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                   >
                     Get started
                   </a>
                   <a
-                    href=""
+                    href="/learn-more"
                     className="text-sm font-semibold leading-6 text-gray-900"
                   >
                     Learn more <span aria-hidden="true">→</span>
@@ -205,7 +205,7 @@ function LandingPage() {
                 Transistor saves up to $40,000 per year, per employee by working
                 with us.
               </span>
-              <a href="" className="font-semibold text-indigo-600">
+              <a href="/case-study" className="font-semibold text-indigo-600">
                 <span className="absolute inset-0" aria-hidden="true" /> Read
                 our case study <span aria-hidden="true">&rarr;</span>
               </a>
@@ -365,10 +365,7 @@ function LandingPage() {
                         /month
                       </span>
                     </p>
-                    <ul
-                      role="list"
-                      className="mt-8 space-y-3 text-sm leading-6 text-gray-600"
-                    >
+                    <ul className="mt-8 space-y-3 text-sm leading-6 text-gray-600">
                       {tier.features.map((feature) => (
                         <li key={feature} className="flex gap-x-3">
                           <CheckIcon
@@ -448,13 +445,13 @@ function LandingPage() {
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
               <a
-                href=""
+                href="/get-started"
                 className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 Get started
               </a>
               <a
-                href=""
+                href="/learn-more"
                 className="text-sm font-semibold leading-6 text-gray-900"
               >
                 Learn more <span aria-hidden="true">→</span>
