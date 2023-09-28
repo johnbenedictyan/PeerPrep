@@ -49,9 +49,9 @@ const CodingSpace: React.FC = () => {
             value={language}
             onChange={(e) => handleLanguageChange(e.target.value)}
           >
-            {languageOptions.map((language, index) => {
-              return <option key={index}>{language}</option>;
-            })}
+            {languageOptions.map((language, index) => (
+              <option key={index}>{language}</option>
+            ))}
           </select>
         </div>
       </div>

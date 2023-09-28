@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import { classNames } from "../util/ClassNames";
 
-const VideoCall = () => {
+function VideoCall() {
   const [enableVideo, setEnableVideo] = useState(true);
   const [enableMic, setEnableMic] = useState(true);
 
@@ -12,8 +12,8 @@ const VideoCall = () => {
     <div>
       <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80 border">
         <img
-          src={"https://picsum.photos/1000"}
-          alt={"Picture"}
+          src="https://picsum.photos/1000"
+          alt="Picture"
           className="h-full w-full object-cover object-center lg:h-full lg:w-full"
         />
       </div>
@@ -68,6 +68,6 @@ const VideoCall = () => {
       </Switch.Group>
     </div>
   );
-};
+}
 
 export default VideoCall;

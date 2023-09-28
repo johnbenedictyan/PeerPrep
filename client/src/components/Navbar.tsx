@@ -20,7 +20,7 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-const Navbar = () => {
+function Navbar() {
   let navigation = [
     { name: "Dashboard", href: "/dashboard", current: false },
     { name: "Questions", href: "/questions", current: false },
@@ -263,6 +263,6 @@ const Navbar = () => {
       )}
     </Disclosure>
   );
-};
+}
 
 export default Navbar;

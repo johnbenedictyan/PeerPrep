@@ -1,4 +1,4 @@
-const Footer = () => {
+function Footer() {
   const footerNavigation = {
     solutions: [
       { name: "Hosting", href: "#" },
@@ -118,5 +118,5 @@ const Footer = () => {
       </footer>
     </div>
   );
-};
+}
 export default Footer;

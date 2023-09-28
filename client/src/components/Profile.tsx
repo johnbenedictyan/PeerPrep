@@ -1,4 +1,4 @@
-const Profile = () => {
+function Profile() {
   return (
     <>
       {/* Settings forms */}
@@ -245,6 +245,6 @@ const Profile = () => {
       </div>
     </>
   );
-};
+}
 
 export default Profile;

@@ -1,5 +1,6 @@
 class GenericController {
   private mainUri: string;
+
   private servicePath: string;
 
   constructor(mainUri: string, servicePath: string) {

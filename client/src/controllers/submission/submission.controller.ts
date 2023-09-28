@@ -13,12 +13,12 @@ class SubmissionController extends GenericController {
   }
 
   public async createSubmission(data: SubmissionCreateInput) {
-    return await this.post("submission", data);
+    return this.post("submission", data);
   }
 
   public async getSubmission(id: number | undefined) {
     if (!id) throw new Error("No id provided");
-    return await this.get(`submission/${id}`);
+    return this.get(`submission/${id}`);
   }
 }
 

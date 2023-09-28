@@ -14,7 +14,7 @@ export const AuthContext = createContext({
   signOut: () => {},
 });
 
-export const AuthProvider = ({ children }: Props) => {
+export function AuthProvider({ children }: Props) {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const navigate = useNavigate();
 
@@ -42,4 +42,4 @@ export const AuthProvider = ({ children }: Props) => {
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-};
+}

@@ -89,7 +89,7 @@ const faqs = [
   },
   // More questions...
 ];
-const LandingPage = () => {
+function LandingPage() {
   return (
     <div className="bg-white">
       <main className="isolate">
@@ -120,13 +120,13 @@ const LandingPage = () => {
                 </p>
                 <div className="mt-10 flex items-center justify-center gap-x-6">
                   <a
-                    href="#"
+                    href=""
                     className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                   >
                     Get started
                   </a>
                   <a
-                    href="#"
+                    href=""
                     className="text-sm font-semibold leading-6 text-gray-900"
                   >
                     Learn more <span aria-hidden="true">→</span>
@@ -205,7 +205,7 @@ const LandingPage = () => {
                 Transistor saves up to $40,000 per year, per employee by working
                 with us.
               </span>
-              <a href="#" className="font-semibold text-indigo-600">
+              <a href="" className="font-semibold text-indigo-600">
                 <span className="absolute inset-0" aria-hidden="true" /> Read
                 our case study <span aria-hidden="true">&rarr;</span>
               </a>
@@ -448,13 +448,13 @@ const LandingPage = () => {
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
               <a
-                href="#"
+                href=""
                 className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 Get started
               </a>
               <a
-                href="#"
+                href=""
                 className="text-sm font-semibold leading-6 text-gray-900"
               >
                 Learn more <span aria-hidden="true">→</span>
@@ -477,6 +477,6 @@ const LandingPage = () => {
       </main>
     </div>
   );
-};
+}
 
 export default LandingPage;

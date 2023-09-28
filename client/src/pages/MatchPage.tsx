@@ -7,7 +7,7 @@ import { AuthContext } from "../context/FirebaseAuthContext";
 import { MatchingContext } from "../context/MatchingContext";
 import MatchingController from "../controllers/matching/matching.controller";
 
-const MatchPage = () => {
+function MatchPage() {
   const { currentUser } = useContext(AuthContext);
   const {
     foundMatch,
@@ -80,6 +80,6 @@ const MatchPage = () => {
       />
     </div>
   );
-};
+}
 
 export default MatchPage;
