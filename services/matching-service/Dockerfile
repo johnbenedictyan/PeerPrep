@@ -1,4 +1,4 @@
-FROM node:20-alpine as base
+FROM --platform=linux/amd64 node:20-alpine as base
 
 # Add package file
 COPY package.json ./
@@ -20,7 +20,7 @@ COPY tsconfig.build.json ./tsconfig.build.json
 RUN yarn build
 
 # Start production image build
-FROM node:20-alpine
+FROM --platform=linux/amd64 node:20-alpine
 
 # Copy node modules and build directory
 COPY --from=base ./node_modules ./node_modules
