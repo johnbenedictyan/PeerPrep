@@ -1,7 +1,7 @@
 import app from "./app";
 import matchingEventConsumer from "./events/consumers/main";
 
-const port = process.env["PORT"];
+const port = process.env["SERVER_PORT"];
 
 app.listen(port, () => {
   console.log(

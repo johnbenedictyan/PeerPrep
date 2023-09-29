@@ -14,7 +14,7 @@ export const io = new Server(server, {
   },
 });
 
-const port = process.env.PORT;
+const port = process.env.SERVER_PORT;
 
 const events = new Map<string, string>([
   ["join", "joined"],

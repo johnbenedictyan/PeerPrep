@@ -6,7 +6,7 @@ import router from "./routes/user.routes";
 dotenv.config();
 
 const app: Express = express();
-const port = process.env.PORT;
+const port = process.env.SERVER_PORT;
 
 const prisma = new PrismaClient();
 
