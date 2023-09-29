@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: matching-service
+spec:
+  replicas: 1  # Adjust the number of replicas as needed
+  selector:
+    matchLabels:
+      app: matching-service
+  template:
+    metadata:
+      labels:
+        app: matching-service
+    spec:
+      containers:
+        - name: matching-service
+          image: matching-service-image:tag  # Replace with the actual image
+          ports:
+            - containerPort: 5000
+          env:
+            - name: PORT
+              value: "5000"
+          envFrom:
+            - configMapRef:
+                name: matching-service-config  # Create a ConfigMap for environment variables
+      # Add volumes and volume mounts if needed
