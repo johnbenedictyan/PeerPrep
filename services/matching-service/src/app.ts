@@ -64,6 +64,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(bodyParser.json());
 
+app.use("/api/healthCheck", (_req, res, _next) => {
+  res.send("OK");
+});
 app.use("/api/matching", matchingRouter.registerRoutes());
 app.use("/api/matchingRequest", matchingRequestRouter.registerRoutes());
 
