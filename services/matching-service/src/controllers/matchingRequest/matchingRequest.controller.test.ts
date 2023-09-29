@@ -4,42 +4,43 @@ import { PrismaClient } from "@prisma/client";
 import httpStatus from "http-status";
 import { Kafka } from "kafkajs";
 
+import MatchingRequestEventProducer from "../../events/producers/matchingRequest/producer";
 import { IMatchingRequestCreateInput } from "../../interfaces/IMatching";
-import MatchingEventProducer from "../../kafka/producer/producer";
 import MatchingRequestParser from "../../parsers/matchingRequest/matchingRequest.parser";
 import MatchingRequestService from "../../services/matchingRequest/matchingRequest.service";
 import MatchingRequestController from "./matchingRequest.controller";
 
 jest.mock("kafkajs");
 jest.mock("@prisma/client");
-jest.mock("../../kafka/producer/producer");
-jest.mock("../../parser/matchingRequest/matchingRequest.parser");
+jest.mock("../../events/producers/matchingRequest/producer");
+jest.mock("../../parsers/matchingRequest/matchingRequest.parser");
 jest.mock("../../services/matchingRequest/matchingRequest.service");
 
-const mockService = jest.mocked(MatchingRequestService);
+const mockRequestService = jest.mocked(MatchingRequestService);
 const mockPrisma = jest.mocked(PrismaClient);
 const mockKafka = jest.mocked(Kafka);
-const mockMatchingEventProducer = jest.mocked(MatchingEventProducer);
+const mockMatchingRequestEventProducer = jest.mocked(
+  MatchingRequestEventProducer
+);
 const mockMatchingRequestParser = jest.mocked(MatchingRequestParser);
 
 const mockKafkaInstance = new mockKafka({
   brokers: ["localhost:9092"],
   clientId: "matching-service",
 });
-const mockMatchingEventProducerInstance = new mockMatchingEventProducer(
-  mockKafkaInstance
-);
+const mockMatchingRequestEventProducerInstance =
+  new mockMatchingRequestEventProducer(mockKafkaInstance.producer());
 const mockMatchingRequestParserInstance = new mockMatchingRequestParser();
 const mockPrismaInstance = new mockPrisma();
-const mockServiceInstance = new mockService(
-  mockMatchingEventProducerInstance,
+const mockMatchingRequestServiceInstance = new mockRequestService(
+  mockMatchingRequestEventProducerInstance,
   mockPrismaInstance
 );
 
 describe("Test matching request controller", () => {
   beforeEach(() => {
-    mockService.mockClear();
-    mockMatchingEventProducer.mockClear();
+    mockRequestService.mockClear();
+    mockMatchingRequestEventProducer.mockClear();
   });
 
   test("Health Check should be 200", () => {
@@ -47,7 +48,7 @@ describe("Test matching request controller", () => {
     const req = getMockReq({});
 
     const controller = new MatchingRequestController(
-      mockServiceInstance,
+      mockMatchingRequestServiceInstance,
       mockMatchingRequestParserInstance
     );
     controller.healthCheck(req, res);
@@ -70,14 +71,14 @@ describe("Test matching request controller", () => {
     };
 
     jest
-      .spyOn(mockServiceInstance, "create")
+      .spyOn(mockMatchingRequestServiceInstance, "create")
       .mockResolvedValue(expectedMatchingRequest as any);
 
     const { res } = getMockRes({ locals: {} });
     const req = getMockReq({ body: completedMatchingRequestInput });
 
     const controller = new MatchingRequestController(
-      mockServiceInstance,
+      mockMatchingRequestServiceInstance,
       mockMatchingRequestParserInstance
     );
     await controller.create(req, res);
@@ -102,11 +103,11 @@ describe("Test matching request controller", () => {
     const req = getMockReq({ body: completedMatchingRequestInput });
 
     jest
-      .spyOn(mockServiceInstance, "create")
+      .spyOn(mockMatchingRequestServiceInstance, "create")
       .mockResolvedValue(expectedMatchingRequest as any);
 
     const controller = new MatchingRequestController(
-      mockServiceInstance,
+      mockMatchingRequestServiceInstance,
       mockMatchingRequestParserInstance
     );
     await controller.create(req, res);
@@ -120,7 +121,7 @@ describe("Test matching request controller", () => {
     const req = getMockReq({});
 
     const controller = new MatchingRequestController(
-      mockServiceInstance,
+      mockMatchingRequestServiceInstance,
       mockMatchingRequestParserInstance
     );
 
