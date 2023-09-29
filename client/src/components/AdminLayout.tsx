@@ -1,10 +1,8 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Bars3Icon, MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import {
-  ChartBarSquareIcon,
   Cog6ToothIcon,
   FolderIcon,
-  GlobeAltIcon,
   ServerIcon,
   SignalIcon,
   XMarkIcon,
@@ -15,17 +13,10 @@ import { Outlet } from "react-router-dom";
 import classNames from "../util/ClassNames";
 
 const navigation = [
-  { name: "Projects", href: "#", icon: FolderIcon, current: false },
-  { name: "Deployments", href: "#", icon: ServerIcon, current: true },
+  { name: "Questions", href: "#", icon: FolderIcon, current: false },
+  { name: "Users", href: "#", icon: ServerIcon, current: true },
   { name: "Activity", href: "#", icon: SignalIcon, current: false },
-  { name: "Domains", href: "#", icon: GlobeAltIcon, current: false },
-  { name: "Usage", href: "#", icon: ChartBarSquareIcon, current: false },
   { name: "Settings", href: "#", icon: Cog6ToothIcon, current: false },
-];
-const teams = [
-  { id: 1, name: "Planetaria", href: "#", initial: "P", current: false },
-  { id: 2, name: "Protocol", href: "#", initial: "P", current: false },
-  { id: 3, name: "Tailwind Labs", href: "#", initial: "T", current: false },
 ];
 const activityItems = [
   {
@@ -134,31 +125,6 @@ export default function AdminLayout() {
                           ))}
                         </ul>
                       </li>
-                      <li>
-                        <div className="text-xs font-semibold leading-6 text-gray-600 dark:text-gray-400">
-                          Your teams
-                        </div>
-                        <ul className="-mx-2 mt-2 space-y-1">
-                          {teams.map((team) => (
-                            <li key={team.name}>
-                              <a
-                                href={team.href}
-                                className={classNames(
-                                  team.current
-                                    ? "bg-gray-200 dark:bg-gray-800 text-dark dark:text-white"
-                                    : "text-gray-400 hover:text-dark dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-800",
-                                  "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold",
-                                )}
-                              >
-                                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-200 dark:bg-gray-800 text-[0.625rem] font-medium text-gray-400 group-hover:text-dark dark:hover:text-white">
-                                  {team.initial}
-                                </span>
-                                <span className="truncate">{team.name}</span>
-                              </a>
-                            </li>
-                          ))}
-                        </ul>
-                      </li>
                       <li className="-mx-6 mt-auto">
                         <a
                           href="/help-me"
@@ -213,31 +179,6 @@ export default function AdminLayout() {
                           aria-hidden="true"
                         />
                         {item.name}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </li>
-              <li>
-                <div className="text-xs font-semibold leading-6 text-gray-600 dark:text-gray-400">
-                  Your teams
-                </div>
-                <ul className="-mx-2 mt-2 space-y-1">
-                  {teams.map((team) => (
-                    <li key={team.name}>
-                      <a
-                        href={team.href}
-                        className={classNames(
-                          team.current
-                            ? "bg-gray-200 dark:bg-gray-800 text-dark dark:text-white"
-                            : "text-gray-400 hover:text-dark dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-800",
-                          "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold",
-                        )}
-                      >
-                        <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-200 dark:bg-gray-800 text-[0.625rem] font-medium text-gray-400 group-hover:text-dark dark:hover:text-white">
-                          {team.initial}
-                        </span>
-                        <span className="truncate">{team.name}</span>
                       </a>
                     </li>
                   ))}

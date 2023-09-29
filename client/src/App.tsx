@@ -2,6 +2,7 @@ import "./App.css";
 
 import { Route, Routes } from "react-router-dom";
 
+import AdminLayout from "./components/AdminLayout";
 import Layout from "./components/Layout";
 import Profile from "./components/Profile";
 import AdminPage from "./pages/AdminPage";
@@ -10,11 +11,11 @@ import LandingPage from "./pages/LandingPage";
 import MatchPage from "./pages/MatchPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import QuestionPage from "./pages/QuestionPage";
+import QuestionUpdatePage from "./pages/QuestionUpdatePage";
 import RegistrationPage from "./pages/RegistrationPage";
 import SignInPage from "./pages/SignInPage";
 import SignOutPage from "./pages/SignOutPage";
 import SingleQuestionPage from "./pages/SingleQuestionPage";
-import AdminLayout from "./components/AdminLayout";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
         </Route>
         <Route path="/admin" element={<AdminLayout />}>
           <Route path="" element={<AdminPage />} />
+          <Route path="question/:id/update" element={<QuestionUpdatePage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
