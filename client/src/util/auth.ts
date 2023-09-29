@@ -22,13 +22,13 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 export const signInUser = async (email: string, password: string) => {
-  if (!email && !password) return;
+  if (!email && !password) return {};
 
   return signInWithEmailAndPassword(auth, email, password);
 };
 
 export const registerUser = async (email: string, password: string) => {
-  if (!email && !password) return;
+  if (!email && !password) return {};
 
   return createUserWithEmailAndPassword(auth, email, password);
 };

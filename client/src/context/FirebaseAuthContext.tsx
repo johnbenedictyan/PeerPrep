@@ -1,10 +1,17 @@
 import { User } from "firebase/auth";
-import { ReactNode, createContext, useEffect, useState } from "react";
+import {
+  ReactNode,
+  createContext,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { useNavigate } from "react-router-dom";
 import { SignOutUser, userStateListener } from "../util/auth";
 
-interface Props {
-  children?: ReactNode;
+interface AuthProviderProps {
+  children: ReactNode;
 }
 
 export const AuthContext = createContext({
@@ -14,7 +21,7 @@ export const AuthContext = createContext({
   signOut: () => {},
 });
 
-export function AuthProvider({ children }: Props) {
+export function AuthProvider({ children }: AuthProviderProps) {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const navigate = useNavigate();
 
@@ -29,17 +36,20 @@ export function AuthProvider({ children }: Props) {
 
   // As soon as setting the current user to null,
   // the user will be redirected to the home page.
-  const signOut = () => {
+  const signOut = useCallback(() => {
     SignOutUser();
     setCurrentUser(null);
     navigate("/");
-  };
+  }, [setCurrentUser, navigate]);
 
-  const value = {
-    currentUser,
-    setCurrentUser,
-    signOut,
-  };
+  const value = useMemo(
+    () => ({
+      currentUser,
+      setCurrentUser,
+      signOut,
+    }),
+    [currentUser, setCurrentUser, signOut],
+  );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

@@ -43,7 +43,7 @@ function MatchPage() {
       userId: currentUser!.uid,
       difficulty,
     });
-  }, [difficulty]);
+  }, [difficulty, foundMatch, establishedConnection, currentUser]);
 
   const cancelMatch = () => {
     setOpen(false);
@@ -63,7 +63,14 @@ function MatchPage() {
       beginCollaboration();
       navigate("/questions/1?lang=javascript");
     }
-  }, [foundMatch, matchedUserId, matchingId]);
+  }, [
+    foundMatch,
+    matchedUserId,
+    matchingId,
+    currentUser,
+    beginCollaboration,
+    navigate,
+  ]);
 
   return (
     <div className="space-y-16 py-16 xl:space-y-20">

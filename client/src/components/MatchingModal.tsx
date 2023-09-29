@@ -7,9 +7,9 @@ import {
 } from "@heroicons/react/24/outline";
 import { Fragment, useContext } from "react";
 
-import classNames from "../util/ClassNames";
-import { titleCase } from "../util/titleCase";
 import { MatchingContext } from "../context/MatchingContext";
+import classNames from "../util/ClassNames";
+import titleCase from "../util/titleCase";
 
 interface IModalProps {
   difficulty: string;
@@ -21,7 +21,8 @@ interface IModalProps {
   matchSuccess: boolean;
   cancelMatch: () => void;
 }
-const MatchingModal: React.FC<IModalProps> = ({
+
+function MatchingModal({
   difficulty,
   open,
   setOpen,
@@ -30,7 +31,7 @@ const MatchingModal: React.FC<IModalProps> = ({
   matchLoading,
   matchSuccess,
   cancelMatch,
-}) => {
+}: IModalProps) {
   const { matchedUserId } = useContext(MatchingContext)!;
 
   return (
@@ -213,6 +214,6 @@ const MatchingModal: React.FC<IModalProps> = ({
       </Dialog>
     </Transition.Root>
   );
-};
+}
 
 export default MatchingModal;

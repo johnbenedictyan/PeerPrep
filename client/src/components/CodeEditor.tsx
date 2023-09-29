@@ -1,7 +1,6 @@
 import { langs } from "@uiw/codemirror-extensions-langs";
 import CodeMirror, { Extension, ViewUpdate } from "@uiw/react-codemirror";
 import { useCallback, useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 import { AuthContext } from "../context/FirebaseAuthContext";
 import { MatchingContext } from "../context/MatchingContext";
@@ -43,12 +42,12 @@ function CodeEditor({ selectedLanguage }: ICodeEditorProps) {
     if (socketCode === "") return;
     if (socketCode === currentCode) return;
     setCurrentCode(socketCode);
-  }, [socketCode]);
+  }, [socketCode, currentUser, currentCode]);
 
   useEffect(() => {
     if (!currentUser) return;
     changeCode(currentCode);
-  }, [currentCode]);
+  }, [currentCode, changeCode, currentUser]);
 
   return (
     <div>

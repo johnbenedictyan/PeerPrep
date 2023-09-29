@@ -1,4 +1,4 @@
-import { createContext, useContext } from "react";
+import { useContext } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import Chat from "../components/Chat";
@@ -7,7 +7,7 @@ import Question, { IQuestion } from "../components/Question";
 import VideoCall from "../components/VideoCall";
 import { AuthContext } from "../context/FirebaseAuthContext";
 import { MatchingContext } from "../context/MatchingContext";
-import { QuestionLanguageContext } from "../context/QuestionLanguageContext";
+import QuestionLanguageContext from "../context/QuestionLanguageContext";
 
 export default function SingleQuestionPage() {
   const { matchedUserId, matchingId, cancelCollaboration } =

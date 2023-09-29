@@ -16,7 +16,12 @@ class MatchingController extends GenericController {
   }
 
   public async cancelMatchingRequest(data: ICancelMatchingRequest) {
-    console.log("cancelMatchingRequest");
+    try {
+      return await this.post("matchingRequest/cancel", data);
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
   }
 
   public async createMatchingRequest(data: ICreateMatchingRequest) {
@@ -24,15 +29,8 @@ class MatchingController extends GenericController {
       return await this.post("matchingRequest", data);
     } catch (error) {
       console.error(error);
+      return null;
     }
-  }
-
-  public async successfulMatching() {
-    console.log("successfulMatching");
-  }
-
-  public async unsuccessfulMatching() {
-    console.log("unsuccessfulMatching");
   }
 }
 

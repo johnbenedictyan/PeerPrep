@@ -1,11 +1,11 @@
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CodeEditor from "./CodeEditor";
 import { MatchingContext } from "../context/MatchingContext";
 import QuestionLanguageContext from "../context/QuestionLanguageContext";
 
 function CodingSpace() {
-  const languageOptions = ["javascript", "python"];
+  const languageOptions = useMemo(() => ["javascript", "python"], []);
 
   const selectedLanguage = useContext(QuestionLanguageContext);
   const { socketLanguage, changeLanguage } = useContext(MatchingContext);
@@ -14,20 +14,23 @@ function CodingSpace() {
   );
   const navigate = useNavigate();
 
-  const handleLanguageChange = (language: string) => {
-    navigate(`/questions/1?lang=${language}`);
-  };
+  const handleLanguageChange = useCallback(
+    (lang: string) => {
+      navigate(`/questions/1?lang=${lang}`);
+    },
+    [navigate],
+  );
 
   useEffect(() => {
     setLanguage(selectedLanguage || languageOptions[0]);
     changeLanguage(selectedLanguage || languageOptions[0]);
-  }, [selectedLanguage]);
+  }, [selectedLanguage, changeLanguage, languageOptions]);
 
   useEffect(() => {
     if (socketLanguage === "") return;
     if (socketLanguage === language) return;
     handleLanguageChange(socketLanguage);
-  }, [socketLanguage]);
+  }, [socketLanguage, language, handleLanguageChange]);
 
   return (
     <div>
@@ -49,8 +52,8 @@ function CodingSpace() {
             value={language}
             onChange={(e) => handleLanguageChange(e.target.value)}
           >
-            {languageOptions.map((lang, index) => (
-              <option key={index}>{lang}</option>
+            {languageOptions.map((lang, _index) => (
+              <option key={`lang-opt-${lang}`}>{lang}</option>
             ))}
           </select>
         </div>

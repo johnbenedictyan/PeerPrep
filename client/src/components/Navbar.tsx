@@ -5,7 +5,7 @@ import {
   UserCircleIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { Fragment, useContext, useEffect } from "react";
+import { Fragment, useContext, useEffect, useRef } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../context/FirebaseAuthContext";
 
@@ -21,11 +21,11 @@ function classNames(...classes: string[]) {
 }
 
 function Navbar() {
-  let navigation = [
+  const navigation = useRef([
     { name: "Dashboard", href: "/dashboard", current: false },
     { name: "Questions", href: "/questions", current: false },
     { name: "Match", href: "/match", current: false },
-  ];
+  ]);
   const userNavigationLoggedIn = [
     { name: "Your Profile", href: "/profile" },
     { name: "Settings", href: "/settings" },
@@ -35,17 +35,18 @@ function Navbar() {
 
   useEffect(() => {
     const currentPath = window.location.pathname;
-    navigation = navigation.map((item) => {
-      if (item.href === currentPath) {
-        item.current = true;
+    navigation.current = navigation.current.map((item) => {
+      const curr = item;
+      if (curr.href === currentPath) {
+        curr.current = true;
       } else {
-        item.current = false;
+        curr.current = false;
       }
-      return item;
+      return curr;
     });
   }, []);
 
-  const { currentUser, signOut } = useContext(AuthContext);
+  const { currentUser } = useContext(AuthContext);
 
   return (
     <Disclosure as="nav" className="bg-white shadow-sm">
@@ -69,11 +70,11 @@ function Navbar() {
                   </Link>
                 </div>
                 <div className="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
-                  {navigation.map((item) => (
+                  {navigation.current.map((item) => (
                     <NavLink
                       key={item.name}
                       to={item.href}
-                      className={({ isActive, isPending }) =>
+                      className={({ isActive }) =>
                         classNames(
                           isActive
                             ? "border-indigo-500 text-gray-900"
