@@ -190,7 +190,7 @@ function Navbar() {
 
           <Disclosure.Panel className="sm:hidden">
             <div className="space-y-1 pb-3 pt-2">
-              {navigation.map((item) => (
+              {navigation.current.map((item) => (
                 <Disclosure.Button
                   key={item.name}
                   className={classNames(

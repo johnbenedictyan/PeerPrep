@@ -18,9 +18,11 @@
     "react-router-dom": "^6.15.0",
     "react-scripts": "5.0.1",
     "socket.io-client": "^4.7.2",
+    "source-map-explorer": "^2.5.3",
     "web-vitals": "^2.1.0"
   },
   "scripts": {
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -41,6 +43,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/forms": "^0.5.5",
     "@tailwindcss/typography": "^0.5.9",
