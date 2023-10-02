@@ -49,7 +49,7 @@ function Navbar() {
   const { currentUser } = useContext(AuthContext);
 
   return (
-    <Disclosure as="nav" className="bg-white shadow-sm">
+    <Disclosure as="nav" className="bg-gray-50 dark:bg-gray-950 shadow-sm">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-9xl px-4 sm:px-6 lg:px-8">
@@ -77,8 +77,8 @@ function Navbar() {
                       className={({ isActive }) =>
                         classNames(
                           isActive
-                            ? "border-indigo-500 text-gray-900"
-                            : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700",
+                            ? "border-indigo-500 text-gray-900 dark:text-gray-100"
+                            : "border-transparent text-gray-500 dark:text-gray-400 hover:border-gray-300 hover:text-gray-700 dark:hover:border-gray-700 dark:hover:text-gray-300",
                           "inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium",
                         )
                       }
@@ -89,7 +89,7 @@ function Navbar() {
                 </div>
               </div>
               <div className="inline-flex items-center px-1 pt-1 text-sm font-medium">
-                <p className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700">
+                <p className="border-transparent text-gray-500 dark:text-gray-300 hover:border-gray-300 hover:text-gray-700">
                   {currentUser !== null
                     ? currentUser.email
                     : "No user signed in"}
@@ -98,7 +98,7 @@ function Navbar() {
               <div className="hidden sm:ml-6 sm:flex sm:items-center">
                 <button
                   type="button"
-                  className="relative rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  className="relative rounded-full bg-gray-50 dark:bg-gray-950 p-1 text-gray-400 dark:text-gray-600 hover:text-gray-500 dark:hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                 >
                   <span className="absolute -inset-1.5" />
                   <span className="sr-only">View notifications</span>
@@ -110,7 +110,7 @@ function Navbar() {
                   <div>
                     <Menu.Button
                       type="button"
-                      className="relative flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                      className="relative flex rounded-full bg-gray-50 dark:bg-gray-950 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                     >
                       <span className="absolute -inset-1.5" />
                       <span className="sr-only">Open user menu</span>
@@ -134,7 +134,7 @@ function Navbar() {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                    <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-gray-50 dark:bg-gray-950 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                       {currentUser
                         ? userNavigationLoggedIn.map((item) => (
                             <Menu.Item key={item.name}>
@@ -142,8 +142,8 @@ function Navbar() {
                                 <a
                                   href={item.href}
                                   className={classNames(
-                                    active ? "bg-gray-100" : "",
-                                    "block px-4 py-2 text-sm text-gray-700",
+                                    active ? "bg-gray-100 dark:bg-gray-900" : "",
+                                    "block px-4 py-2 text-sm text-gray-700 dark:text-gray-300",
                                   )}
                                 >
                                   {item.name}
@@ -157,8 +157,8 @@ function Navbar() {
                                 <a
                                   href={item.href}
                                   className={classNames(
-                                    active ? "bg-gray-100" : "",
-                                    "block px-4 py-2 text-sm text-gray-700",
+                                    active ? "bg-gray-100 dark:bg-gray-900" : "",
+                                    "block px-4 py-2 text-sm text-gray-700 dark:text-gray-300",
                                   )}
                                 >
                                   {item.name}
@@ -174,7 +174,7 @@ function Navbar() {
                 {/* Mobile menu button */}
                 <Disclosure.Button
                   type="button"
-                  className="relative inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  className="relative inline-flex items-center justify-center rounded-md bg-gray-50 dark:bg-gray-950 p-2 text-gray-400 dark:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-900 hover:text-gray-500 dark:hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                 >
                   <span className="absolute -inset-0.5" />
                   <span className="sr-only">Open main menu</span>
@@ -195,8 +195,8 @@ function Navbar() {
                   key={item.name}
                   className={classNames(
                     item.current
-                      ? "border-indigo-500 bg-indigo-50 text-indigo-700"
-                      : "border-transparent text-gray-600 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800",
+                      ? "border-indigo-500 bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300"
+                      : "border-transparent text-gray-600 dark:text-gray-400 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800 dark:hover:border-gray-700 dark:hover:bg-gray-950 dark:hover:text-gray-200",
                     "block border-l-4 py-2 pl-3 pr-4 text-base font-medium",
                   )}
                   aria-current={item.current ? "page" : undefined}
@@ -222,13 +222,13 @@ function Navbar() {
                   <div className="text-base font-medium text-gray-800">
                     {user.name}
                   </div>
-                  <div className="text-sm font-medium text-gray-500">
+                  <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
                     {user.email}
                   </div>
                 </div>
                 <button
                   type="button"
-                  className="relative ml-auto flex-shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  className="relative ml-auto flex-shrink-0 rounded-full bg-gray-50 dark:bg-gray-950 p-1 text-gray-400 dark:text-gray-600 hover:text-gray-500 dark:hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                 >
                   <span className="absolute -inset-1.5" />
                   <span className="sr-only">View notifications</span>
@@ -242,7 +242,7 @@ function Navbar() {
                         key={item.name}
                         as="a"
                         href={item.href}
-                        className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
+                        className="block px-4 py-2 text-base font-medium text-gray-500 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-900 hover:text-gray-800 dark:hover:text-gray-200"
                       >
                         {item.name}
                       </Disclosure.Button>
@@ -252,7 +252,7 @@ function Navbar() {
                         key={item.name}
                         as="a"
                         href={item.href}
-                        className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
+                        className="block px-4 py-2 text-base font-medium text-gray-500 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-900 hover:text-gray-800 dark:hover:text-gray-200"
                       >
                         {item.name}
                       </Disclosure.Button>
