@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 
 import Chat from "../components/Chat";
 import CodingSpace from "../components/CodingSpace";
+import PageContainer from "../components/Container/Page";
 import Question, { IQuestion } from "../components/Question";
 import VideoCall from "../components/VideoCall";
 import { AuthContext } from "../context/FirebaseAuthContext";
@@ -61,104 +62,73 @@ export default function SingleQuestionPage() {
   };
 
   return (
-    <>
-      {/*
-        This example requires updating your template:
+    <PageContainer>
+      <div className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8 xl:grid-cols-3 xl:gap-x-12">
+        {/* Product info */}
+        <div className="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0 xl:col-span-2">
+          {currentUser && (
+            <QuestionLanguageContext.Provider value={selectedLanguage}>
+              <Question question={question} />
+              <CodingSpace />
+            </QuestionLanguageContext.Provider>
+          )}
+        </div>
 
-        ```
-        <html class="h-full bg-gray-100">
-        <body class="h-full">
-        ```
-      */}
-      <div className="min-h-full">
-        <div className="py-0">
-          {/* <header>
-                        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                            <h1 className="text-3xl font-bold leading-tight tracking-tight text-gray-900">Chat</h1>
-                        </div>
-                    </header> */}
-          <main>
-            <div className="mx-auto max-w-9xl sm:px-6 lg:px-8">
-              <div className="bg-white">
-                <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl xl:max-w-9xl lg:px-8">
-                  <div className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8 xl:grid-cols-3 xl:gap-x-12">
-                    {/* Product info */}
-                    <div className="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0 xl:col-span-2">
-                      {currentUser && (
-                        <QuestionLanguageContext.Provider
-                          value={selectedLanguage}
-                        >
-                          <Question question={question} />
-                          <CodingSpace />
-                        </QuestionLanguageContext.Provider>
-                      )}
-                    </div>
-
-                    {/* Image gallery */}
-                    <div className="flex flex-col">
-                      <div className="flex mb-4">
-                        <div className="mr-4 flex-shrink-0">
-                          <svg
-                            className="h-16 w-16 border border-gray-300 bg-white text-gray-300 rounded-full"
-                            preserveAspectRatio="none"
-                            stroke="currentColor"
-                            fill="none"
-                            viewBox="0 0 200 200"
-                            aria-hidden="true"
-                          >
-                            <path
-                              vectorEffect="non-scaling-stroke"
-                              strokeWidth={1}
-                              d="M0 0l200 200M0 200L200 0"
-                            />
-                          </svg>
-                        </div>
-                        <div className="flex flex-col">
-                          <div className="flex">
-                            {matchedUserId === "" ? (
-                              <div className="animate-pulse h-5 bg-slate-700 rounded col-span-3" />
-                            ) : (
-                              <h4 className="text-lg font-bold">
-                                {matchedUserId}
-                              </h4>
-                            )}
-
-                            <p>Current Match</p>
-                          </div>
-                          <div className="flex">
-                            {matchingId === "" ? (
-                              <div className="animate-pulse h-5 bg-slate-700 rounded col-span-3" />
-                            ) : (
-                              <h4 className="text-lg font-bold">
-                                {matchingId}
-                              </h4>
-                            )}
-
-                            <p className="col-span-2 mt-1">Match Id</p>
-                          </div>
-                          {matchedUserId && matchingId && (
-                            <div className="flex">
-                              <button
-                                type="button"
-                                className="rounded-md bg-red-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
-                                onClick={handleCancelCollaboration}
-                              >
-                                Cancel Match
-                              </button>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                      <VideoCall />
-                      <Chat />
-                    </div>
-                  </div>
-                </div>
-              </div>
+        {/* Image gallery */}
+        <div className="flex flex-col">
+          <div className="flex mb-4">
+            <div className="mr-4 flex-shrink-0">
+              <svg
+                className="h-16 w-16 border border-gray-300 bg-white text-gray-300 rounded-full"
+                preserveAspectRatio="none"
+                stroke="currentColor"
+                fill="none"
+                viewBox="0 0 200 200"
+                aria-hidden="true"
+              >
+                <path
+                  vectorEffect="non-scaling-stroke"
+                  strokeWidth={1}
+                  d="M0 0l200 200M0 200L200 0"
+                />
+              </svg>
             </div>
-          </main>
+            <div className="flex flex-col">
+              <div className="flex">
+                {matchedUserId === "" ? (
+                  <div className="animate-pulse h-5 bg-slate-700 rounded col-span-3" />
+                ) : (
+                  <h4 className="text-lg font-bold">{matchedUserId}</h4>
+                )}
+
+                <p>Current Match</p>
+              </div>
+              <div className="flex">
+                {matchingId === "" ? (
+                  <div className="animate-pulse h-5 bg-slate-700 rounded col-span-3" />
+                ) : (
+                  <h4 className="text-lg font-bold">{matchingId}</h4>
+                )}
+
+                <p className="col-span-2 mt-1">Match Id</p>
+              </div>
+              {matchedUserId && matchingId && (
+                <div className="flex">
+                  <button
+                    type="button"
+                    className="rounded-md bg-red-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+                    onClick={handleCancelCollaboration}
+                  >
+                    Cancel Match
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+          <VideoCall />
+          <Chat />
         </div>
       </div>
-    </>
+    </PageContainer>
   );
 }

@@ -12,7 +12,7 @@ interface ICancelMatchingRequest {
 
 class MatchingController extends GenericController {
   constructor() {
-    super("http://localhost:5002", "api");
+    super("https://matching-service-qzxsy455sq-as.a.run.app", "api");
   }
 
   public async cancelMatchingRequest(data: ICancelMatchingRequest) {

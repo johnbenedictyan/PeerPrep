@@ -8,6 +8,7 @@ import App from "./App";
 import { AuthProvider } from "./context/FirebaseAuthContext";
 import { MatchingProvider } from "./context/MatchingContext";
 import reportWebVitals from "./reportWebVitals";
+import { DarkModeProvider } from "./context/DarkModeContext";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement,
@@ -18,7 +19,9 @@ root.render(
     <BrowserRouter>
       <AuthProvider>
         <MatchingProvider>
-          <App />
+          <DarkModeProvider>
+            <App />
+          </DarkModeProvider>
         </MatchingProvider>
       </AuthProvider>
     </BrowserRouter>
