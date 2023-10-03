@@ -26,10 +26,10 @@ function Footer() {
     ],
   };
   return (
-    <div className="mx-auto mt-16 max-w-7xl px-6 lg:px-8">
+    <div className="mx-auto mt-8 max-w-7xl px-6 lg:px-8">
       <footer
         aria-labelledby="footer-heading"
-        className="relative border-t border-gray-900/10 pt-12 sm:pt-16"
+        className="relative border-t border-gray-900/10 dark:border-gray-100/10 py-12 sm:py-16"
       >
         <h2 id="footer-heading" className="sr-only">
           Footer
@@ -43,7 +43,7 @@ function Footer() {
           <div className="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
             <div className="md:grid md:grid-cols-2 md:gap-8">
               <div>
-                <h3 className="text-sm font-semibold leading-6 text-gray-900">
+                <h3 className="text-sm font-semibold leading-6 text-gray-900 dark:text-gray-100">
                   Solutions
                 </h3>
                 <ul className="mt-6 space-y-4">
@@ -51,7 +51,7 @@ function Footer() {
                     <li key={item.name}>
                       <a
                         href={item.href}
-                        className="text-sm leading-6 text-gray-600 hover:text-gray-900"
+                        className="text-sm leading-6 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-gray-100"
                       >
                         {item.name}
                       </a>
@@ -60,7 +60,7 @@ function Footer() {
                 </ul>
               </div>
               <div className="mt-10 md:mt-0">
-                <h3 className="text-sm font-semibold leading-6 text-gray-900">
+                <h3 className="text-sm font-semibold leading-6 text-gray-900 dark:text-gray-100">
                   Support
                 </h3>
                 <ul className="mt-6 space-y-4">
@@ -68,7 +68,7 @@ function Footer() {
                     <li key={item.name}>
                       <a
                         href={item.href}
-                        className="text-sm leading-6 text-gray-600 hover:text-gray-900"
+                        className="text-sm leading-6 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-gray-100"
                       >
                         {item.name}
                       </a>
@@ -79,7 +79,7 @@ function Footer() {
             </div>
             <div className="md:grid md:grid-cols-2 md:gap-8">
               <div>
-                <h3 className="text-sm font-semibold leading-6 text-gray-900">
+                <h3 className="text-sm font-semibold leading-6 text-gray-900 dark:text-gray-100">
                   Company
                 </h3>
                 <ul className="mt-6 space-y-4">
@@ -87,7 +87,7 @@ function Footer() {
                     <li key={item.name}>
                       <a
                         href={item.href}
-                        className="text-sm leading-6 text-gray-600 hover:text-gray-900"
+                        className="text-sm leading-6 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-gray-100"
                       >
                         {item.name}
                       </a>
@@ -96,7 +96,7 @@ function Footer() {
                 </ul>
               </div>
               <div className="mt-10 md:mt-0">
-                <h3 className="text-sm font-semibold leading-6 text-gray-900">
+                <h3 className="text-sm font-semibold leading-6 text-gray-900 dark:text-gray-100">
                   Legal
                 </h3>
                 <ul className="mt-6 space-y-4">
@@ -104,7 +104,7 @@ function Footer() {
                     <li key={item.name}>
                       <a
                         href={item.href}
-                        className="text-sm leading-6 text-gray-600 hover:text-gray-900"
+                        className="text-sm leading-6 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-gray-100"
                       >
                         {item.name}
                       </a>

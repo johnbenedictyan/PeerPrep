@@ -306,10 +306,10 @@ function QuestionPage() {
           <div className="mx-auto max-w-9xl sm:px-6 lg:px-8">
             <div className="sm:flex sm:items-center">
               <div className="sm:flex-auto">
-                <h1 className="text-base font-semibold leading-6 text-gray-900">
+                <h1 className="text-base font-semibold leading-6 text-gray-900 dark:text-gray-100">
                   Questions
                 </h1>
-                <p className="mt-2 text-sm text-gray-700">
+                <p className="mt-2 text-sm text-gray-700 dark:text-gray-300">
                   A list of all Questions
                 </p>
               </div>
@@ -330,11 +330,11 @@ function QuestionPage() {
                       <tr>
                         <th
                           scope="col"
-                          className="px-3 py-3.5 text-left text-xs font-medium uppercase tracking-wide text-gray-500"
+                          className="px-3 py-3.5 text-left text-xs font-medium uppercase tracking-wide text-gray-500 dark:text-gray-400"
                         >
                           <button type="button" className="group inline-flex">
                             Status
-                            <span className="ml-2 flex-none rounded bg-gray-100 text-gray-900 group-hover:bg-gray-200">
+                            <span className="ml-2 flex-none rounded bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 group-hover:bg-gray-200 dark:group-hover:bg-gray-800">
                               {sortByStatus === SortBy.ASC ? (
                                 <ChevronUpIcon
                                   className="h-4 w-4"
@@ -353,11 +353,11 @@ function QuestionPage() {
                         </th>
                         <th
                           scope="col"
-                          className="px-3 py-3.5 text-left text-xs font-medium uppercase tracking-wide text-gray-500"
+                          className="px-3 py-3.5 text-left text-xs font-medium uppercase tracking-wide text-gray-500 dark:text-gray-400"
                         >
                           <button type="button" className="group inline-flex">
                             Title
-                            <span className="ml-2 flex-none rounded bg-gray-100 text-gray-900 group-hover:bg-gray-200">
+                            <span className="ml-2 flex-none rounded bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 group-hover:bg-gray-200 dark:group-hover:bg-gray-800">
                               {sortByTitle === SortBy.ASC ? (
                                 <ChevronUpIcon
                                   className="h-4 w-4"
@@ -376,11 +376,11 @@ function QuestionPage() {
                         </th>
                         <th
                           scope="col"
-                          className="px-3 py-3.5 text-left text-xs font-medium uppercase tracking-wide text-gray-500"
+                          className="px-3 py-3.5 text-left text-xs font-medium uppercase tracking-wide text-gray-500 dark:text-gray-400"
                         >
                           <button type="button" className="group inline-flex">
                             Difficulty
-                            <span className="ml-2 flex-none rounded bg-gray-100 text-gray-900 group-hover:bg-gray-200">
+                            <span className="ml-2 flex-none rounded bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 group-hover:bg-gray-200 dark:group-hover:bg-gray-800">
                               {sortByDifficulty === SortBy.ASC ? (
                                 <ChevronUpIcon
                                   className="h-4 w-4"
@@ -403,7 +403,7 @@ function QuestionPage() {
                         </th>
                         <th
                           scope="col"
-                          className="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500"
+                          className="px-3 py-3 text-left text-xs font-medium tracking-wide text-gray-500 dark:text-gray-400"
                         >
                           Tags
                         </th>
@@ -415,7 +415,7 @@ function QuestionPage() {
                         </th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-gray-200 bg-white">
+                    <tbody className="divide-y divide-gray-200 bg-gray-100 dark:bg-gray-900">
                       {questions
                         .slice(
                           pageNumber * PAGINATION_SIZE,
@@ -423,18 +423,18 @@ function QuestionPage() {
                         )
                         .map((question) => (
                           <tr key={question.id}>
-                            <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
+                            <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-gray-100 sm:pl-0">
                               Not Done
                             </td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-400">
                               {question.title}
                             </td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-400">
                               {question.difficulty}
                             </td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-400">
                               {question.tags.map((tag) => (
-                                <span className="inline-flex items-center rounded-full bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
+                                <span className="inline-flex items-center rounded-full bg-gray-50 dark:bg-gray-950 px-2 py-1 text-xs font-medium text-gray-600 dark:text-gray-400 ring-1 ring-inset ring-gray-500/10">
                                   {tag}
                                 </span>
                               ))}
@@ -442,7 +442,7 @@ function QuestionPage() {
                             <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
                               <Link
                                 to={`${question.id}`}
-                                className="text-indigo-600 hover:text-indigo-900"
+                                className="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-100"
                               >
                                 Attempt
                               </Link>
@@ -455,11 +455,11 @@ function QuestionPage() {
               </div>
             </div>
             <nav
-              className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6"
+              className="flex items-center justify-between border-t border-gray-200 dark:border-gray-800 bg-gray-100 dark:bg-gray-900 px-4 py-3 sm:px-6"
               aria-label="Pagination"
             >
               <div className="hidden sm:block">
-                <p className="text-sm text-gray-700">
+                <p className="text-sm text-gray-700 dark:text-gray-300">
                   Showing{" "}
                   <span className="font-medium">
                     {pageNumber * PAGINATION_SIZE + 1}
@@ -481,7 +481,7 @@ function QuestionPage() {
                     setPageNumber(pageNumber - 1 > 0 ? pageNumber - 1 : 0)
                   }
                   disabled={pageNumber === 0}
-                  className="relative inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:outline-offset-0"
+                  className="relative inline-flex items-center rounded-md bg-gray-100 dark:bg-gray-900 px-3 py-2 text-sm font-semibold text-gray-900 dark:text-gray-100 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 dark:hover:bg-gray-950 focus-visible:outline-offset-0"
                 >
                   Previous
                 </button>
@@ -495,7 +495,7 @@ function QuestionPage() {
                     )
                   }
                   disabled={pageNumber === maxPageNumber}
-                  className="relative ml-3 inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:outline-offset-0"
+                  className="relative ml-3 inline-flex items-center rounded-md bg-gray-100 dark:bg-gray-900 px-3 py-2 text-sm font-semibold text-gray-900 dark:text-gray-100 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 dark:hover:bg-gray-950 focus-visible:outline-offset-0"
                 >
                   Next
                 </button>
