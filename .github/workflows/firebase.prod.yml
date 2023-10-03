@@ -17,6 +17,7 @@ jobs:
         working-directory: ./client
         run: yarn install
       - name: Build
+        working-directory: ./client
         run: yarn run build
       - name: Archive Production Artifact
         uses: actions/upload-artifact@master
