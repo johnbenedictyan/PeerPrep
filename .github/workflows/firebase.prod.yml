@@ -1,8 +1,10 @@
 name: Build and Deploy Firebase App (Production)
 on:
   push:
-    branches:
-      - master
+    push:
+      branches: ["main"]
+    pull_request:
+      branches: ["main"]
 
 jobs:
   build:
