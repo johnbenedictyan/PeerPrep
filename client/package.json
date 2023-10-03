@@ -27,10 +27,11 @@
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "npx playwright test",
+    "test --ui": "npx playwright test --ui",
     "eject": "react-scripts eject",
     "lint": "eslint ./src --ext ts,tsx",
-    "format": "prettier --write ./src"
+    "format": "prettier --write ./src ./tests ./tests-examples"
   },
   "browserslist": {
     "production": [
@@ -46,6 +47,7 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@playwright/test": "^1.38.1",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/forms": "^0.5.5",
     "@tailwindcss/typography": "^0.5.9",
@@ -58,6 +60,7 @@
     "@types/uuid": "^9.0.2",
     "@typescript-eslint/eslint-plugin": "^5.13.0",
     "@typescript-eslint/parser": "^5.0.0",
+    "dotenv": "^16.3.1",
     "eslint": "^8.50.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.1.0",

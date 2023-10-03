@@ -2,7 +2,7 @@ import { io } from "socket.io-client";
 
 const URL =
   process.env.NODE_ENV === "production"
-    ? "https://localhost:5006"
+    ? "https://socket-service-qzxsy455sq-as.a.run.app"
     : "localhost:5006";
 
 const socket = io(URL, { autoConnect: false });
