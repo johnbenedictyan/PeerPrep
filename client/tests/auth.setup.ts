@@ -16,9 +16,9 @@ setup("authenticate", async ({ page }) => {
   //
   // Sometimes login flow sets cookies in the process of several redirects.
   // Wait for the final URL to ensure that the cookies are actually set.
-  await page.waitForURL("https://cs3219-c0869.web.app/");
+  await page.waitForURL("https://cs3219-c0869.web.app/profile");
   // Alternatively, you can wait until the page reaches a state where all cookies are set.
-  await expect(page.getByText(process.env["test_email"]!)).toBeVisible();
+  await expect(page.getByText(process.env.REACT_APP_TEST_EMAIL!)).toBeVisible();
 
   // End of authentication steps.
 
