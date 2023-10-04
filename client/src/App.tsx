@@ -1,6 +1,17 @@
 import "./App.css";
 
-import { Route, Routes } from "react-router-dom";
+import { wrapUseRoutes } from "@sentry/react";
+import * as Sentry from "@sentry/react";
+import React from "react";
+import {
+  createRoutesFromChildren,
+  matchRoutes,
+  Route,
+  Routes,
+  useLocation,
+  useNavigationType,
+  useRoutes,
+} from "react-router-dom";
 
 import AdminLayout from "./components/AdminLayout";
 import Layout from "./components/Layout";
@@ -17,10 +28,33 @@ import SignInPage from "./pages/SignInPage";
 import SignOutPage from "./pages/SignOutPage";
 import SingleQuestionPage from "./pages/SingleQuestionPage";
 
+Sentry.init({
+  dsn: "https://e21ba66ad7a580aa7874699b6d737245@o1071968.ingest.sentry.io/4505986992832512",
+  integrations: [
+    new Sentry.BrowserTracing({
+      routingInstrumentation: Sentry.reactRouterV6Instrumentation(
+        React.useEffect,
+        useLocation,
+        useNavigationType,
+        createRoutesFromChildren,
+        matchRoutes,
+      ),
+    }),
+    new Sentry.Replay(),
+  ],
+  // Performance Monitoring
+  tracesSampleRate: 1.0, // Capture 100% of the transactions, reduce in production!
+  // Session Replay
+  replaysSessionSampleRate: 0.1, // This sets the sample rate at 10%. You may want to change it to 100% while in development and then sample at a lower rate in production.
+  replaysOnErrorSampleRate: 1.0, // If you're not already sampling the entire session, change the sample rate to 100% when sampling sessions where errors occur.
+});
+
+const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
+
 function App() {
   return (
     <div className="App bg-gray-100 dark:bg-gray-900">
-      <Routes>
+      <SentryRoutes>
         <Route path="/" element={<Layout />}>
           <Route path="" element={<LandingPage />} />
           <Route path="match" element={<MatchPage />} />
@@ -41,7 +75,7 @@ function App() {
           <Route path="question/:id/update" element={<QuestionUpdatePage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
-      </Routes>
+      </SentryRoutes>
     </div>
   );
 }

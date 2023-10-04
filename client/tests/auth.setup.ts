@@ -1,17 +1,17 @@
-import { test as setup, expect } from "@playwright/test";
-import SignInPage from "../src/pages/SignInPage";
+import { expect, test as setup } from "@playwright/test";
 
 const authFile = "playwright/.auth/user.json";
 
 setup("authenticate", async ({ page }) => {
-  console.log(process.env);
   // Perform authentication steps. Replace these actions with your own.
   await page.goto("https://cs3219-c0869.web.app/sign-in");
   await page
-    .getByLabel("Email address")
+    .getByTestId("sign-in-page-email-input")
     .fill(process.env.REACT_APP_TEST_EMAIL!);
-  await page.getByLabel("Password").fill(process.env.REACT_APP_TEST_PASSWORD!);
-  await page.getByRole("button", { name: "sign-in" }).click();
+  await page
+    .getByTestId("sign-in-page-password-input")
+    .fill(process.env.REACT_APP_TEST_PASSWORD!);
+  await page.getByTestId("sign-in-page-sign-in-button").click();
   // Wait until the page receives the cookies.
   //
   // Sometimes login flow sets cookies in the process of several redirects.
