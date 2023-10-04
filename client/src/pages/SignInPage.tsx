@@ -21,7 +21,6 @@ function SignInPage() {
         navigate("/profile");
       }
     } catch (error: any) {
-      console.log("User Sign In Failed", error.message);
       setLoading(false);
     }
   };

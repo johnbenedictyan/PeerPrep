@@ -18,7 +18,7 @@ function RegistrationPage() {
         navigate("/profile");
       }
     } catch (error: any) {
-      console.log("User Sign In Failed", error.message);
+      throw new Error(error);
     }
   };
 

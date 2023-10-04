@@ -19,7 +19,6 @@ class MatchingController extends GenericController {
     try {
       return await this.post("matchingRequest/cancel", data);
     } catch (error) {
-      console.error(error);
       return null;
     }
   }
@@ -28,7 +27,6 @@ class MatchingController extends GenericController {
     try {
       return await this.post("matchingRequest", data);
     } catch (error) {
-      console.error(error);
       return null;
     }
   }

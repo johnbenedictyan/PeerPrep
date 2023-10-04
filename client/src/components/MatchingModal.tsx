@@ -32,7 +32,7 @@ function MatchingModal({
   matchSuccess,
   cancelMatch,
 }: IModalProps) {
-  const { matchedUserId } = useContext(MatchingContext)!;
+  const { matchedUserId } = useContext(MatchingContext);
 
   return (
     <Transition.Root show={open} as={Fragment}>

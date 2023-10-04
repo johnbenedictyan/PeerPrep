@@ -17,7 +17,7 @@ interface AuthProviderProps {
 export const AuthContext = createContext({
   // "User" comes from firebase auth-public.d.ts
   currentUser: {} as User | null,
-  setCurrentUser: (user: User) => {},
+  setCurrentUser: (_user: User) => {},
   signOut: () => {},
 });
 

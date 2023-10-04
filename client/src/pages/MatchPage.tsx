@@ -17,7 +17,7 @@ function MatchPage() {
     matchedUserId,
     matchingId,
     beginCollaboration,
-  } = useContext(MatchingContext)!;
+  } = useContext(MatchingContext);
 
   const [difficulty, setDifficulty] = useState<string>("");
   const [open, setOpen] = useState(false);
@@ -40,15 +40,16 @@ function MatchPage() {
     setOpen(true);
 
     matchingController.current.createMatchingRequest({
-      userId: currentUser!.uid,
+      userId: currentUser.uid,
       difficulty,
     });
   }, [difficulty, foundMatch, establishedConnection, currentUser]);
 
   const cancelMatch = () => {
+    if (!currentUser) return;
     setOpen(false);
     matchingController.current.cancelMatchingRequest({
-      userId: currentUser!.uid,
+      userId: currentUser.uid,
     });
   };
 

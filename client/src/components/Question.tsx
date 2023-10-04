@@ -36,10 +36,11 @@ function Question({ question }: IQuestionProps) {
       <div className="mt-6">
         <h3 className="sr-only">Description</h3>
 
-        <div
-          className="space-y-6 text-base text-gray-700 dark:text-gray-300"
-          dangerouslySetInnerHTML={{ __html: question.description }}
-        />
+        <div className="space-y-6">
+          <p className="text-base text-gray-700 dark:text-gray-300">
+            {question.description}
+          </p>
+        </div>
       </div>
 
       <section aria-labelledby="details-heading" className="mt-12">
@@ -85,11 +86,11 @@ function Question({ question }: IQuestionProps) {
                   <Disclosure.Panel as="div" className="prose prose-sm pb-6">
                     <ul>
                       {detail.items.map((item) => (
-                        <li
-                          key={item}
-                          dangerouslySetInnerHTML={{ __html: item }}
-                          className="text-gray-700 dark:text-gray-300"
-                        />
+                        <li key={item}>
+                          <p className="text-gray-700 dark:text-gray-300">
+                            {item}
+                          </p>
+                        </li>
                       ))}
                     </ul>
                   </Disclosure.Panel>

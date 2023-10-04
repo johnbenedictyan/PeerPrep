@@ -69,6 +69,7 @@
                 "leadingUnderscore": "allow"
             }
         ],
-        "no-nested-ternary": "off"
+        "no-nested-ternary": "off",
+        "@typescript-eslint/no-explicit-any": "off" // This is a temporary fix
     }
 }

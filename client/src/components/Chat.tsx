@@ -29,9 +29,7 @@ function Chat() {
   const [message, setMessage] = React.useState<string>("");
 
   // Send Message using peerjs
-  const sendMessage = () => {
-    console.log(message);
-  };
+  const sendMessage = () => {};
 
   return (
     <div className="border rounded-lg shadow p-5">
@@ -57,10 +55,9 @@ function Chat() {
                 </p>
               </div>
 
-              <div
-                className="prose prose-sm mt-2 max-w-none text-gray-500"
-                dangerouslySetInnerHTML={{ __html: msg.message }}
-              />
+              <div className="mt-2 max-w-none">
+                <p className="prose prose-sm text-gray-500">{msg.message}</p>
+              </div>
             </div>
           </div>
         ))}

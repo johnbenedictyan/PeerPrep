@@ -1,13 +1,12 @@
 import { PhotoIcon, UserCircleIcon } from "@heroicons/react/24/outline";
-import { useEffect } from "react";
 import ComponentContainer from "./Container/Component";
 
-function QuestionForm(id: string) {
-  useEffect(() => {
-    fetch(`http://localhost:8080/questions/${id}`)
-      .then((response) => response.json())
-      .then((data) => console.log(data));
-  }, [id]);
+function QuestionForm(_id: string) {
+  //   useEffect(() => {
+  //     fetch(`http://localhost:8080/questions/${id}`)
+  //       .then((response) => response.json())
+  //       .then((data) => console.log(data));
+  //   }, [id]);
 
   return (
     <ComponentContainer>

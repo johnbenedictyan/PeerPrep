@@ -147,7 +147,8 @@ export function MatchingProvider({ children }: MatchingProviderProps) {
       const valString = JSON.stringify(value);
       const obj = JSON.parse(valString);
       const { userId, requestId, code } = obj;
-      if (userId === currentUser!.uid || requestId !== matchingId) return;
+      if (!currentUser || !matchingId) return;
+      if (userId === currentUser.uid || requestId !== matchingId) return;
       setSocketCode(code);
     },
     [currentUser, matchingId],
@@ -158,7 +159,8 @@ export function MatchingProvider({ children }: MatchingProviderProps) {
       const valString = JSON.stringify(value);
       const obj = JSON.parse(valString);
       const { userId, requestId, language } = obj;
-      if (userId === currentUser!.uid || requestId !== matchingId) return;
+      if (!currentUser || !matchingId) return;
+      if (userId === currentUser.uid || requestId !== matchingId) return;
       setSocketLanguage(language);
     },
     [currentUser, matchingId],
@@ -169,7 +171,8 @@ export function MatchingProvider({ children }: MatchingProviderProps) {
       const valString = JSON.stringify(value);
       const obj = JSON.parse(valString);
       const { userId, requestId } = obj;
-      if (userId === currentUser!.uid || requestId !== matchingId) return;
+      if (!currentUser || !matchingId) return;
+      if (userId === currentUser.uid || requestId !== matchingId) return;
       setMatchedUserId("");
       setMatchingId("");
       navigate("/match");

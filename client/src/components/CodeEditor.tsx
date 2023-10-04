@@ -25,7 +25,6 @@ function CodeEditor({ selectedLanguage }: ICodeEditorProps) {
   }, []);
 
   const handleSubmit = () => {
-    console.log("submitting code");
     setCodeResult("hello world!");
     setCodeSubmitted(true);
   };

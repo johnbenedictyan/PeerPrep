@@ -19,9 +19,7 @@ export function DarkModeProvider({ children }: DarkModeProviderProps) {
     window
       .matchMedia("(prefers-color-scheme: dark)")
       .addEventListener("change", (event) => {
-        console.log(event);
         const colorScheme = event.matches ? "dark" : "light";
-        console.log(colorScheme);
         setIsDarkMode(colorScheme === "dark");
       });
 

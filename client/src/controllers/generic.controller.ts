@@ -21,8 +21,6 @@ class GenericController {
   }
 
   public async post(routePath: string, data: any, headers?: any) {
-    console.log(this.getUri(routePath));
-    console.log(data);
     const response = await fetch(this.getUri(routePath), {
       body: JSON.stringify(data),
       headers: {
@@ -31,10 +29,6 @@ class GenericController {
       },
       method: "POST",
     });
-
-    if (response.status === 400) {
-      console.error(response);
-    }
 
     return response.json();
   }

@@ -1,6 +1,6 @@
 import { Menu, Transition } from "@headlessui/react";
 import { EllipsisHorizontalIcon } from "@heroicons/react/20/solid";
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import { Link } from "react-router-dom";
 
 import classNames from "../util/ClassNames";
@@ -67,7 +67,7 @@ const clients = [
 ];
 
 function DashboardPage() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  //   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <>
