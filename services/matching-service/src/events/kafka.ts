@@ -19,6 +19,8 @@ const prodKafkaConfig: KafkaConfig = {
   },
 };
 
-export const kafka = new Kafka(
+const kafka = new Kafka(
   process.env["NODE_ENV"] === "production" ? prodKafkaConfig : devKafkaConfig,
 );
+
+export default kafka;

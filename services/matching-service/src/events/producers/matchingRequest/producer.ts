@@ -1,6 +1,6 @@
 import { MatchingRequest } from "../../../interfaces/matchingRequest/object";
-import { MATCHING_REQUEST_TOPICS } from "../../topics/matchingRequest/topic";
-import { EventProducer } from "../main.interface";
+import MATCHING_REQUEST_TOPICS from "../../topics/matchingRequest/topic";
+import EventProducer from "../main.interface";
 
 class MatchingRequestProducer extends EventProducer<MatchingRequest> {
   override create = (object: MatchingRequest): void => {

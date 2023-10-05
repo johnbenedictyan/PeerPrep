@@ -11,6 +11,7 @@ class MatchingProducer extends EventProducer<Matching> {
       },
     ]);
   }
+
   override update(object: Matching): void {
     this.sendEvent(MATCHING_TOPICS.CREATE, [
       {
@@ -19,6 +20,7 @@ class MatchingProducer extends EventProducer<Matching> {
       },
     ]);
   }
+
   override delete(object: Matching): void {
     this.sendEvent(MATCHING_TOPICS.CREATE, [
       {

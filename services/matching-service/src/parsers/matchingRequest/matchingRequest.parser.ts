@@ -9,8 +9,6 @@ class MatchingRequestParser
   implements
     Parser<MatchingRequestCreateDTO, MatchingRequestUpdateDTO, MatchingRequest>
 {
-  constructor() {}
-
   public parseCreateInput(
     input: StringInterface<MatchingRequestCreateDTO>,
   ): MatchingRequestCreateDTO {
@@ -20,7 +18,7 @@ class MatchingRequestParser
     if (input.questionId) {
       return {
         userId: input.userId,
-        questionId: parseInt(input.questionId),
+        questionId: parseInt(input.questionId, 10),
         difficulty: input.difficulty,
       };
     }
@@ -34,7 +32,7 @@ class MatchingRequestParser
     if (!id) {
       throw new Error("Invalid input");
     }
-    return parseInt(id);
+    return parseInt(id, 10);
   }
 
   public parseFindOneInput(
@@ -45,13 +43,13 @@ class MatchingRequestParser
     }
     const result: OptionalInterface<MatchingRequest> = {};
     if (input.id) {
-      result.id = parseInt(input.id);
+      result.id = parseInt(input.id, 10);
     }
     if (input.userId) {
       result.userId = input.userId;
     }
     if (input.questionId) {
-      result.questionId = parseInt(input.questionId);
+      result.questionId = parseInt(input.questionId, 10);
     }
     if (input.difficulty) {
       result.difficulty = input.difficulty;
@@ -68,7 +66,7 @@ class MatchingRequestParser
     if (input.questionId) {
       return {
         userId: input.userId,
-        questionId: parseInt(input.questionId),
+        questionId: parseInt(input.questionId, 10),
         difficulty: input.difficulty,
         success: input.success == "true",
       };
@@ -86,7 +84,7 @@ class MatchingRequestParser
       throw new Error("Invalid input");
     }
 
-    return parseInt(id);
+    return parseInt(id, 10);
   }
 }
 

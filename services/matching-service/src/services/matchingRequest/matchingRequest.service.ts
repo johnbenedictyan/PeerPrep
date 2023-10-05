@@ -43,7 +43,7 @@ class MatchingRequestService
     try {
       return await this.prismaClient.matchingRequest.findUnique({
         where: {
-          id: id,
+          id,
         },
       });
     } catch (error) {
@@ -58,14 +58,14 @@ class MatchingRequestService
       const matchingRequest = this.prismaClient.matchingRequest.findFirst({
         where: body,
       });
-      return matchingRequest;
+      return await matchingRequest;
     } catch (error) {
       throw new Error("Failed to find matching request.");
     }
   }
 
   public async findAll(): Promise<MatchingRequest[]> {
-    return await this.prismaClient.matchingRequest.findMany();
+    return this.prismaClient.matchingRequest.findMany();
   }
 
   public async update(
@@ -77,7 +77,7 @@ class MatchingRequestService
     try {
       return await this.prismaClient.matchingRequest.update({
         where: {
-          id: id,
+          id,
         },
         data: body,
       });
@@ -92,7 +92,7 @@ class MatchingRequestService
     try {
       return await this.prismaClient.matchingRequest.delete({
         where: {
-          id: id,
+          id,
         },
       });
     } catch (error) {

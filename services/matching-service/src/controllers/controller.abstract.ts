@@ -3,8 +3,6 @@ import { Result, ValidationError } from "express-validator";
 import httpStatus from "http-status";
 
 abstract class Controller {
-  constructor() {}
-
   protected static handleValidationError(
     res: Response,
     errors: Result<ValidationError>,
@@ -27,7 +25,6 @@ abstract class Controller {
   }
 
   public healthCheck(_req: Request, res: Response) {
-    console.log("Health Check");
     return Controller.handleSuccess(res, { message: "OK" });
   }
 }
