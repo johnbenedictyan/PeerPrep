@@ -11,7 +11,7 @@ class MatchingParser
   constructor() {}
 
   public parseCreateInput(
-    input: StringInterface<MatchingCreateDTO>
+    input: StringInterface<MatchingCreateDTO>,
   ): MatchingCreateDTO {
     if (!input.user1Id || !input.user2Id || !input.requestId) {
       throw new Error("Invalid input");
@@ -31,7 +31,7 @@ class MatchingParser
   }
 
   public parseFindOneInput(
-    input: OptionalInterface<StringInterface<Matching>>
+    input: OptionalInterface<StringInterface<Matching>>,
   ): OptionalInterface<Matching> {
     const parsedInput: OptionalInterface<Matching> = {};
     if (input.id) {
@@ -53,7 +53,7 @@ class MatchingParser
   }
 
   public parseUpdateInput(
-    input: StringInterface<MatchingUpdateDTO>
+    input: StringInterface<MatchingUpdateDTO>,
   ): MatchingUpdateDTO {
     if (!input.user1Id || !input.user2Id || !input.requestId) {
       throw new Error("Invalid input");

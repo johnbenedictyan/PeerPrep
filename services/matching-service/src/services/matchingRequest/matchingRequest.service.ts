@@ -1,10 +1,10 @@
-import { MatchingRequest, PrismaClient } from '@prisma/client';
+import { MatchingRequest, PrismaClient } from "@prisma/client";
 
-import { MatchingRequestCreateDTO } from '../../interfaces/matchingRequest/createDTO';
-import { OptionalMatchingRequest } from '../../interfaces/matchingRequest/object';
-import { MatchingRequestUpdateDTO } from '../../interfaces/matchingRequest/updateDTO';
-import Service from '../service.interface';
-import { EventProducer } from '../../events/producers/main.interface';
+import { MatchingRequestCreateDTO } from "../../interfaces/matchingRequest/createDTO";
+import { OptionalMatchingRequest } from "../../interfaces/matchingRequest/object";
+import { MatchingRequestUpdateDTO } from "../../interfaces/matchingRequest/updateDTO";
+import Service from "../service.interface";
+import { EventProducer } from "../../events/producers/main.interface";
 
 class MatchingRequestService
   implements
@@ -16,11 +16,11 @@ class MatchingRequestService
 {
   constructor(
     private readonly eventProducer: EventProducer<MatchingRequest>,
-    private readonly prismaClient: PrismaClient
+    private readonly prismaClient: PrismaClient,
   ) {}
 
   public async create(
-    body: MatchingRequestCreateDTO
+    body: MatchingRequestCreateDTO,
   ): Promise<MatchingRequest> {
     try {
       const matchingRequest = await this.prismaClient.matchingRequest.create({
@@ -36,7 +36,7 @@ class MatchingRequestService
   }
 
   public async findById(
-    id: number | undefined
+    id: number | undefined,
   ): Promise<MatchingRequest | null> {
     if (!id) throw new Error("No id provided");
 
@@ -52,7 +52,7 @@ class MatchingRequestService
   }
 
   public async findOne(
-    body: OptionalMatchingRequest
+    body: OptionalMatchingRequest,
   ): Promise<MatchingRequest | null> {
     try {
       const matchingRequest = this.prismaClient.matchingRequest.findFirst({
@@ -70,7 +70,7 @@ class MatchingRequestService
 
   public async update(
     id: number | undefined,
-    body: MatchingRequestUpdateDTO
+    body: MatchingRequestUpdateDTO,
   ): Promise<MatchingRequest> {
     if (!id) throw new Error("No id provided");
 

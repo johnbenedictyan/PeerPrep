@@ -10,9 +10,7 @@ class MatchingRequestRouter extends BaseRouter<MatchingRequestController> {
       .route("/")
       .post(checkSchema(createMatchingRequestSchema), this.controller.create);
 
-    this.router
-      .route("/healthCheck")
-      .get(this.controller.healthCheck);
+    this.router.route("/healthCheck").get(this.controller.healthCheck);
 
     return this.router;
   }

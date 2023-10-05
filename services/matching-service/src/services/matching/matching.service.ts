@@ -81,7 +81,7 @@ class MatchingService
   }
 
   public async findMatch(
-    body: MatchingRequest
+    body: MatchingRequest,
   ): Promise<MatchingRequest | null> {
     try {
       let foundMatchRequest;

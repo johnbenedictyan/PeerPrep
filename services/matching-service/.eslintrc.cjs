@@ -10,4 +10,7 @@ module.exports = {
             '@typescript-eslint/no-var-requires': 'off',
         },
     }, ],
+    rules: {
+        "@typescript-eslint/no-explicit-any": "off", //Temp fix for any
+    }
 };

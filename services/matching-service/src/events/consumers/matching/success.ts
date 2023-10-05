@@ -7,7 +7,7 @@ const MatchingRequestSuccess: ConsumerFunction = (message) => {
     const matching: Matching = JSON.parse(message.value.toString());
 
     console.log(
-      `YOU HAVE A FRIEND User: ${matching.user1Id}, it is USER: ${matching.user2Id}`
+      `YOU HAVE A FRIEND User: ${matching.user1Id}, it is USER: ${matching.user2Id}`,
     );
   }
 };

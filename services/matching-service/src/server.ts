@@ -5,7 +5,7 @@ const port = process.env["SERVER_PORT"];
 
 app.listen(port, () => {
   console.log(
-    `⚡️[server]: Matching Service is running at http://localhost:${port}`
+    `⚡️[server]: Matching Service is running at http://localhost:${port}`,
   );
 
   if (process.env["NODE_ENV"] != "test") {

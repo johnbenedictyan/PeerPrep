@@ -26,14 +26,14 @@ const corsOptions = {
 
 // Event Producer
 const matchingRequestEventProducer = new MatchingRequestProducer(
-  kafka.producer()
+  kafka.producer(),
 );
 
 // Services
 const matchingService = new MatchingService(prismaClient);
 const matchingRequestService = new MatchingRequestService(
   matchingRequestEventProducer,
-  prismaClient
+  prismaClient,
 );
 
 // Parsers
@@ -43,11 +43,11 @@ const matchingRequestParser = new MatchingRequestParser();
 // Controllers
 const matchingController = new MatchingController(
   matchingService,
-  matchingParser
+  matchingParser,
 );
 const matchingRequestController = new MatchingRequestController(
   matchingRequestService,
-  matchingRequestParser
+  matchingRequestParser,
 );
 
 // Routers
@@ -55,7 +55,7 @@ const matchingRouter = new MatchingRouter(matchingController, express.Router());
 
 const matchingRequestRouter = new MatchingRequestRouter(
   matchingRequestController,
-  express.Router()
+  express.Router(),
 );
 
 app.use(cors(corsOptions));
@@ -64,7 +64,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(bodyParser.json());
 
-app.use("/api/healthCheck", (_req, res, _next) => {
+app.use("/api/healthCheck", (_req, res) => {
   res.send("OK");
 });
 app.use("/api/matching", matchingRouter.registerRoutes());

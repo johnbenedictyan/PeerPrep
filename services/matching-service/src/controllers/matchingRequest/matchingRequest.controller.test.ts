@@ -20,7 +20,7 @@ const mockRequestService = jest.mocked(MatchingRequestService);
 const mockPrisma = jest.mocked(PrismaClient);
 const mockKafka = jest.mocked(Kafka);
 const mockMatchingRequestEventProducer = jest.mocked(
-  MatchingRequestEventProducer
+  MatchingRequestEventProducer,
 );
 const mockMatchingRequestParser = jest.mocked(MatchingRequestParser);
 
@@ -34,7 +34,7 @@ const mockMatchingRequestParserInstance = new mockMatchingRequestParser();
 const mockPrismaInstance = new mockPrisma();
 const mockMatchingRequestServiceInstance = new mockRequestService(
   mockMatchingRequestEventProducerInstance,
-  mockPrismaInstance
+  mockPrismaInstance,
 );
 
 describe("Test matching request controller", () => {
@@ -49,7 +49,7 @@ describe("Test matching request controller", () => {
 
     const controller = new MatchingRequestController(
       mockMatchingRequestServiceInstance,
-      mockMatchingRequestParserInstance
+      mockMatchingRequestParserInstance,
     );
     controller.healthCheck(req, res);
 
@@ -79,7 +79,7 @@ describe("Test matching request controller", () => {
 
     const controller = new MatchingRequestController(
       mockMatchingRequestServiceInstance,
-      mockMatchingRequestParserInstance
+      mockMatchingRequestParserInstance,
     );
     await controller.create(req, res);
 
@@ -108,7 +108,7 @@ describe("Test matching request controller", () => {
 
     const controller = new MatchingRequestController(
       mockMatchingRequestServiceInstance,
-      mockMatchingRequestParserInstance
+      mockMatchingRequestParserInstance,
     );
     await controller.create(req, res);
 
@@ -122,7 +122,7 @@ describe("Test matching request controller", () => {
 
     const controller = new MatchingRequestController(
       mockMatchingRequestServiceInstance,
-      mockMatchingRequestParserInstance
+      mockMatchingRequestParserInstance,
     );
 
     jest

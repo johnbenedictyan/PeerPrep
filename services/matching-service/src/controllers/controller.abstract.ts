@@ -7,7 +7,7 @@ abstract class Controller {
 
   protected static handleValidationError(
     res: Response,
-    errors: Result<ValidationError>
+    errors: Result<ValidationError>,
   ) {
     return res.status(httpStatus.BAD_REQUEST).json({
       success: false,

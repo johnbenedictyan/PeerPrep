@@ -9,7 +9,7 @@ import CRUDController from "../crudController.interface";
 class MatchingController extends Controller implements CRUDController {
   constructor(
     private readonly service: MatchingService,
-    private readonly parser: MatchingParser
+    private readonly parser: MatchingParser,
   ) {
     super();
   }

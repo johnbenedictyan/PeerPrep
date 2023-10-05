@@ -12,7 +12,7 @@ class MatchingRequestParser
   constructor() {}
 
   public parseCreateInput(
-    input: StringInterface<MatchingRequestCreateDTO>
+    input: StringInterface<MatchingRequestCreateDTO>,
   ): MatchingRequestCreateDTO {
     if (!input.userId || !input.difficulty) {
       throw new Error("Invalid input");
@@ -38,7 +38,7 @@ class MatchingRequestParser
   }
 
   public parseFindOneInput(
-    input: OptionalInterface<StringInterface<MatchingRequest>>
+    input: OptionalInterface<StringInterface<MatchingRequest>>,
   ): OptionalInterface<MatchingRequest> {
     if (!input) {
       throw new Error("Invalid input");
@@ -60,7 +60,7 @@ class MatchingRequestParser
   }
 
   public parseUpdateInput(
-    input: StringInterface<MatchingRequestUpdateDTO>
+    input: StringInterface<MatchingRequestUpdateDTO>,
   ): MatchingRequestUpdateDTO {
     if (!input.userId || !input.difficulty) {
       throw new Error("Invalid input");

@@ -26,7 +26,7 @@ const matchingEventConsumer = async () => {
 
   await consumer.subscribe({
     topics: Array.from(MATCHING_TOPIC_MAPPER.keys()).concat(
-      Array.from(MATCHING_REQUEST_TOPIC_MAPPER.keys())
+      Array.from(MATCHING_REQUEST_TOPIC_MAPPER.keys()),
     ),
   });
 

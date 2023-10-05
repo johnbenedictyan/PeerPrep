@@ -37,7 +37,7 @@ class MatchingRequestProducer extends EventProducer<MatchingRequest> {
         value: JSON.stringify(object),
       },
     ]);
-  }
+  };
 }
 
 export default MatchingRequestProducer;

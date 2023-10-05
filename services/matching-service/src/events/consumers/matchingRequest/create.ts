@@ -11,22 +11,22 @@ import { ConsumerFunction } from "../main.interface";
 
 const matchingEventProducer = new MatchingProducer(kafka.producer());
 const matchingRequestEventProducer = new MatchingRequestProducer(
-  kafka.producer()
+  kafka.producer(),
 );
 const matchingService = new MatchingService(prismaClient);
 const matchingRequestService = new MatchingRequestService(
   matchingRequestEventProducer,
-  prismaClient
+  prismaClient,
 );
 
 const createMatchingRequestConsumer: ConsumerFunction = async (message) => {
   console.log(
-    "WE HAVE RECEIVED A MESSAGE FOR THE CREATION OF A MATCHING REQUEST"
+    "WE HAVE RECEIVED A MESSAGE FOR THE CREATION OF A MATCHING REQUEST",
   );
   if (message.value) {
     // Parse the json message
     const inputMatchingReq: MatchingRequest = JSON.parse(
-      message.value.toString()
+      message.value.toString(),
     );
 
     const matchReqFromDB: MatchingRequest | null =

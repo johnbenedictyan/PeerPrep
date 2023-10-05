@@ -1,4 +1,4 @@
-import { OptionalInterface } from '../../util/optionalInterface';
+import { OptionalInterface } from "../../util/optionalInterface";
 
 export type MatchingRequest = {
   id: number;
@@ -7,6 +7,6 @@ export type MatchingRequest = {
   difficulty: string;
   dateRequested: Date;
   success: boolean;
-}
+};
 
 export type OptionalMatchingRequest = OptionalInterface<MatchingRequest>;

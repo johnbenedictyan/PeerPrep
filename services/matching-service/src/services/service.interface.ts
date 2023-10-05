@@ -1,12 +1,12 @@
 import { OptionalInterface } from "../util/optionalInterface";
 
-interface Service<CreateDTO, UpdateDTO, Object> {
-  create(body: CreateDTO): Promise<Object>;
-  findById(id: number): Promise<Object | null>;
-  findOne(body: OptionalInterface<Object>): Promise<Object | null>;
-  findAll(): Promise<Object[]>;
-  update(id: number, body: UpdateDTO): Promise<Object>;
-  delete(id: number): Promise<Object>;
+interface Service<CreateDTO, UpdateDTO, Obj> {
+  create(body: CreateDTO): Promise<Obj>;
+  findById(id: number): Promise<Obj | null>;
+  findOne(body: OptionalInterface<Obj>): Promise<Obj | null>;
+  findAll(): Promise<Obj[]>;
+  update(id: number, body: UpdateDTO): Promise<Obj>;
+  delete(id: number): Promise<Obj>;
 }
 
 export default Service;
