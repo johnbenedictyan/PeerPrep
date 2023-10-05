@@ -3,7 +3,7 @@ import { EllipsisHorizontalIcon } from "@heroicons/react/20/solid";
 import { Fragment } from "react";
 import { Link } from "react-router-dom";
 
-import classNames from "../util/ClassNames";
+import classNames from "../../util/ClassNames";
 
 const secondaryNavigation = [
   { name: "Last 7 days", href: "#", current: true },

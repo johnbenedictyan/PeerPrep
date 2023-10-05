@@ -1,6 +1,5 @@
 import "./App.css";
 
-import { wrapUseRoutes } from "@sentry/react";
 import * as Sentry from "@sentry/react";
 import React from "react";
 import {
@@ -10,7 +9,6 @@ import {
   Routes,
   useLocation,
   useNavigationType,
-  useRoutes,
 } from "react-router-dom";
 
 import AdminLayout from "./components/AdminLayout";

@@ -6,7 +6,7 @@ import {
   LockClosedIcon,
 } from "@heroicons/react/24/outline";
 
-import classNames from "../util/ClassNames";
+import classNames from "../../util/ClassNames";
 
 const features = [
   {

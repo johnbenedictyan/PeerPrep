@@ -4,7 +4,7 @@ import {
   ChevronRightIcon,
 } from "@heroicons/react/24/outline";
 import { Fragment } from "react";
-import classNames from "../util/ClassNames";
+import classNames from "../../util/ClassNames";
 
 function AdminPage() {
   const statuses = {

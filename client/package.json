@@ -28,11 +28,12 @@
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "npx playwright test",
-    "test --ui": "npx playwright test --ui",
+    "test": "playwright test",
+    "test --ui": "playwright test --ui",
     "eject": "react-scripts eject",
     "lint": "eslint ./src --ext ts,tsx",
-    "format": "prettier --write ./src ./tests ./tests-examples"
+    "format": "prettier --write ./src ./tests ./tests-examples",
+    "test-ct": "playwright test -c playwright-ct.config.ts"
   },
   "browserslist": {
     "production": [
@@ -48,6 +49,7 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@playwright/experimental-ct-react": "^1.38.1",
     "@playwright/test": "^1.38.1",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/forms": "^0.5.5",

@@ -1,14 +1,14 @@
 import { useContext } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
-import Chat from "../components/Chat";
-import CodingSpace from "../components/CodingSpace";
-import PageContainer from "../components/Container/Page";
-import Question, { IQuestion } from "../components/Question";
-import VideoCall from "../components/VideoCall";
-import { AuthContext } from "../context/FirebaseAuthContext";
-import { MatchingContext } from "../context/MatchingContext";
-import QuestionLanguageContext from "../context/QuestionLanguageContext";
+import Chat from "../../components/Chat";
+import CodingSpace from "../../components/CodingSpace";
+import PageContainer from "../../components/Container/Page";
+import Question, { IQuestion } from "../../components/Question";
+import VideoCall from "../../components/VideoCall";
+import { AuthContext } from "../../context/FirebaseAuthContext";
+import { MatchingContext } from "../../context/MatchingContext";
+import QuestionLanguageContext from "../../context/QuestionLanguageContext";
 
 export default function SingleQuestionPage() {
   const { matchedUserId, matchingId, cancelCollaboration } =

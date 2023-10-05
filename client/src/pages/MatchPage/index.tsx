@@ -1,11 +1,11 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import MatchingModal from "../components/MatchingModal";
-import ThreeTier from "../components/ThreeTier";
-import { AuthContext } from "../context/FirebaseAuthContext";
-import { MatchingContext } from "../context/MatchingContext";
-import MatchingController from "../controllers/matching/matching.controller";
+import MatchingModal from "../../components/MatchingModal";
+import ThreeTier from "../../components/ThreeTier";
+import { AuthContext } from "../../context/FirebaseAuthContext";
+import { MatchingContext } from "../../context/MatchingContext";
+import MatchingController from "../../controllers/matching/matching.controller";
 
 function MatchPage() {
   const { currentUser } = useContext(AuthContext);
