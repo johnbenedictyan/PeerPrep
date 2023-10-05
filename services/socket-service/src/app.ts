@@ -41,27 +41,27 @@ io.on("connection", (socket) => {
     console.log(`User:${data.userId} joined Room:${roomId}`);
     io.to(roomId).emit(
       events.get("begin-collaboration")!,
-      `User:${data.userId} joined Room:${roomId}`
+      `User:${data.userId} joined Room:${roomId}`,
     );
   });
 
   socket.on("change-code", (data) => {
     console.log(
-      `Editing Code Matching: ${data.requestId} \t User Id: ${data.userId} \t Code: ${data.code}`
+      `Editing Code Matching: ${data.requestId} \t User Id: ${data.userId} \t Code: ${data.code}`,
     );
     io.to(data.requestId).emit(events.get("change-code")!, data);
   });
 
   socket.on("change-language", (data) => {
     console.log(
-      `Change Language: ${data.requestId} \t User Id: ${data.userId} \t to Language: ${data.language}`
+      `Change Language: ${data.requestId} \t User Id: ${data.userId} \t to Language: ${data.language}`,
     );
     io.to(data.requestId).emit(events.get("change-language")!, data);
   });
 
   socket.on("cancel-collaboration", (data) => {
     console.log(
-      `Cancelling Matching: ${data.requestId} \t User Id: ${data.userId}`
+      `Cancelling Matching: ${data.requestId} \t User Id: ${data.userId}`,
     );
     io.to(data.requestId).emit(events.get("cancel-collaboration")!, data);
   });
@@ -69,7 +69,7 @@ io.on("connection", (socket) => {
 
 server.listen(port, () => {
   console.log(
-    `⚡️[server]: Question Service is running at http://localhost:${port}`
+    `⚡️[server]: Question Service is running at http://localhost:${port}`,
   );
 
   consume().catch((err: any) => {

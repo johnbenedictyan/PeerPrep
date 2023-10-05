@@ -21,6 +21,7 @@ const questionEventConsumer = async () => {
       // here, we just log the message to the standard output
       console.log(message.value ? message.value.toString() : "");
       io.emit(topic, message.value ? message.value.toString() : "");
+      return Promise.resolve();
     },
   });
 };
