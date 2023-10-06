@@ -1,5 +1,5 @@
 import { PhotoIcon, UserCircleIcon } from "@heroicons/react/24/outline";
-import ComponentContainer from "./Container/Component";
+import ComponentContainer from "./Containerasd/Component";
 
 function QuestionForm(_id: string) {
   //   useEffect(() => {

@@ -1,6 +1,6 @@
 import React from "react";
 
-import PageContainer from "../../components/Container/Page";
+import PageContainer from "../../components/Containerasd/Page";
 import Profile from "../../components/Profile";
 
 function ProfilePage() {
