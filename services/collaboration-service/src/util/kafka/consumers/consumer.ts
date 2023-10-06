@@ -1,6 +1,6 @@
 import { EachMessagePayload, KafkaMessage } from "kafkajs";
 import isInEnum from "../../isInEnum";
-import { kafka } from "../kafka";
+import kafka from "../kafka";
 import { COLLABORATION_SERVICE_TOPICS } from "../topics/collaboration";
 
 export type ConsumerFunction = (message: KafkaMessage) => void;

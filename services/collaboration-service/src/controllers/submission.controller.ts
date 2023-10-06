@@ -22,7 +22,7 @@ class SubmissionController {
   }
 
   async getSubmission(req: Request, res: Response) {
-    const parsedId = this.parser.parseId(req.params["id"]);
+    const parsedId = this.parser.parseId(req.params.id);
     const submission: Submission | null = await this.service.getSubmission(
       parsedId
     );
@@ -35,7 +35,7 @@ class SubmissionController {
   }
 
   async updateSubmission(req: Request, res: Response) {
-    const parsedId = this.parser.parseId(req.params["id"]);
+    const parsedId = this.parser.parseId(req.params.id);
     const parsedBody = this.parser.parseUpdateBody(req.body);
     const submission: Submission = await this.service.updateSubmission(
       parsedId,
@@ -45,7 +45,7 @@ class SubmissionController {
   }
 
   async deleteSubmission(req: Request, res: Response) {
-    const parsedId = this.parser.parseId(req.params["id"]);
+    const parsedId = this.parser.parseId(req.params.id);
     const submission: Submission = await this.service.deleteSubmission(
       parsedId
     );

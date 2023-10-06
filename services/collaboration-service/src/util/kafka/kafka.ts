@@ -1,6 +1,8 @@
 import { Kafka } from 'kafkajs'
 
-export const kafka = new Kafka({
+const kafka = new Kafka({
   clientId: 'my-app',
   brokers: ['broker:29092'],
 })
+
+export default kafka

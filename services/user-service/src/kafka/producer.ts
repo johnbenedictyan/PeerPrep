@@ -1,5 +1,5 @@
 import { IUser } from "../interfaces/IUser";
-import { kafka } from "./kafka";
+import kafka from "./kafka";
 import { USER_SERVICE_TOPICS } from "./topics/user";
 
 const producer = kafka.producer();

@@ -1,4 +1,4 @@
-import { kafka } from "./kafka";
+import kafka from "./kafka";
 
 const QUESTION_SUBSCRIBED_TOPICS: string[] = [];
 

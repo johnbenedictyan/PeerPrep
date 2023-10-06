@@ -1,4 +1,4 @@
-import { kafka } from './kafka';
+import kafka from './kafka';
 import { QUESTION_SERVICE_TOPICS } from './topics/question';
 
 const USER_SUBSCRIBED_TOPICS: string[] = [

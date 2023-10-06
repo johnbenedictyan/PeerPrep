@@ -1,5 +1,5 @@
 import { IQuestion } from "../interfaces/IQuestion";
-import { kafka } from "./kafka";
+import kafka from "./kafka";
 import { QUESTION_SERVICE_TOPICS } from "./topics/question";
 
 const producer = kafka.producer();

@@ -3,7 +3,7 @@ import { SubmissionUpdateDTO } from "../interfaces/submissionUpdate.interface";
 
 class SubmissionParser {
   public parseId(id?: string): number | undefined {
-    return id ? parseInt(id) : undefined;
+    return id ? parseInt(id, 10) : undefined;
   }
 
   public parseCreateBody(body: any): SubmissionCreateDTO {
