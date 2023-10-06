@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 
 import Chat from "../../components/Chat";
 import CodingSpace from "../../components/CodingSpace";
-import PageContainer from "../../components/Containerasd/Page";
+import PageContainer from "../../components/container/Page";
 import Question, { IQuestion } from "../../components/Question";
 import VideoCall from "../../components/VideoCall";
 import { AuthContext } from "../../context/FirebaseAuthContext";

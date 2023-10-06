@@ -1,6 +1,6 @@
 import { CheckCircleIcon } from "@heroicons/react/20/solid";
 import titleCase from "../util/titleCase";
-import ComponentContainer from "./Containerasd/Component";
+import ComponentContainer from "./container/Component";
 
 const tiers = [
   {
