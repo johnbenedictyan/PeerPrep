@@ -7,18 +7,20 @@ const devKafkaConfig: KafkaConfig = {
 
 const prodKafkaConfig: KafkaConfig = {
   clientId: "my-app",
-  brokers: [process.env["KAFKA_BROKER_URL"]!],
+  brokers: [process.env.KAFKA_BROKER_URL!],
   connectionTimeout: 45000,
   // authenticationTimeout: 10000,
   // reauthenticationThreshold: 10000,
   ssl: true,
   sasl: {
     mechanism: "plain", // scram-sha-256 or scram-sha-512
-    username: process.env["KAFKA_BROKER_USERNAME"]!,
-    password: process.env["KAFKA_BROKER_PASSWORD"]!,
+    username: process.env.KAFKA_BROKER_USERNAME!,
+    password: process.env.KAFKA_BROKER_PASSWORD!,
   },
 };
 
-export const kafka = new Kafka(
-  process.env["NODE_ENV"] === "production" ? prodKafkaConfig : devKafkaConfig,
+const kafka = new Kafka(
+  process.env.NODE_ENV === "production" ? prodKafkaConfig : devKafkaConfig,
 );
+
+export default kafka;
