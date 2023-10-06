@@ -21,7 +21,7 @@ jobs:
       run: yarn playwright install --with-deps
     - name: Run Playwright tests
       working-directory: ./client
-      run: yarn playwright test
+      run: yarn run test-ct
     - uses: actions/upload-artifact@v3
       if: always()
       with:
