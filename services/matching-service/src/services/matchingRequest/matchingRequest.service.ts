@@ -1,10 +1,10 @@
 import { MatchingRequest, PrismaClient } from "@prisma/client";
 
+import EventProducer from "../../events/producers/main.interface";
 import { MatchingRequestCreateDTO } from "../../interfaces/matchingRequest/createDTO";
 import { OptionalMatchingRequest } from "../../interfaces/matchingRequest/object";
 import { MatchingRequestUpdateDTO } from "../../interfaces/matchingRequest/updateDTO";
 import Service from "../service.interface";
-import { EventProducer } from "../../events/producers/main.interface";
 
 class MatchingRequestService
   implements

@@ -3,7 +3,7 @@ import { MatchingRequest } from "../../interfaces/matchingRequest/object";
 import { MatchingRequestUpdateDTO } from "../../interfaces/matchingRequest/updateDTO";
 import { OptionalInterface } from "../../util/optionalInterface";
 import { StringInterface } from "../../util/stringInterface";
-import { Parser } from "../parser.interface";
+import Parser from "../parser.interface";
 
 class MatchingRequestParser
   implements
@@ -68,14 +68,14 @@ class MatchingRequestParser
         userId: input.userId,
         questionId: parseInt(input.questionId, 10),
         difficulty: input.difficulty,
-        success: input.success == "true",
+        success: input.success === "true",
       };
     }
     return {
       userId: input.userId,
       questionId: null,
       difficulty: input.difficulty,
-      success: input.success == "true",
+      success: input.success === "true",
     };
   }
 

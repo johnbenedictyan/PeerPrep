@@ -16,6 +16,7 @@ module.exports = {
         },
     }, ],
     rules: {
-        "@typescript-eslint/no-explicit-any": "off", //Temp fix for any
+        "@typescript-eslint/no-explicit-any": "off", //Temp fix for any,
+        "class-methods-use-this": "off", // Temp fix for parsers implementing interfaces with no this in methods
     }
 };

@@ -3,13 +3,11 @@ import { Matching } from "../../interfaces/matching/object";
 import { MatchingUpdateDTO } from "../../interfaces/matching/updateDTO";
 import { OptionalInterface } from "../../util/optionalInterface";
 import { StringInterface } from "../../util/stringInterface";
-import { Parser } from "../parser.interface";
+import Parser from "../parser.interface";
 
 class MatchingParser
   implements Parser<MatchingCreateDTO, MatchingUpdateDTO, Matching>
 {
-  constructor() {}
-
   public parseCreateInput(
     input: StringInterface<MatchingCreateDTO>,
   ): MatchingCreateDTO {
@@ -19,7 +17,7 @@ class MatchingParser
     return {
       user1Id: input.user1Id,
       user2Id: input.user2Id,
-      requestId: parseInt(input.requestId),
+      requestId: parseInt(input.requestId, 10),
     };
   }
 
@@ -27,7 +25,7 @@ class MatchingParser
     if (!id) {
       throw new Error("Invalid input");
     }
-    return parseInt(id);
+    return parseInt(id, 10);
   }
 
   public parseFindOneInput(
@@ -35,7 +33,7 @@ class MatchingParser
   ): OptionalInterface<Matching> {
     const parsedInput: OptionalInterface<Matching> = {};
     if (input.id) {
-      parsedInput.id = parseInt(input.id);
+      parsedInput.id = parseInt(input.id, 10);
     }
     if (input.user1Id) {
       parsedInput.user1Id = input.user1Id;
@@ -44,7 +42,7 @@ class MatchingParser
       parsedInput.user2Id = input.user2Id;
     }
     if (input.requestId) {
-      parsedInput.requestId = parseInt(input.requestId);
+      parsedInput.requestId = parseInt(input.requestId, 10);
     }
     if (input.dateTimeMatched) {
       parsedInput.dateTimeMatched = new Date(input.dateTimeMatched);
@@ -61,7 +59,7 @@ class MatchingParser
     return {
       user1Id: input.user1Id,
       user2Id: input.user2Id,
-      requestId: parseInt(input.requestId),
+      requestId: parseInt(input.requestId, 10),
     };
   }
 
@@ -69,7 +67,7 @@ class MatchingParser
     if (!id) {
       throw new Error("Invalid input");
     }
-    return parseInt(id);
+    return parseInt(id, 10);
   }
 }
 

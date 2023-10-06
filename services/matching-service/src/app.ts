@@ -5,7 +5,7 @@ import express, { Express } from "express";
 
 import MatchingController from "./controllers/matching/matching.controller";
 import MatchingRequestController from "./controllers/matchingRequest/matchingRequest.controller";
-import { kafka } from "./events/kafka";
+import kafka from "./events/kafka";
 import MatchingRequestProducer from "./events/producers/matchingRequest/producer";
 import MatchingParser from "./parsers/matching/matching.parser";
 import MatchingRequestParser from "./parsers/matchingRequest/matchingRequest.parser";

@@ -4,10 +4,11 @@ import { Matching } from "../../../interfaces/matching/object";
 import MatchingService from "../../../services/matching/matching.service";
 import MatchingRequestService from "../../../services/matchingRequest/matchingRequest.service";
 import prismaClient from "../../../util/prisma/client";
-import { kafka } from "../../kafka";
 import MatchingProducer from "../../producers/matching/producer";
 import MatchingRequestProducer from "../../producers/matchingRequest/producer";
 import { ConsumerFunction } from "../main.interface";
+import kafka from "../../kafka";
+import logger from "../../../util/logger";
 
 const matchingEventProducer = new MatchingProducer(kafka.producer());
 const matchingRequestEventProducer = new MatchingRequestProducer(
@@ -20,7 +21,7 @@ const matchingRequestService = new MatchingRequestService(
 );
 
 const createMatchingRequestConsumer: ConsumerFunction = async (message) => {
-  console.log(
+  logger.info(
     "WE HAVE RECEIVED A MESSAGE FOR THE CREATION OF A MATCHING REQUEST",
   );
   if (message.value) {

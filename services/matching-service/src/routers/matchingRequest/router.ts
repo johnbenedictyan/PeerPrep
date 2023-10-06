@@ -1,8 +1,9 @@
 import express from "express";
 import { checkSchema } from "express-validator";
+
 import MatchingRequestController from "../../controllers/matchingRequest/matchingRequest.controller";
 import createMatchingRequestSchema from "../../util/validation/matchingRequest/createMatchingRequest.schema";
-import { BaseRouter } from "../router.abstract";
+import BaseRouter from "../router.abstract";
 
 class MatchingRequestRouter extends BaseRouter<MatchingRequestController> {
   override registerRoutes(): express.Router {
