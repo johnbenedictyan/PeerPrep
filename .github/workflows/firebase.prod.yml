@@ -1,6 +1,5 @@
 name: Build and Deploy Firebase App (Production)
 on:
-  push:
     push:
       branches: ["staging"]
     pull_request:
