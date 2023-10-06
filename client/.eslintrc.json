@@ -70,6 +70,7 @@
             }
         ],
         "no-nested-ternary": "off",
-        "@typescript-eslint/no-explicit-any": "off" // This is a temporary fix
+        "@typescript-eslint/no-explicit-any": "off", // This is a temporary fix
+        "class-methods-use-this": "off" // Temp fix for parsers implementing interfaces with no this in methods
     }
 }

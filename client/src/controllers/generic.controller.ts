@@ -32,6 +32,26 @@ class GenericController {
 
     return response.json();
   }
+
+  public async put(routePath: string, data: any) {
+    const response = await fetch(this.getUri(routePath), {
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "PUT",
+    });
+
+    return response.json();
+  }
+
+  public async delete(routePath: string) {
+    const response = await fetch(this.getUri(routePath), {
+      method: "DELETE",
+    });
+
+    return response.json();
+  }
 }
 
 export default GenericController;

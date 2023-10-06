@@ -13,12 +13,12 @@ import {
 
 import AdminLayout from "./components/AdminLayout";
 import Layout from "./components/Layout";
-import Profile from "./components/Profile";
 import AdminPage from "./pages/AdminPage";
 import DashboardPage from "./pages/DashboardPage";
 import LandingPage from "./pages/LandingPage";
 import MatchPage from "./pages/MatchPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import ProfilePage from "./pages/ProfilePage";
 import QuestionPage from "./pages/QuestionPage";
 import QuestionUpdatePage from "./pages/QuestionUpdatePage";
 import RegistrationPage from "./pages/RegistrationPage";
@@ -65,7 +65,7 @@ function App() {
             path="questions/:questionId"
             element={<SingleQuestionPage />}
           />
-          <Route path="profile" element={<Profile />} />
+          <Route path="profile" element={<ProfilePage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
         <Route path="/admin" element={<AdminLayout />}>
