@@ -37,7 +37,7 @@ class MatchingController extends Controller implements CRUDController {
     }
 
     try {
-      const parsedId = this.parser.parseFindByIdInput(req.params["id"]);
+      const parsedId = this.parser.parseFindByIdInput(req.params.id);
       const matchingRequest = await this.service.findById(parsedId);
       return MatchingController.handleSuccess(res, matchingRequest);
     } catch (e: any) {
@@ -84,7 +84,7 @@ class MatchingController extends Controller implements CRUDController {
     }
 
     try {
-      const parsedId = this.parser.parseFindByIdInput(req.params["id"]);
+      const parsedId = this.parser.parseFindByIdInput(req.params.id);
       const parsedUpdateInput = this.parser.parseUpdateInput(req.body);
       const matchingRequest = this.service.update(parsedId, parsedUpdateInput);
       return MatchingController.handleSuccess(res, matchingRequest);
@@ -101,7 +101,7 @@ class MatchingController extends Controller implements CRUDController {
     }
 
     try {
-      const parsedId = this.parser.parseFindByIdInput(req.params["id"]);
+      const parsedId = this.parser.parseFindByIdInput(req.params.id);
       const matchingRequest = this.service.delete(parsedId);
       return MatchingController.handleSuccess(res, matchingRequest);
     } catch (e: any) {
