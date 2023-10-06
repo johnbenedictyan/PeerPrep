@@ -1,6 +1,6 @@
-import { expect, test } from '@playwright/experimental-ct-react';
+import { expect, test } from "@playwright/experimental-ct-react";
 
-import LandingPage from '..';
+import LandingPage from "..";
 
 test.use({ viewport: { width: 500, height: 500 } });
 

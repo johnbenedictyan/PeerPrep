@@ -32,7 +32,7 @@
     "test --ui": "playwright test --ui",
     "eject": "react-scripts eject",
     "lint": "eslint ./src --ext ts,tsx",
-    "format": "prettier --write ./src ./tests ./tests-examples",
+    "format": "prettier --write ./src ./tests",
     "test-ct": "playwright test -c playwright-ct.config.ts"
   },
   "browserslist": {
