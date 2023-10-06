@@ -8,11 +8,38 @@
 
 version: "3"
 services:
+  user:
+    container_name: user-service
+    build:
+      context: ./services/user-service
+      dockerfile: Dockerfile.dev
+    ports:
+      - "5001:5000"
+    env_file:
+      - ./services/user-service/.env
+    depends_on:
+      broker:
+        condition: service_healthy
+    networks:
+      - user_service_network
+      - api_network
+      - kafka_network
+
+  postgres_user_service:
+    image: postgres:latest
+    container_name: postgres-user-service
+    volumes:
+      - progresDB:/var/lib/postgresql/data
+    env_file:
+      - ./services/user-service/.env
+    networks:
+      - user_service_network
+
   socket:
     container_name: socket-service
     build:
       context: ./services/socket-service
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     ports:
       - "5006:5000"
     env_file:
@@ -25,34 +52,34 @@ services:
       - api_network
       - kafka_network
 
-  matching:
-    container_name: matching-service
-    build:
-      context: ./services/matching-service
-      dockerfile: Dockerfile
-    ports:
-      - "5002:5000"
-    env_file:
-      - ./services/matching-service/.env
-    links:
-      - postgres_matching_service
-    depends_on:
-      broker:
-        condition: service_healthy
-    networks:
-      - matching_service_network
-      - api_network
-      - kafka_network
+  # matching:
+  #   container_name: matching-service
+  #   build:
+  #     context: ./services/matching-service
+  #     dockerfile: Dockerfile.dev
+  #   ports:
+  #     - "5002:5000"
+  #   env_file:
+  #     - ./services/matching-service/.env
+  #   links:
+  #     - postgres_matching_service
+  #   depends_on:
+  #     broker:
+  #       condition: service_healthy
+  #   networks:
+  #     - matching_service_network
+  #     - api_network
+  #     - kafka_network
 
-  postgres_matching_service:
-    image: postgres:latest
-    container_name: postgres-matching-service
-    volumes:
-      - progresDB:/data/postgres/matching-service
-    env_file:
-      - ./services/matching-service/.env
-    networks:
-      - matching_service_network
+  # postgres_matching_service:
+  #   image: postgres:latest
+  #   container_name: postgres-matching-service
+  #   volumes:
+  #     - progresDB:/data/postgres/matching-service
+  #   env_file:
+  #     - ./services/matching-service/.env
+  #   networks:
+  #     - matching_service_network
 
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
@@ -104,6 +131,9 @@ services:
       retries: 3
 
 networks:
+  user_service_network:
+    driver: bridge
+
   matching_service_network:
     driver: bridge
 

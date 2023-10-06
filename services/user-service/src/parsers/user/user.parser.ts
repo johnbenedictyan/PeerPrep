@@ -9,12 +9,11 @@ class UserParser implements Parser<UserCreateDTO, UserUpdateDTO, User> {
   public parseCreateInput(
     input: StringInterface<UserCreateDTO>,
   ): UserCreateDTO {
-    if (!input.id || !input.email || !input.name || !input.roles) {
-      throw new Error("Invalid input");
+    if (!input.id || !input.name || !input.roles) {
+      throw new Error("Required fields of id, name, and roles are missing");
     }
     return {
       id: input.id,
-      email: input.email,
       name: input.name,
       roles: input.roles,
     };
@@ -22,7 +21,7 @@ class UserParser implements Parser<UserCreateDTO, UserUpdateDTO, User> {
 
   public parseFindByIdInput(id: string | undefined): string {
     if (!id) {
-      throw new Error("User Id is required");
+      throw new Error("User Id is missing");
     }
     return id;
   }
@@ -33,9 +32,6 @@ class UserParser implements Parser<UserCreateDTO, UserUpdateDTO, User> {
     const parsedInput: OptionalInterface<User> = {};
     if (input.id) {
       parsedInput.id = input.id;
-    }
-    if (input.email) {
-      parsedInput.email = input.email;
     }
     if (input.name) {
       parsedInput.name = input.name;
@@ -49,20 +45,18 @@ class UserParser implements Parser<UserCreateDTO, UserUpdateDTO, User> {
   public parseUpdateInput(
     input: StringInterface<UserUpdateDTO>,
   ): UserUpdateDTO {
-    if (!input.email || !input.name || !input.questionsAuthored) {
-      throw new Error("Invalid input");
+    if (!input.name || !input.roles) {
+      throw new Error("Update Fields of name and roles are missing");
     }
     return {
-      email: input.email,
       name: input.name,
-      questionsAuthored: parseInt(input.questionsAuthored, 10),
       roles: input.roles,
     };
   }
 
   public parseDeleteInput(id: string | undefined): string {
     if (!id) {
-      throw new Error("Invalid input");
+      throw new Error("User Id is missing");
     }
     return id;
   }

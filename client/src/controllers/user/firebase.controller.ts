@@ -1,19 +1,9 @@
-import Controller from "../controller.interface";
-
-class FirebaseController implements Controller {
-  handleCreate(): void {
+class FirebaseController {
+  handleDelete(uid: string) {
     throw new Error("Method not implemented.");
   }
 
-  handleRead(): void {
-    throw new Error("Method not implemented.");
-  }
-
-  handleUpdate(): void {
-    throw new Error("Method not implemented.");
-  }
-
-  handleDelete(): void {
+  updatePassword(uid: string, newPassword: string) {
     throw new Error("Method not implemented.");
   }
 }

@@ -8,6 +8,7 @@ import CRUDController from "../crudController.interface";
 import { User } from "../../interfaces/user/object";
 import { UserCreateDTO } from "../../interfaces/user/createDTO";
 import logger from "../../util/logger";
+import { UserUpdateDTO } from "../../interfaces/user/updateDTO";
 
 class UserController extends Controller implements CRUDController {
   constructor(
@@ -33,6 +34,12 @@ class UserController extends Controller implements CRUDController {
   };
 
   public findById = async (req: Request, res: Response) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return UserController.handleValidationError(res, errors);
+    }
+
     let parsedId: string;
 
     try {
@@ -54,7 +61,6 @@ class UserController extends Controller implements CRUDController {
     if (!userFromDb) {
       const newUserCreateDTO: UserCreateDTO = {
         id: parsedId,
-        email: "",
         name: "",
         roles: ["user"],
       };
@@ -116,13 +122,27 @@ class UserController extends Controller implements CRUDController {
       return UserController.handleValidationError(res, errors);
     }
 
+    let parsedId: string;
+
     try {
-      const parsedId = this.parser.parseFindByIdInput(req.params.id);
-      const parsedUpdateInput = this.parser.parseUpdateInput(req.body);
-      const user = this.service.update(parsedId, parsedUpdateInput);
-      return UserController.handleSuccess(res, user);
+      parsedId = this.parser.parseFindByIdInput(req.params.id);
     } catch (e: any) {
       return UserController.handleBadRequest(res, e.message);
+    }
+
+    let parsedUpdateInput: UserUpdateDTO;
+
+    try {
+      parsedUpdateInput = this.parser.parseUpdateInput(req.body);
+    } catch (e: any) {
+      return UserController.handleBadRequest(res, e.message);
+    }
+
+    try {
+      const user = await this.service.update(parsedId, parsedUpdateInput);
+      return UserController.handleSuccess(res, user);
+    } catch (e: any) {
+      return UserController.handleError(res, e.message);
     }
   };
 

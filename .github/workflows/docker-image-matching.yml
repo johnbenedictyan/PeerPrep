@@ -28,7 +28,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: ./services/matching-service
-          file: ./services/matching-service/Dockerfile
+          file: ./services/matching-service/Dockerfile.prod
           push: true
           no-cache: true
           platforms: linux/arm64

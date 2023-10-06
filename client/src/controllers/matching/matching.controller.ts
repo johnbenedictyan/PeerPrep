@@ -10,9 +10,15 @@ interface ICancelMatchingRequest {
   userId: string;
 }
 
+const devServerUri = "http://localhost:5007";
+const prodServerUri = "https://matching-service-qzxsy455sq-as.a.run.app";
+
 class MatchingController extends GenericController {
   constructor() {
-    super("https://matching-service-qzxsy455sq-as.a.run.app", "api");
+    super(
+      process.env.NODE_ENV === "production" ? prodServerUri : devServerUri,
+      "api",
+    );
   }
 
   public async cancelMatchingRequest(data: ICancelMatchingRequest) {

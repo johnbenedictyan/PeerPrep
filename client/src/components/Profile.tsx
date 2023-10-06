@@ -1,29 +1,65 @@
-import { useState } from "react";
-import UserController from "../controllers/user/user.controller";
+import React, { useState } from "react";
+
+import { AuthContext } from "../context/FirebaseAuthContext";
 import FirebaseController from "../controllers/user/firebase.controller";
+import UserController from "../controllers/user/user.controller";
 
 function Profile() {
+  const [name, setName] = useState<string>("");
   const [emailAddress, setEmailAddress] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
 
+  const { currentUser } = React.useContext(AuthContext);
+
   const userController = new UserController();
   const firebaseController = new FirebaseController();
+
+  React.useEffect(() => {
+    if (!currentUser) {
+      return;
+    }
+
+    setEmailAddress(currentUser.email!);
+    setName(currentUser.name);
+  }, [currentUser]);
 
   const handleUpdateProfile = async (
     e: React.MouseEvent<HTMLButtonElement>,
   ) => {
-    userController.handleUpdate();
+    if (!currentUser) {
+      return;
+    }
+
+    userController.updateUser(currentUser.uid, {
+      name: currentUser.name,
+      email: emailAddress,
+      roles: currentUser.roles,
+    });
   };
 
   const handleChangePassword = async (
     e: React.MouseEvent<HTMLButtonElement>,
-  ) => {};
+  ) => {
+    if (!currentUser) {
+      return;
+    }
+
+    firebaseController.updatePassword(currentUser.uid, newPassword);
+  };
 
   const handleDeleteAccount = async (
     e: React.MouseEvent<HTMLButtonElement>,
-  ) => {};
+  ) => {
+    if (!currentUser) {
+      return;
+    }
+
+    firebaseController.handleDelete(currentUser.uid);
+    userController.deleteUser(currentUser.uid);
+  };
+
   return (
     <>
       {/* Settings forms */}
@@ -38,7 +74,7 @@ function Profile() {
             </p>
           </div>
 
-          <form className="md:col-span-2">
+          <div className="md:col-span-2">
             <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
               {/* <div className="col-span-full flex items-center gap-x-8">
                 <img
@@ -59,23 +95,25 @@ function Profile() {
                 </div>
               </div> */}
 
-              {/* <div className="sm:col-span-3">
+              <div className="sm:col-span-3">
                 <label
-                  htmlFor="first-name"
+                  htmlFor="name"
                   className="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-100"
                 >
-                  First name
+                  Name
                 </label>
                 <div className="mt-2">
                   <input
                     type="text"
-                    name="first-name"
-                    id="first-name"
+                    name="name"
+                    id="name"
                     autoComplete="given-name"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 dark:text-gray-100 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-600 dark:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:focus:ring-indigo-400 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-1.5 bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-600 dark:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:focus:ring-indigo-400 sm:text-sm sm:leading-6"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                   />
                 </div>
-              </div> */}
+              </div>
 
               {/* <div className="sm:col-span-3">
                 <label
@@ -125,7 +163,7 @@ function Profile() {
                 Save
               </button>
             </div>
-          </form>
+          </div>
         </div>
 
         <div className="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
@@ -138,7 +176,7 @@ function Profile() {
             </p>
           </div>
 
-          <form className="md:col-span-2">
+          <div className="md:col-span-2">
             <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
               <div className="col-span-full">
                 <label
@@ -210,7 +248,7 @@ function Profile() {
                 Save
               </button>
             </div>
-          </form>
+          </div>
         </div>
 
         {/* <div className="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
@@ -268,7 +306,7 @@ function Profile() {
             </p>
           </div>
 
-          <form className="flex items-start md:col-span-2">
+          <div className="flex items-start md:col-span-2">
             <button
               type="submit"
               className="rounded-md bg-red-500 px-3 py-2 text-sm font-semibold text-gray-200 dark:text-gray-50 shadow-sm hover:bg-red-400"
@@ -276,7 +314,7 @@ function Profile() {
             >
               Yes, delete my account
             </button>
-          </form>
+          </div>
         </div>
       </div>
     </>

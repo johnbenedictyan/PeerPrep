@@ -1,7 +1,7 @@
 import "./App.css";
 
 import * as Sentry from "@sentry/react";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   createRoutesFromChildren,
   matchRoutes,
@@ -13,6 +13,8 @@ import {
 
 import AdminLayout from "./components/AdminLayout";
 import Layout from "./components/Layout";
+import ProtectedRoute from "./components/ProtectedRoute";
+import { AuthContext } from "./context/FirebaseAuthContext";
 import AdminPage from "./pages/AdminPage";
 import DashboardPage from "./pages/DashboardPage";
 import LandingPage from "./pages/LandingPage";
@@ -50,6 +52,8 @@ Sentry.init({
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 
 function App() {
+  const { currentUser } = React.useContext(AuthContext);
+
   return (
     <div className="App bg-gray-100 dark:bg-gray-900">
       <SentryRoutes>
@@ -68,7 +72,14 @@ function App() {
           <Route path="profile" element={<ProfilePage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
-        <Route path="/admin" element={<AdminLayout />}>
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute user={currentUser} permissionRole="admin">
+              <AdminLayout />
+            </ProtectedRoute>
+          }
+        >
           <Route path="" element={<AdminPage />} />
           <Route path="question/:id/update" element={<QuestionUpdatePage />} />
           <Route path="*" element={<NotFoundPage />} />

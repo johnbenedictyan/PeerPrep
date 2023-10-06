@@ -1,29 +1,25 @@
-import Controller from "../controller.interface";
+import { User, UserCreateDTO, UserUpdateDTO } from "../../interfaces/User";
 import GenericController from "../generic.controller";
 
-class UserController extends GenericController implements Controller {
+class UserController extends GenericController {
   constructor() {
-    super("http://localhost:5007", "api");
+    super("http://localhost:5001", "api");
   }
 
-  handleCreate(): void {
-    this.post("user", {});
-    throw new Error("Method not implemented.");
+  createUser(data: UserCreateDTO): Promise<User> {
+    return this.post("user", data);
   }
 
-  handleRead(): void {
-    this.get("user");
-    throw new Error("Method not implemented.");
+  getUser(id: string): Promise<User> {
+    return this.get(`user/${id}`);
   }
 
-  handleUpdate(): void {
-    this.put("user", {});
-    throw new Error("Method not implemented.");
+  updateUser(id: string, data: UserUpdateDTO): Promise<User> {
+    return this.put(`user/${id}`, data);
   }
 
-  handleDelete(): void {
-    this.delete("user");
-    throw new Error("Method not implemented.");
+  deleteUser(id: string): Promise<User> {
+    return this.delete("user");
   }
 }
 

@@ -1,13 +1,15 @@
-import { User } from "firebase/auth";
 import {
-  ReactNode,
   createContext,
+  ReactNode,
   useCallback,
   useEffect,
   useMemo,
   useState,
 } from "react";
 import { useNavigate } from "react-router-dom";
+
+import UserController from "../controllers/user/user.controller";
+import { FullUser } from "../interfaces/User";
 import { SignOutUser, userStateListener } from "../util/auth";
 
 interface AuthProviderProps {
@@ -16,23 +18,40 @@ interface AuthProviderProps {
 
 export const AuthContext = createContext({
   // "User" comes from firebase auth-public.d.ts
-  currentUser: {} as User | null,
-  setCurrentUser: (_user: User) => {},
+  currentUser: {} as FullUser | null,
+  setCurrentUser: (_user: FullUser) => {},
   signOut: () => {},
 });
 
 export function AuthProvider({ children }: AuthProviderProps) {
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [currentUser, setCurrentUser] = useState<FullUser | null>(null);
   const navigate = useNavigate();
+  const ctrlInstance = useMemo(() => new UserController(), []);
 
   useEffect(() => {
     const unsubscribe = userStateListener((user) => {
       if (user) {
-        setCurrentUser(user);
+        // setCurrentUser(user);
+        console.log(user.uid);
+        ctrlInstance
+          .getUser(user.uid)
+          .then((userFromDb) => {
+            if (!userFromDb) {
+              return;
+            }
+
+            setCurrentUser({
+              ...userFromDb,
+              ...user,
+            });
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       }
     });
     return unsubscribe;
-  }, [setCurrentUser]);
+  }, [setCurrentUser, ctrlInstance]);
 
   // As soon as setting the current user to null,
   // the user will be redirected to the home page.

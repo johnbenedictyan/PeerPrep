@@ -1,6 +1,0 @@
-export type SubmissionCreateDTO = {
-  sourceCode: string;
-  stdin: string;
-  expectedOutput: string;
-  userId: number;
-};
