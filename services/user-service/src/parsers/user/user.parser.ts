@@ -9,20 +9,22 @@ class UserParser implements Parser<UserCreateDTO, UserUpdateDTO, User> {
   public parseCreateInput(
     input: StringInterface<UserCreateDTO>,
   ): UserCreateDTO {
-    if (!input.email || !input.name) {
+    if (!input.id || !input.email || !input.name || !input.roles) {
       throw new Error("Invalid input");
     }
     return {
+      id: input.id,
       email: input.email,
       name: input.name,
+      roles: input.roles,
     };
   }
 
-  public parseFindByIdInput(id: string | undefined): number {
+  public parseFindByIdInput(id: string | undefined): string {
     if (!id) {
-      throw new Error("Invalid input");
+      throw new Error("User Id is required");
     }
-    return parseInt(id, 10);
+    return id;
   }
 
   public parseFindOneInput(
@@ -30,7 +32,7 @@ class UserParser implements Parser<UserCreateDTO, UserUpdateDTO, User> {
   ): OptionalInterface<User> {
     const parsedInput: OptionalInterface<User> = {};
     if (input.id) {
-      parsedInput.id = parseInt(input.id, 10);
+      parsedInput.id = input.id;
     }
     if (input.email) {
       parsedInput.email = input.email;
@@ -54,14 +56,15 @@ class UserParser implements Parser<UserCreateDTO, UserUpdateDTO, User> {
       email: input.email,
       name: input.name,
       questionsAuthored: parseInt(input.questionsAuthored, 10),
+      roles: input.roles,
     };
   }
 
-  public parseDeleteInput(id: string | undefined): number {
+  public parseDeleteInput(id: string | undefined): string {
     if (!id) {
       throw new Error("Invalid input");
     }
-    return parseInt(id, 10);
+    return id;
   }
 }
 

@@ -1,4 +1,4 @@
-// Converts all keys to be optional
+// Converts all keys to be string
 export type StringInterface<T> = {
-  [_P in keyof T]: string;
+  [P in keyof T]: T[P] extends Array<any> ? string[] : string;
 };

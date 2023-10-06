@@ -1,10 +1,11 @@
 import { PrismaClient } from "@prisma/client";
+import assert from "assert";
 
+import EventProducer from "../../events/producers/main.interface";
 import { UserCreateDTO } from "../../interfaces/user/createDTO";
-import { User, OptionalUser } from "../../interfaces/user/object";
+import { OptionalUser, User } from "../../interfaces/user/object";
 import { UserUpdateDTO } from "../../interfaces/user/updateDTO";
 import Service from "../service.interface";
-import EventProducer from "../../events/producers/main.interface";
 
 class UserService implements Service<UserCreateDTO, UserUpdateDTO, User> {
   constructor(
@@ -23,7 +24,8 @@ class UserService implements Service<UserCreateDTO, UserUpdateDTO, User> {
     }
   }
 
-  public async findById(id: number): Promise<User | null> {
+  public async findById(id: string): Promise<User | null> {
+    assert(id, "id should be defined in the user service find by id method");
     try {
       const user = await this.prismaClient.user.findUnique({
         where: {
@@ -37,9 +39,10 @@ class UserService implements Service<UserCreateDTO, UserUpdateDTO, User> {
   }
 
   public async findOne(body: OptionalUser): Promise<User | null> {
+    const { roles, ...filter } = body;
     try {
       const user = await this.prismaClient.user.findFirst({
-        where: body,
+        where: filter,
       });
       return user;
     } catch (error) {
@@ -56,7 +59,8 @@ class UserService implements Service<UserCreateDTO, UserUpdateDTO, User> {
     }
   }
 
-  public async update(id: number, body: UserUpdateDTO): Promise<User> {
+  public async update(id: string, body: UserUpdateDTO): Promise<User> {
+    assert(id, "id should be defined in the user service update method");
     try {
       return await this.prismaClient.user.update({
         where: {
@@ -69,7 +73,8 @@ class UserService implements Service<UserCreateDTO, UserUpdateDTO, User> {
     }
   }
 
-  public async delete(id: number): Promise<User> {
+  public async delete(id: string): Promise<User> {
+    assert(id, "id should be defined in the user service delete method");
     try {
       return await this.prismaClient.user.delete({
         where: {

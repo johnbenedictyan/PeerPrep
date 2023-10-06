@@ -5,6 +5,9 @@ import UserParser from "../../parsers/user/user.parser";
 import UserService from "../../services/user/user.service";
 import Controller from "../controller.abstract";
 import CRUDController from "../crudController.interface";
+import { User } from "../../interfaces/user/object";
+import { UserCreateDTO } from "../../interfaces/user/createDTO";
+import logger from "../../util/logger";
 
 class UserController extends Controller implements CRUDController {
   constructor(
@@ -21,28 +24,58 @@ class UserController extends Controller implements CRUDController {
       return UserController.handleValidationError(res, errors);
     }
     try {
-      const parsedUserRequest = this.parser.parseCreateInput(req.body);
-      const userRequest = await this.service.create(parsedUserRequest);
-      return UserController.handleSuccess(res, userRequest);
+      const parsedUser = this.parser.parseCreateInput(req.body);
+      const user = await this.service.create(parsedUser);
+      return UserController.handleSuccess(res, user);
     } catch (e: any) {
       return UserController.handleBadRequest(res, e.message);
     }
   };
 
   public findById = async (req: Request, res: Response) => {
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-      return UserController.handleValidationError(res, errors);
-    }
+    let parsedId: string;
 
     try {
-      const parsedId = this.parser.parseFindByIdInput(req.params.id);
-      const userRequest = await this.service.findById(parsedId);
-      return UserController.handleSuccess(res, userRequest);
+      parsedId = this.parser.parseFindByIdInput(req.params.id);
     } catch (e: any) {
       return UserController.handleBadRequest(res, e.message);
     }
+
+    logger.info(`Finding user with id: ${parsedId}`);
+
+    let userFromDb: User | null;
+
+    try {
+      userFromDb = await this.service.findById(parsedId);
+    } catch (e: any) {
+      return UserController.handleError(res, e.message);
+    }
+
+    if (!userFromDb) {
+      const newUserCreateDTO: UserCreateDTO = {
+        id: parsedId,
+        email: "",
+        name: "",
+        roles: ["user"],
+      };
+
+      logger.info(`Creating user with id: ${parsedId}`);
+
+      let newUser: User;
+      try {
+        newUser = await this.service.create(newUserCreateDTO);
+      } catch (e: any) {
+        return UserController.handleError(res, e.message);
+      }
+
+      logger.info(`Created user with id: ${parsedId}`);
+
+      return UserController.handleSuccess(res, newUser);
+    }
+
+    logger.info(`Found user with id: ${parsedId}`);
+
+    return UserController.handleSuccess(res, userFromDb);
   };
 
   public findOne = async (req: Request, res: Response) => {
@@ -54,8 +87,8 @@ class UserController extends Controller implements CRUDController {
 
     try {
       const parsedFindOneInput = this.parser.parseFindOneInput(req.body);
-      const userRequest = await this.service.findOne(parsedFindOneInput);
-      return UserController.handleSuccess(res, userRequest);
+      const user = await this.service.findOne(parsedFindOneInput);
+      return UserController.handleSuccess(res, user);
     } catch (e: any) {
       return UserController.handleBadRequest(res, e.message);
     }
@@ -69,8 +102,8 @@ class UserController extends Controller implements CRUDController {
     }
 
     try {
-      const userRequests = this.service.findAll();
-      return UserController.handleSuccess(res, userRequests);
+      const users = this.service.findAll();
+      return UserController.handleSuccess(res, users);
     } catch (e: any) {
       return UserController.handleBadRequest(res, e.message);
     }
@@ -86,8 +119,8 @@ class UserController extends Controller implements CRUDController {
     try {
       const parsedId = this.parser.parseFindByIdInput(req.params.id);
       const parsedUpdateInput = this.parser.parseUpdateInput(req.body);
-      const userRequest = this.service.update(parsedId, parsedUpdateInput);
-      return UserController.handleSuccess(res, userRequest);
+      const user = this.service.update(parsedId, parsedUpdateInput);
+      return UserController.handleSuccess(res, user);
     } catch (e: any) {
       return UserController.handleBadRequest(res, e.message);
     }
@@ -102,8 +135,8 @@ class UserController extends Controller implements CRUDController {
 
     try {
       const parsedId = this.parser.parseFindByIdInput(req.params.id);
-      const userRequest = this.service.delete(parsedId);
-      return UserController.handleSuccess(res, userRequest);
+      const user = this.service.delete(parsedId);
+      return UserController.handleSuccess(res, user);
     } catch (e: any) {
       return UserController.handleBadRequest(res, e.message);
     }
