@@ -1,14 +1,18 @@
-import { OptionalInterface } from "../util/optionalInterface";
+import { Partial } from "../util/partial";
 import { StringInterface } from "../util/stringInterface";
 
-interface Parser<CreateDTO, UpdateDTO, Obj> {
+type ObjWithId = {
+    id: unknown;
+}
+
+interface Parser<CreateDTO, UpdateDTO, Obj extends ObjWithId> {
   parseCreateInput(input: StringInterface<CreateDTO>): CreateDTO;
-  parseFindByIdInput(id: string | undefined): number | string;
-  parseFindOneInput(
-    input: OptionalInterface<StringInterface<Obj>>,
-  ): OptionalInterface<Obj>;
-  parseUpdateInput(input: StringInterface<UpdateDTO>): UpdateDTO;
-  parseDeleteInput(id: string | undefined): number | string;
+  parseFindByIdInput(id: string): Obj["id"];
+  parseFindOneInput(input: Partial<StringInterface<Obj>>): Partial<Obj>;
+  parseUpdateInput(
+    input: Partial<StringInterface<UpdateDTO>>,
+  ): Partial<UpdateDTO>;
+  parseDeleteInput(id: string): Obj["id"];
 }
 
 export default Parser;

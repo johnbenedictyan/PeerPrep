@@ -1,12 +1,16 @@
-import { OptionalInterface } from "../util/optionalInterface";
+import { Partial } from "../util/partial";
 
-interface Service<CreateDTO, UpdateDTO, Obj> {
+type ObjWithId = {
+  id: unknown;
+};
+
+interface Service<CreateDTO, UpdateDTO, Obj extends ObjWithId> {
   create(body: CreateDTO): Promise<Obj>;
-  findById(id: number): Promise<Obj | null>;
-  findOne(body: OptionalInterface<Obj>): Promise<Obj | null>;
+  findById(id: Obj["id"]): Promise<Obj | null>;
+  findOne(body: Partial<Obj>): Promise<Obj | null>;
   findAll(): Promise<Obj[]>;
-  update(id: number, body: UpdateDTO): Promise<Obj>;
-  delete(id: number): Promise<Obj>;
+  update(id: Obj["id"], body: Partial<UpdateDTO>): Promise<Obj>;
+  delete(id: Obj["id"]): Promise<Obj>;
 }
 
 export default Service;

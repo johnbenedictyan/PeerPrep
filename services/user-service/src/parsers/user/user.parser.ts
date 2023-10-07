@@ -1,7 +1,7 @@
 import { UserCreateDTO } from "../../interfaces/user/createDTO";
 import { User } from "../../interfaces/user/object";
 import { UserUpdateDTO } from "../../interfaces/user/updateDTO";
-import { OptionalInterface } from "../../util/optionalInterface";
+import { Partial } from "../../util/partial";
 import { StringInterface } from "../../util/stringInterface";
 import Parser from "../parser.interface";
 
@@ -19,17 +19,14 @@ class UserParser implements Parser<UserCreateDTO, UserUpdateDTO, User> {
     };
   }
 
-  public parseFindByIdInput(id: string | undefined): string {
-    if (!id) {
-      throw new Error("User Id is missing");
-    }
+  public parseFindByIdInput(id: string): string {
     return id;
   }
 
   public parseFindOneInput(
-    input: OptionalInterface<StringInterface<User>>,
-  ): OptionalInterface<User> {
-    const parsedInput: OptionalInterface<User> = {};
+    input: Partial<StringInterface<User>>,
+  ): Partial<User> {
+    const parsedInput: Partial<User> = {};
     if (input.id) {
       parsedInput.id = input.id;
     }
@@ -43,24 +40,25 @@ class UserParser implements Parser<UserCreateDTO, UserUpdateDTO, User> {
   }
 
   public parseUpdateInput(
-    input: StringInterface<UserUpdateDTO>,
-  ): UserUpdateDTO {
-    if (!input.name || !input.roles || !input.questionsAuthored) {
-      throw new Error(
-        "Update Fields of name and roles and questions authored are missing",
-      );
+    input: Partial<StringInterface<UserUpdateDTO>>,
+  ): Partial<UserUpdateDTO> {
+    const parsedInput: Partial<UserUpdateDTO> = {};
+    if (input.name) {
+      parsedInput.name = input.name;
     }
-    return {
-      name: input.name,
-      roles: input.roles,
-      questionsAuthored: parseInt(input.questionsAuthored, 10),
-    };
+
+    if (input.roles) {
+      parsedInput.roles = input.roles;
+    }
+
+    if (input.questionsAuthored) {
+      parsedInput.questionsAuthored = parseInt(input.questionsAuthored, 10);
+    }
+
+    return parsedInput;
   }
 
-  public parseDeleteInput(id: string | undefined): string {
-    if (!id) {
-      throw new Error("User Id is missing");
-    }
+  public parseDeleteInput(id: string): string {
     return id;
   }
 }

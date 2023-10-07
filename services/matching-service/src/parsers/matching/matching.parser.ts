@@ -1,7 +1,7 @@
 import { MatchingCreateDTO } from "../../interfaces/matching/createDTO";
 import { Matching } from "../../interfaces/matching/object";
 import { MatchingUpdateDTO } from "../../interfaces/matching/updateDTO";
-import { OptionalInterface } from "../../util/optionalInterface";
+import { Partial } from "../../util/partial";
 import { StringInterface } from "../../util/stringInterface";
 import Parser from "../parser.interface";
 
@@ -29,9 +29,9 @@ class MatchingParser
   }
 
   public parseFindOneInput(
-    input: OptionalInterface<StringInterface<Matching>>,
-  ): OptionalInterface<Matching> {
-    const parsedInput: OptionalInterface<Matching> = {};
+    input: Partial<StringInterface<Matching>>,
+  ): Partial<Matching> {
+    const parsedInput: Partial<Matching> = {};
     if (input.id) {
       parsedInput.id = parseInt(input.id, 10);
     }

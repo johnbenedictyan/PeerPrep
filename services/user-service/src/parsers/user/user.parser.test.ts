@@ -1,20 +1,23 @@
 import { describe } from "@jest/globals";
+
+import { UserCreateDTO } from "../../interfaces/user/createDTO";
+import { StringInterface } from "../../util/stringInterface";
 import UserParser from "./user.parser";
 
 describe("Test user parser", () => {
   it("should parse create input", () => {
     const parser = new UserParser();
 
-    const input = {
-      user1Id: "123",
-      user2Id: "456",
-      requestId: "1",
+    const input: StringInterface<UserCreateDTO> = {
+      id: "asd123",
+      name: "asd",
+      roles: ["user"],
     };
 
-    const expectedOutput = {
-      user1Id: "123",
-      user2Id: "456",
-      requestId: 1,
+    const expectedOutput: UserCreateDTO = {
+      id: "asd123",
+      name: "asd",
+      roles: ["user"],
     };
 
     expect(parser.parseCreateInput(input)).toEqual(expectedOutput);

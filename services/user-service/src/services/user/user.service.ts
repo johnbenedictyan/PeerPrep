@@ -59,7 +59,7 @@ class UserService implements Service<UserCreateDTO, UserUpdateDTO, User> {
     }
   }
 
-  public async update(id: string, body: UserUpdateDTO): Promise<User> {
+  public async update(id: string, body: Partial<UserUpdateDTO>): Promise<User> {
     assert(id, "id should be defined in the user service update method");
     try {
       return await this.prismaClient.user.update({

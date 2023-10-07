@@ -1,14 +1,16 @@
+import assert from "assert";
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 
+import { UserCreateDTO } from "../../interfaces/user/createDTO";
+import { User } from "../../interfaces/user/object";
+import { UserUpdateDTO } from "../../interfaces/user/updateDTO";
 import UserParser from "../../parsers/user/user.parser";
 import UserService from "../../services/user/user.service";
+import logger from "../../util/logger";
+import { Partial } from "../../util/partial";
 import Controller from "../controller.abstract";
 import CRUDController from "../crudController.interface";
-import { User } from "../../interfaces/user/object";
-import { UserCreateDTO } from "../../interfaces/user/createDTO";
-import logger from "../../util/logger";
-import { UserUpdateDTO } from "../../interfaces/user/updateDTO";
 
 class UserController extends Controller implements CRUDController {
   constructor(
@@ -39,6 +41,8 @@ class UserController extends Controller implements CRUDController {
     if (!errors.isEmpty()) {
       return UserController.handleValidationError(res, errors);
     }
+
+    assert(req.params.id, "id should be defined");
 
     let parsedId: string;
 
@@ -130,7 +134,7 @@ class UserController extends Controller implements CRUDController {
       return UserController.handleBadRequest(res, e.message);
     }
 
-    let parsedUpdateInput: UserUpdateDTO;
+    let parsedUpdateInput: Partial<UserUpdateDTO>;
 
     try {
       parsedUpdateInput = this.parser.parseUpdateInput(req.body);
@@ -152,6 +156,8 @@ class UserController extends Controller implements CRUDController {
     if (!errors.isEmpty()) {
       return UserController.handleValidationError(res, errors);
     }
+
+    assert(req.params.id, "id should be defined");
 
     try {
       const parsedId = this.parser.parseFindByIdInput(req.params.id);

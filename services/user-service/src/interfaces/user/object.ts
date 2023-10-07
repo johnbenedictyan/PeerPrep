@@ -1,4 +1,4 @@
-import { OptionalInterface } from "../../util/optionalInterface";
+import { Partial } from "../../util/partial";
 
 export type User = {
   id: string;
@@ -9,4 +9,4 @@ export type User = {
   roles: string[];
 };
 
-export type OptionalUser = OptionalInterface<User>;
+export type OptionalUser = Partial<User>;
