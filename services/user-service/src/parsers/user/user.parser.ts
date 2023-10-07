@@ -45,12 +45,15 @@ class UserParser implements Parser<UserCreateDTO, UserUpdateDTO, User> {
   public parseUpdateInput(
     input: StringInterface<UserUpdateDTO>,
   ): UserUpdateDTO {
-    if (!input.name || !input.roles) {
-      throw new Error("Update Fields of name and roles are missing");
+    if (!input.name || !input.roles || !input.questionsAuthored) {
+      throw new Error(
+        "Update Fields of name and roles and questions authored are missing",
+      );
     }
     return {
       name: input.name,
       roles: input.roles,
+      questionsAuthored: parseInt(input.questionsAuthored, 10),
     };
   }
 

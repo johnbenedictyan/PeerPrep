@@ -1,5 +1,5 @@
 import { User } from "../../../interfaces/user/object";
-import UserTopics from "../../topics/user/user";
+import UserTopics from "../../topics/user";
 import EventProducer from "../main.interface";
 
 class UserProducer extends EventProducer<User> {
