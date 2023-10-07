@@ -14,7 +14,7 @@ class UserController extends GenericController {
     return this.get(`user/${id}`);
   }
 
-  updateUser(id: string, data: UserUpdateDTO): Promise<User> {
+  updateUser(id: string, data: Partial<UserUpdateDTO>): Promise<User> {
     return this.put(`user/${id}`, data);
   }
 

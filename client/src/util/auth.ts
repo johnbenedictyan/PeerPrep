@@ -6,6 +6,9 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
+  updateEmail,
+  updatePassword,
+  deleteUser,
   User,
 } from "firebase/auth";
 
@@ -37,3 +40,11 @@ export const userStateListener = (callback: NextOrObserver<User>) =>
   onAuthStateChanged(auth, callback);
 
 export const SignOutUser = async () => signOut(auth);
+
+export const changePassword = async (user: User, newPassword: string) =>
+  updatePassword(user, newPassword);
+
+export const changeEmail = async (user: User, newEmail: string) =>
+  updateEmail(user, newEmail);
+
+export const removeUser = async (user: User) => deleteUser(user);

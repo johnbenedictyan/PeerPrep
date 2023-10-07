@@ -1,8 +1,11 @@
+import { CheckCircleIcon } from "@heroicons/react/24/outline";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { AuthContext } from "../context/FirebaseAuthContext";
-import FirebaseController from "../controllers/user/firebase.controller";
 import UserController from "../controllers/user/user.controller";
+import { changeEmail, changePassword, removeUser } from "../util/auth";
+import Toast from "./Toast";
 
 function Profile() {
   const [name, setName] = useState<string>("");
@@ -11,15 +14,21 @@ function Profile() {
   const [newPassword, setNewPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
 
+  const [showUpdateProfileToast, setShowUpdateProfileToast] =
+    useState<boolean>(false);
+
   const { currentUser } = React.useContext(AuthContext);
 
+  const navigate = useNavigate();
+
   const userController = new UserController();
-  const firebaseController = new FirebaseController();
 
   React.useEffect(() => {
     if (!currentUser) {
       return;
     }
+
+    console.log(currentUser);
 
     setEmailAddress(currentUser.email!);
     setName(currentUser.name);
@@ -32,11 +41,22 @@ function Profile() {
       return;
     }
 
-    userController.updateUser(currentUser.uid, {
-      name: currentUser.name,
-      email: emailAddress,
-      roles: currentUser.roles,
-    });
+    if (!emailAddress) {
+      return;
+    }
+
+    userController
+      .updateUser(currentUser.uid, {
+        name,
+      })
+      .then((res) => {
+        setName(res.name);
+        setShowUpdateProfileToast(true);
+      });
+
+    if (currentUser.email !== emailAddress) {
+      changeEmail(currentUser, emailAddress);
+    }
   };
 
   const handleChangePassword = async (
@@ -46,7 +66,11 @@ function Profile() {
       return;
     }
 
-    firebaseController.updatePassword(currentUser.uid, newPassword);
+    if (!newPassword || !confirmPassword || newPassword !== confirmPassword) {
+      return;
+    }
+
+    changePassword(currentUser, newPassword);
   };
 
   const handleDeleteAccount = async (
@@ -56,12 +80,27 @@ function Profile() {
       return;
     }
 
-    firebaseController.handleDelete(currentUser.uid);
     userController.deleteUser(currentUser.uid);
+    removeUser(currentUser);
+
+    navigate("/");
   };
 
   return (
     <>
+      {showUpdateProfileToast && (
+        <Toast
+          icon={
+            <CheckCircleIcon
+              className="h-6 w-6 text-green-400"
+              aria-hidden="true"
+            />
+          }
+          title="Successfully updated!"
+          description="Your profile has been updated successfully."
+        />
+      )}
+
       {/* Settings forms */}
       <div className="divide-y divide-white/5">
         <div className="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">

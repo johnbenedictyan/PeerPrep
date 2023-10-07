@@ -1,7 +1,7 @@
 import "./App.css";
 
 import * as Sentry from "@sentry/react";
-import React, { useEffect } from "react";
+import React from "react";
 import {
   createRoutesFromChildren,
   matchRoutes,
