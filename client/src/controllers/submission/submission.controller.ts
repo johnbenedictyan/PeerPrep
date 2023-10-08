@@ -9,7 +9,12 @@ type SubmissionCreateInput = {
 
 class SubmissionController extends GenericController {
   constructor() {
-    super("http://localhost:5007", "api");
+    super(
+      window.location.hostname !== "localhost"
+        ? "http://submission-service:5007"
+        : "http://localhost:5007",
+      "api",
+    );
   }
 
   public async createSubmission(data: SubmissionCreateInput) {

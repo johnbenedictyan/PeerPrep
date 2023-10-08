@@ -16,7 +16,7 @@ const prodServerUri = "https://matching-service-qzxsy455sq-as.a.run.app";
 class MatchingController extends GenericController {
   constructor() {
     super(
-      process.env.NODE_ENV === "production" ? prodServerUri : devServerUri,
+      window.location.hostname !== "localhost" ? prodServerUri : devServerUri,
       "api",
     );
   }

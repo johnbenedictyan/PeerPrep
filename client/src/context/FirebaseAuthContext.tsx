@@ -35,7 +35,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         console.log(user.uid);
         ctrlInstance
           .getUser(user.uid)
-          .then((userFromDb : User) => {
+          .then((userFromDb: User) => {
             if (!userFromDb) {
               return;
             }

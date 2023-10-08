@@ -3,7 +3,12 @@ import GenericController from "../generic.controller";
 
 class UserController extends GenericController {
   constructor() {
-    super("http://localhost:5001", "api");
+    super(
+      window.location.hostname !== "localhost"
+        ? "https://user-service-qzxsy455sq-as.a.run.app"
+        : "http://localhost:5001",
+      "api",
+    );
   }
 
   createUser(data: UserCreateDTO): Promise<User> {
