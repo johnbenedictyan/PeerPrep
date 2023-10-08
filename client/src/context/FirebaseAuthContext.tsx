@@ -9,7 +9,7 @@ import {
 import { useNavigate } from "react-router-dom";
 
 import UserController from "../controllers/user/user.controller";
-import { FullUser } from "../interfaces/User";
+import { FullUser, User } from "../interfaces/User";
 import { SignOutUser, userStateListener } from "../util/auth";
 
 interface AuthProviderProps {
@@ -35,7 +35,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         console.log(user.uid);
         ctrlInstance
           .getUser(user.uid)
-          .then((userFromDb) => {
+          .then((userFromDb : User) => {
             if (!userFromDb) {
               return;
             }
@@ -45,7 +45,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
               ...user,
             });
           })
-          .catch((error) => {
+          .catch((error: any) => {
             console.log(error);
           });
       }
