@@ -55,7 +55,7 @@ function App() {
   const { currentUser } = React.useContext(AuthContext);
 
   return (
-    <div className="App bg-gray-100 dark:bg-gray-900">
+    <div className="App bg-gray-100 dark:bg-gray-800">
       <SentryRoutes>
         <Route path="/" element={<Layout />}>
           <Route path="" element={<LandingPage />} />

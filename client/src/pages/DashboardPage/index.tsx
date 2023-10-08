@@ -258,7 +258,7 @@ function DashboardPage() {
               {clients.map((client) => (
                 <li
                   key={client.id}
-                  className="overflow-hidden rounded-xl border border-gray-200"
+                  className="overflow-hidden rounded-xl border border-gray-200 dark:border-gray-800"
                 >
                   <div className="flex items-center gap-x-4 border-b border-gray-900/5 bg-gray-50 p-6">
                     <img

@@ -35,14 +35,14 @@ function SignInPage() {
               src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
               alt="Your Company"
             />
-            <h2 className="mt-8 text-2xl font-bold leading-9 tracking-tight text-gray-900">
+            <h2 className="mt-8 text-2xl font-bold leading-9 tracking-tight text-gray-900 dark:text-gray-100">
               Sign in to your account
             </h2>
             <p className="mt-2 text-sm leading-6 text-gray-500">
               Not a member?{" "}
               <Link
                 to="/register"
-                className="font-semibold text-indigo-600 hover:text-indigo-500"
+                className="font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300"
               >
                 Register for an account
               </Link>
@@ -55,7 +55,7 @@ function SignInPage() {
                 <div>
                   <label
                     htmlFor="email"
-                    className="block text-sm font-medium leading-6 text-gray-900"
+                    className="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-100"
                   >
                     Email address
                   </label>
@@ -66,7 +66,7 @@ function SignInPage() {
                       type="email"
                       autoComplete="email"
                       required
-                      className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-700 placeholder:text-gray-400 dark:placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:focus:ring-indigo-400 sm:text-sm sm:leading-6"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       data-testid="sign-in-page-email-input"
@@ -77,7 +77,7 @@ function SignInPage() {
                 <div>
                   <label
                     htmlFor="password"
-                    className="block text-sm font-medium leading-6 text-gray-900"
+                    className="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-100"
                   >
                     Password
                   </label>
@@ -88,7 +88,7 @@ function SignInPage() {
                       type="password"
                       autoComplete="current-password"
                       required
-                      className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-700 placeholder:text-gray-400 dark:placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:focus:ring-indigo-400 sm:text-sm sm:leading-6"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       data-testid="sign-in-page-password-input"
@@ -102,13 +102,13 @@ function SignInPage() {
                       id="remember-me"
                       name="remember-me"
                       type="checkbox"
-                      className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                      className="h-4 w-4 rounded border-gray-300 text-indigo-600 dark:text-indigo-400 focus:ring-indigo-600 dark:focus:ring-indigo-400"
                       checked={rememberMe}
                       onChange={() => setRememberMe(!rememberMe)}
                     />
                     <label
                       htmlFor="remember-me"
-                      className="ml-3 block text-sm leading-6 text-gray-700"
+                      className="ml-3 block text-sm leading-6 text-gray-700 dark:text-gray-300"
                     >
                       Remember me
                     </label>
@@ -117,7 +117,7 @@ function SignInPage() {
                   <div className="text-sm leading-6">
                     <a
                       href="/forgot-password"
-                      className="font-semibold text-indigo-600 hover:text-indigo-500"
+                      className="font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300"
                     >
                       Forgot password?
                     </a>
@@ -128,7 +128,7 @@ function SignInPage() {
                   <button
                     name="sign-in"
                     type="submit"
-                    className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-gray-100 shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                     disabled={loading}
                     data-testid="sign-in-page-sign-in-button"
                   >
@@ -154,10 +154,10 @@ function SignInPage() {
                   className="absolute inset-0 flex items-center"
                   aria-hidden="true"
                 >
-                  <div className="w-full border-t border-gray-200" />
+                  <div className="w-full border-t border-gray-200 dark:border-gray-800" />
                 </div>
                 <div className="relative flex justify-center text-sm font-medium leading-6">
-                  <span className="bg-white px-6 text-gray-900">
+                  <span className="bg-gray-100 dark:bg-gray-900 px-6 text-gray-900 dark:text-gray-100">
                     Or continue with
                   </span>
                 </div>
@@ -166,7 +166,7 @@ function SignInPage() {
               <div className="mt-6 grid grid-cols-2 gap-4">
                 <a
                   href="/twitter"
-                  className="flex w-full items-center justify-center gap-3 rounded-md bg-[#1D9BF0] px-3 py-1.5 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1D9BF0]"
+                  className="flex w-full items-center justify-center gap-3 rounded-md bg-[#1D9BF0] px-3 py-1.5 text-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1D9BF0]"
                 >
                   <svg
                     className="h-5 w-5"
@@ -183,7 +183,7 @@ function SignInPage() {
 
                 <a
                   href="/github"
-                  className="flex w-full items-center justify-center gap-3 rounded-md bg-[#24292F] px-3 py-1.5 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#24292F]"
+                  className="flex w-full items-center justify-center gap-3 rounded-md bg-[#24292F] px-3 py-1.5 text-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#24292F]"
                 >
                   <svg
                     className="h-5 w-5"

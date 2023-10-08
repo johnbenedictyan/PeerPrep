@@ -49,7 +49,7 @@ function Navbar() {
   const { currentUser } = useContext(AuthContext);
 
   return (
-    <Disclosure as="nav" className="bg-gray-100 dark:bg-gray-900 shadow-sm">
+    <Disclosure as="nav" className="bg-gray-100 dark:bg-slate-800 shadow-sm">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-9xl px-4 sm:px-6 lg:px-8">

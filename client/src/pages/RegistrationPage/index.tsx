@@ -32,14 +32,14 @@ function RegistrationPage() {
               src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
               alt="Your Company"
             />
-            <h2 className="mt-8 text-2xl font-bold leading-9 tracking-tight text-gray-900">
+            <h2 className="mt-8 text-2xl font-bold leading-9 tracking-tight text-gray-900 dark:text-gray-100">
               Register for account
             </h2>
-            <p className="mt-2 text-sm leading-6 text-gray-500">
+            <p className="mt-2 text-sm leading-6 text-gray-500 dark:text-gray-400">
               Already have an account?{" "}
               <Link
                 to="/sign-in"
-                className="font-semibold text-indigo-600 hover:text-indigo-500"
+                className="font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300"
               >
                 Log In
               </Link>
@@ -52,7 +52,7 @@ function RegistrationPage() {
                 <div>
                   <label
                     htmlFor="email"
-                    className="block text-sm font-medium leading-6 text-gray-900"
+                    className="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-100"
                   >
                     Email address
                   </label>
@@ -63,7 +63,7 @@ function RegistrationPage() {
                       type="email"
                       autoComplete="email"
                       required
-                      className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 dark:placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:focus:ring-indigo-400 sm:text-sm sm:leading-6 bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                     />
@@ -73,7 +73,7 @@ function RegistrationPage() {
                 <div>
                   <label
                     htmlFor="password"
-                    className="block text-sm font-medium leading-6 text-gray-900"
+                    className="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-100"
                   >
                     Password
                   </label>
@@ -84,7 +84,7 @@ function RegistrationPage() {
                       type="password"
                       autoComplete="current-password"
                       required
-                      className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 dark:placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:focus:ring-indigo-400 sm:text-sm sm:leading-6 bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                     />
@@ -94,7 +94,7 @@ function RegistrationPage() {
                 <div>
                   <label
                     htmlFor="password2"
-                    className="block text-sm font-medium leading-6 text-gray-900"
+                    className="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-100"
                   >
                     Confirm Password
                   </label>
@@ -105,7 +105,7 @@ function RegistrationPage() {
                       type="password"
                       autoComplete="current-password"
                       required
-                      className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 dark:placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:focus:ring-indigo-400 sm:text-sm sm:leading-6 bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100"
                       value={password2}
                       onChange={(e) => setPassword2(e.target.value)}
                     />
@@ -118,7 +118,7 @@ function RegistrationPage() {
                                             id="remember-me"
                                             name="remember-me"
                                             type="checkbox"
-                                            className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                                            className="h-4 w-4 rounded border-gray-300 text-indigo-600 dark:text-indigo-400 focus:ring-indigo-600 dark:focus:ring-indigo-400"
                                         />
                                         <label htmlFor="remember-me" className="ml-3 block text-sm leading-6 text-gray-700">
                                             Remember me
@@ -126,7 +126,7 @@ function RegistrationPage() {
                                     </div>
 
                                     <div className="text-sm leading-6">
-                                        <a href="" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                                        <a href="" className="font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300">
                                             Forgot password?
                                         </a>
                                     </div>
@@ -149,10 +149,10 @@ function RegistrationPage() {
                   className="absolute inset-0 flex items-center"
                   aria-hidden="true"
                 >
-                  <div className="w-full border-t border-gray-200" />
+                  <div className="w-full border-t border-gray-200 dark:border-gray-800" />
                 </div>
                 <div className="relative flex justify-center text-sm font-medium leading-6">
-                  <span className="bg-white px-6 text-gray-900">
+                  <span className="bg-gray-100 dark:bg-gray-900 px-6 text-gray-900 dark:text-gray-100">
                     Or continue with
                   </span>
                 </div>
