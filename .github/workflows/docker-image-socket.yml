@@ -2,9 +2,9 @@ name: Socket Service Docker Image CI
 
 on:
   push:
-    branches: ["staging"]
+    branches: ["main"]
   pull_request:
-    branches: ["staging"]
+    branches: ["main"]
 
 jobs:
   docker:
