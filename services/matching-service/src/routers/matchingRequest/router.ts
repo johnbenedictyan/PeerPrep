@@ -7,11 +7,17 @@ import BaseRouter from "../router.abstract";
 
 class MatchingRequestRouter extends BaseRouter<MatchingRequestController> {
   override registerRoutes(): express.Router {
+    this.router.route("/healthCheck").get(this.controller.healthCheck);
+
+    this.router
+      .route("/:id")
+      .get(this.controller.findById)
+      .put(this.controller.update);
+
     this.router
       .route("/")
+      .get(this.controller.findAll)
       .post(checkSchema(createMatchingRequestSchema), this.controller.create);
-
-    this.router.route("/healthCheck").get(this.controller.healthCheck);
 
     return this.router;
   }
