@@ -7,7 +7,10 @@ import {
 } from "@heroicons/react/24/outline";
 import { Fragment, useContext, useEffect, useRef } from "react";
 import { Link, NavLink } from "react-router-dom";
+
 import { AuthContext } from "../context/FirebaseAuthContext";
+import classNames from "../util/ClassNames";
+import DarkModeToggle from "./DarkModeToggle/DarkModeToggle";
 
 const user = {
   name: "Tom Cook",
@@ -15,10 +18,6 @@ const user = {
   imageUrl:
     "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
 };
-
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
-}
 
 function Navbar() {
   const navigation = useRef([
@@ -98,7 +97,10 @@ function Navbar() {
               <div className="hidden sm:ml-6 sm:flex sm:items-center">
                 <button
                   type="button"
-                  className="relative rounded-full bg-gray-100 dark:bg-gray-900 p-1 text-gray-400 dark:text-gray-600 hover:text-gray-500 dark:hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  className={classNames(
+                    "relative rounded-full p-1 focus:outline-none focus:ring-2 focus:ring-offset-2",
+                    "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 focus:ring-indigo-500",
+                  )}
                 >
                   <span className="absolute -inset-1.5" />
                   <span className="sr-only">View notifications</span>
@@ -110,7 +112,10 @@ function Navbar() {
                   <div>
                     <Menu.Button
                       type="button"
-                      className="relative flex rounded-full bg-gray-100 dark:bg-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                      className={classNames(
+                        "relative flex rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-offset-2",
+                        "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 focus:ring-indigo-500",
+                      )}
                     >
                       <span className="absolute -inset-1.5" />
                       <span className="sr-only">Open user menu</span>
@@ -173,7 +178,13 @@ function Navbar() {
                     </Menu.Items>
                   </Transition>
                 </Menu>
+
+                <div className="relative ml-3">
+                  <DarkModeToggle />
+                </div>
               </div>
+
+              {/* Mobile Navbar */}
               <div className="-mr-2 flex items-center sm:hidden">
                 {/* Mobile menu button */}
                 <Disclosure.Button

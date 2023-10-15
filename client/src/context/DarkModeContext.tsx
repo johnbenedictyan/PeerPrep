@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useEffect, useMemo, useState } from "react";
+import { createContext, ReactNode, useEffect, useMemo, useState } from "react";
 
 interface DarkModeProviderProps {
   children: ReactNode;
@@ -6,31 +6,30 @@ interface DarkModeProviderProps {
 
 interface DarkModeContextType {
   isDarkMode: boolean;
+  setIsDarkMode: (newState: boolean) => void;
 }
 
 export const DarkModeContext = createContext<DarkModeContextType>({
   isDarkMode: false,
+  setIsDarkMode: (newState: boolean) => {},
 });
 
 export function DarkModeProvider({ children }: DarkModeProviderProps) {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(localStorage.theme === "dark");
 
   useEffect(() => {
-    window
-      .matchMedia("(prefers-color-scheme: dark)")
-      .addEventListener("change", (event) => {
-        const colorScheme = event.matches ? "dark" : "light";
-        setIsDarkMode(colorScheme === "dark");
-      });
+    const root = window.document.documentElement;
+    root.classList.remove(isDarkMode ? "light" : "dark");
+    root.classList.add(isDarkMode ? "dark" : "true");
 
-    return () => {
-      window
-        .matchMedia("(prefers-color-scheme: dark)")
-        .removeEventListener("change", () => {});
-    };
-  }, []);
+    // save theme to local storage
+    localStorage.setItem("theme", isDarkMode ? "dark" : "true");
+  }, [isDarkMode]);
 
-  const value = useMemo(() => ({ isDarkMode }), [isDarkMode]);
+  const value = useMemo(
+    () => ({ isDarkMode, setIsDarkMode }),
+    [isDarkMode, setIsDarkMode],
+  );
 
   return (
     <DarkModeContext.Provider value={value}>

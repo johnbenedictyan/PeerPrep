@@ -334,7 +334,7 @@ function QuestionPage() {
                         >
                           <button type="button" className="group inline-flex">
                             Status
-                            <span className="ml-2 flex-none rounded bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 group-hover:bg-gray-200 dark:group-hover:bg-gray-800">
+                            <span className="ml-2 flex-none rounded bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 group-hover:bg-gray-200 dark:group-hover:bg-gray-800">
                               {sortByStatus === SortBy.ASC ? (
                                 <ChevronUpIcon
                                   className="h-4 w-4"
@@ -357,7 +357,7 @@ function QuestionPage() {
                         >
                           <button type="button" className="group inline-flex">
                             Title
-                            <span className="ml-2 flex-none rounded bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 group-hover:bg-gray-200 dark:group-hover:bg-gray-800">
+                            <span className="ml-2 flex-none rounded bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 group-hover:bg-gray-200 dark:group-hover:bg-gray-800">
                               {sortByTitle === SortBy.ASC ? (
                                 <ChevronUpIcon
                                   className="h-4 w-4"
@@ -380,7 +380,7 @@ function QuestionPage() {
                         >
                           <button type="button" className="group inline-flex">
                             Difficulty
-                            <span className="ml-2 flex-none rounded bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 group-hover:bg-gray-200 dark:group-hover:bg-gray-800">
+                            <span className="ml-2 flex-none rounded bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 group-hover:bg-gray-200 dark:group-hover:bg-gray-800">
                               {sortByDifficulty === SortBy.ASC ? (
                                 <ChevronUpIcon
                                   className="h-4 w-4"
@@ -415,7 +415,7 @@ function QuestionPage() {
                         </th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-gray-200 bg-gray-100 dark:bg-gray-900">
+                    <tbody className="divide-y divide-gray-200 bg-gray-100 dark:bg-gray-800">
                       {questions
                         .slice(
                           pageNumber * PAGINATION_SIZE,
@@ -455,7 +455,7 @@ function QuestionPage() {
               </div>
             </div>
             <nav
-              className="flex items-center justify-between border-t border-gray-200 dark:border-gray-800 bg-gray-100 dark:bg-gray-900 px-4 py-3 sm:px-6"
+              className="flex items-center justify-between border-t border-gray-200 dark:border-gray-800 bg-gray-100 dark:bg-gray-800 px-4 py-3 sm:px-6"
               aria-label="Pagination"
             >
               <div className="hidden sm:block">
@@ -481,7 +481,7 @@ function QuestionPage() {
                     setPageNumber(pageNumber - 1 > 0 ? pageNumber - 1 : 0)
                   }
                   disabled={pageNumber === 0}
-                  className="relative inline-flex items-center rounded-md bg-gray-100 dark:bg-gray-900 px-3 py-2 text-sm font-semibold text-gray-900 dark:text-gray-100 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 dark:hover:bg-gray-950 focus-visible:outline-offset-0"
+                  className="relative inline-flex items-center rounded-md bg-gray-100 dark:bg-gray-800 px-3 py-2 text-sm font-semibold text-gray-900 dark:text-gray-100 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 dark:hover:bg-gray-950 focus-visible:outline-offset-0"
                 >
                   Previous
                 </button>
@@ -495,7 +495,7 @@ function QuestionPage() {
                     )
                   }
                   disabled={pageNumber === maxPageNumber}
-                  className="relative ml-3 inline-flex items-center rounded-md bg-gray-100 dark:bg-gray-900 px-3 py-2 text-sm font-semibold text-gray-900 dark:text-gray-100 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 dark:hover:bg-gray-950 focus-visible:outline-offset-0"
+                  className="relative ml-3 inline-flex items-center rounded-md bg-gray-100 dark:bg-gray-800 px-3 py-2 text-sm font-semibold text-gray-900 dark:text-gray-100 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 dark:hover:bg-gray-950 focus-visible:outline-offset-0"
                 >
                   Next
                 </button>
