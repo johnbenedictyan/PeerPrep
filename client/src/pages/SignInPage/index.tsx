@@ -1,28 +1,56 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { ExclamationCircleIcon } from "@heroicons/react/24/outline";
+import { FirebaseError } from "firebase/app";
+import { useContext, useState } from "react";
+import { Link } from "react-router-dom";
 
+import UserController from "../../controllers/user/user.controller";
 import { signInUser } from "../../util/auth";
+import classNames from "../../util/ClassNames";
+import { NotificationContext } from "../../context/NotificationContext";
 
 function SignInPage() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [rememberMe, setRememberMe] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const navigate = useNavigate();
+
+  const [wrongPasswordFlag, setWrongPasswordFlag] = useState<boolean>(false);
+  const [noUserFlag, setNoUserFlag] = useState<boolean>(false);
+  const userController = new UserController();
+  const { addNotification } = useContext(NotificationContext);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
+    setWrongPasswordFlag(false);
+    setNoUserFlag(false);
     try {
       // Send the email and password to firebase
       const userCredential = await signInUser(email, password);
-
-      if (userCredential) {
-        setLoading(false);
-        navigate("/profile");
-      }
-    } catch (error: any) {
+      userController.getUser(userCredential.user.uid).catch(() => {
+        addNotification({
+          type: "error",
+          message: "There was an error in connecting to the user service",
+        });
+      });
       setLoading(false);
+    } catch (err: unknown) {
+      if (err instanceof FirebaseError) {
+        console.error(err.code);
+        switch (err.code) {
+          case "auth/wrong-password":
+            setWrongPasswordFlag(true);
+            break;
+
+          case "auth/user-not-found":
+            setNoUserFlag(true);
+            break;
+
+          default:
+            break;
+        }
+        setLoading(false);
+      }
     }
   };
 
@@ -67,12 +95,31 @@ function SignInPage() {
                       type="email"
                       autoComplete="email"
                       required
-                      className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-700 placeholder:text-gray-400 dark:placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:focus:ring-indigo-400 sm:text-sm sm:leading-6"
+                      className={classNames(
+                        "block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset placeholder:text-gray-400 dark:placeholder:text-gray-600 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6",
+                        "focus:ring-indigo-600 dark:focus:ring-indigo-400",
+                        noUserFlag
+                          ? "ring-red-300 dark:ring-red-700"
+                          : "ring-gray-300 dark:ring-gray-700",
+                      )}
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       data-testid="sign-in-page-email-input"
+                      aria-invalid={noUserFlag}
+                      aria-describedby="user-error"
                     />
+                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                      <ExclamationCircleIcon
+                        className="h-5 w-5 text-red-500"
+                        aria-hidden="true"
+                      />
+                    </div>
                   </div>
+                  {noUserFlag && (
+                    <p className="mt-2 text-sm text-red-600" id="user-error">
+                      Not User Exists
+                    </p>
+                  )}
                 </div>
 
                 <div>
@@ -89,12 +136,34 @@ function SignInPage() {
                       type="password"
                       autoComplete="current-password"
                       required
-                      className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-700 placeholder:text-gray-400 dark:placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:focus:ring-indigo-400 sm:text-sm sm:leading-6"
+                      className={classNames(
+                        "block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset placeholder:text-gray-400 dark:placeholder:text-gray-600 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6",
+                        "focus:ring-indigo-600 dark:focus:ring-indigo-400",
+                        wrongPasswordFlag
+                          ? "ring-red-300 dark:ring-red-700"
+                          : "ring-gray-300 dark:ring-gray-700",
+                      )}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       data-testid="sign-in-page-password-input"
+                      aria-invalid={wrongPasswordFlag}
+                      aria-describedby="password-error"
                     />
+                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                      <ExclamationCircleIcon
+                        className="h-5 w-5 text-red-500"
+                        aria-hidden="true"
+                      />
+                    </div>
                   </div>
+                  {wrongPasswordFlag && (
+                    <p
+                      className="mt-2 text-sm text-red-600"
+                      id="password-error"
+                    >
+                      Wrong Password
+                    </p>
+                  )}
                 </div>
 
                 <div className="flex items-center justify-between">

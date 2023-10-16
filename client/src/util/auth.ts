@@ -25,7 +25,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 export const signInUser = async (email: string, password: string) => {
-  if (!email && !password) return {};
+  if (!email && !password) throw new Error("No Email or Password");
 
   return signInWithEmailAndPassword(auth, email, password);
 };

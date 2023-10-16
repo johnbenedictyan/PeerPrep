@@ -18,15 +18,15 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <AuthProvider>
-        <MatchingProvider>
-          <DarkModeProvider>
-            <NotificationProvider>
+      <NotificationProvider>
+        <AuthProvider>
+          <MatchingProvider>
+            <DarkModeProvider>
               <App />
-            </NotificationProvider>
-          </DarkModeProvider>
-        </MatchingProvider>
-      </AuthProvider>
+            </DarkModeProvider>
+          </MatchingProvider>
+        </AuthProvider>
+      </NotificationProvider>
     </BrowserRouter>
   </React.StrictMode>,
 );

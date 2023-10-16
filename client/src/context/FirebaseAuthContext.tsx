@@ -2,6 +2,7 @@ import {
   createContext,
   ReactNode,
   useCallback,
+  useContext,
   useEffect,
   useMemo,
   useState,
@@ -11,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import UserController from "../controllers/user/user.controller";
 import { FullUser, User } from "../interfaces/User";
 import { SignOutUser, userStateListener } from "../util/auth";
+import { NotificationContext } from "./NotificationContext";
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -28,11 +30,19 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const navigate = useNavigate();
   const ctrlInstance = useMemo(() => new UserController(), []);
 
+  const { addNotification } = useContext(NotificationContext);
+
+  // As soon as setting the current user to null,
+  // the user will be redirected to the home page.
+  const signOut = useCallback(() => {
+    SignOutUser();
+    setCurrentUser(null);
+    navigate("/");
+  }, [setCurrentUser, navigate]);
+
   useEffect(() => {
     const unsubscribe = userStateListener((user) => {
       if (user) {
-        // setCurrentUser(user);
-        console.log(user.uid);
         ctrlInstance
           .getUser(user.uid)
           .then((userFromDb: User) => {
@@ -46,20 +56,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
             });
           })
           .catch((error: any) => {
-            console.log(error);
+            console.error("HIHIH", error);
           });
       }
     });
     return unsubscribe;
-  }, [setCurrentUser, ctrlInstance]);
-
-  // As soon as setting the current user to null,
-  // the user will be redirected to the home page.
-  const signOut = useCallback(() => {
-    SignOutUser();
-    setCurrentUser(null);
-    navigate("/");
-  }, [setCurrentUser, navigate]);
+  }, [setCurrentUser, ctrlInstance, addNotification, signOut]);
 
   const value = useMemo(
     () => ({
