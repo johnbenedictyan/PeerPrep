@@ -11,7 +11,7 @@ interface NotificationProviderProps {
   children: ReactNode;
 }
 
-interface Notification {
+export interface Notification {
   type: "info" | "error" | "success";
   message: string;
 }
@@ -50,17 +50,17 @@ export function NotificationProvider({ children }: NotificationProviderProps) {
     [notifications, removeNotification, addNotification],
   );
 
-    useEffect(() => {
-      if (notifications.length === 0) return () => {};
-      let intervalId: any;
-      if (notifications.length > 0) {
-        intervalId = setInterval(() => {
-          setNotifications(notifications.filter((v, idx) => idx > 0));
-        }, 5000);
-      }
+  useEffect(() => {
+    if (notifications.length === 0) return () => {};
+    let intervalId: any;
+    if (notifications.length > 0) {
+      intervalId = setInterval(() => {
+        setNotifications(notifications.filter((v, idx) => idx > 0));
+      }, 5000);
+    }
 
-      return () => clearInterval(intervalId);
-    }, [notifications]);
+    return () => clearInterval(intervalId);
+  }, [notifications]);
 
   return (
     <NotificationContext.Provider value={value}>

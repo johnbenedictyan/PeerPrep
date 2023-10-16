@@ -1,6 +1,5 @@
 import "./App.css";
 
-import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/outline";
 import * as Sentry from "@sentry/react";
 import React, { useContext } from "react";
 import {
@@ -14,8 +13,8 @@ import {
 
 import AdminLayout from "./components/AdminLayout";
 import Layout from "./components/Layout";
+import Notifications from "./components/Notifications";
 import ProtectedRoute from "./components/ProtectedRoute";
-import Toast from "./components/Toast";
 import { AuthContext } from "./context/FirebaseAuthContext";
 import { NotificationContext } from "./context/NotificationContext";
 import AdminPage from "./pages/AdminPage";
@@ -100,31 +99,7 @@ function App() {
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </SentryRoutes>
-      {notifications.map((noti) =>
-        noti.type === "error" ? (
-          <Toast
-            icon={
-              <XCircleIcon
-                className="h-6 w-6 text-green-400"
-                aria-hidden="true"
-              />
-            }
-            title="Error"
-            description={noti.message}
-          />
-        ) : (
-          <Toast
-            icon={
-              <CheckCircleIcon
-                className="h-6 w-6 text-green-400"
-                aria-hidden="true"
-              />
-            }
-            title="Success!"
-            description={noti.message}
-          />
-        ),
-      )}
+      <Notifications />
     </div>
   );
 }
