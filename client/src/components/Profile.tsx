@@ -124,7 +124,7 @@ function Profile() {
                 <div>
                   <button
                     type="button"
-                    className="rounded-md bg-gray-100 dark:bg-gray-900 px-2.5 py-1.5 text-sm font-semibold text-gray-900 dark:text-gray-100 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                    className="rounded-md bg-gray-100 dark:bg-gray-800 px-2.5 py-1.5 text-sm font-semibold text-gray-900 dark:text-gray-100 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
                   >
                     Change avatar
                   </button>
@@ -147,7 +147,7 @@ function Profile() {
                     name="name"
                     id="name"
                     autoComplete="given-name"
-                    className="block w-full rounded-md border-0 py-1.5 bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-600 dark:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:focus:ring-indigo-400 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-1.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-600 dark:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:focus:ring-indigo-400 sm:text-sm sm:leading-6"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                   />
@@ -185,7 +185,7 @@ function Profile() {
                     name="email"
                     type="email"
                     autoComplete="email"
-                    className="block w-full rounded-md border-0 py-1.5 bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-600 dark:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:focus:ring-indigo-400 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-1.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-600 dark:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:focus:ring-indigo-400 sm:text-sm sm:leading-6"
                     value={emailAddress}
                     onChange={(e) => setEmailAddress(e.target.value)}
                   />
@@ -230,7 +230,7 @@ function Profile() {
                     name="current_password"
                     type="password"
                     autoComplete="current-password"
-                    className="block w-full rounded-md border-0 py-1.5 bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-600 dark:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:focus:ring-indigo-400 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-1.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-600 dark:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:focus:ring-indigo-400 sm:text-sm sm:leading-6"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                   />
@@ -250,7 +250,7 @@ function Profile() {
                     name="new_password"
                     type="password"
                     autoComplete="new-password"
-                    className="block w-full rounded-md border-0 py-1.5 bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-600 dark:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:focus:ring-indigo-400 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-1.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-600 dark:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:focus:ring-indigo-400 sm:text-sm sm:leading-6"
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
                   />
@@ -270,7 +270,7 @@ function Profile() {
                     name="confirm_password"
                     type="password"
                     autoComplete="new-password"
-                    className="block w-full rounded-md border-0 py-1.5 bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-600 dark:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:focus:ring-indigo-400 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-1.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-600 dark:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:focus:ring-indigo-400 sm:text-sm sm:leading-6"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                   />

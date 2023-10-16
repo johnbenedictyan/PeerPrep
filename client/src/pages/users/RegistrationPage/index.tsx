@@ -63,7 +63,7 @@ function RegistrationPage() {
                       type="email"
                       autoComplete="email"
                       required
-                      className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 dark:placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:focus:ring-indigo-400 sm:text-sm sm:leading-6 bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100"
+                      className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 dark:placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:focus:ring-indigo-400 sm:text-sm sm:leading-6 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                     />
@@ -84,7 +84,7 @@ function RegistrationPage() {
                       type="password"
                       autoComplete="current-password"
                       required
-                      className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 dark:placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:focus:ring-indigo-400 sm:text-sm sm:leading-6 bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100"
+                      className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 dark:placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:focus:ring-indigo-400 sm:text-sm sm:leading-6 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                     />
@@ -105,7 +105,7 @@ function RegistrationPage() {
                       type="password"
                       autoComplete="current-password"
                       required
-                      className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 dark:placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:focus:ring-indigo-400 sm:text-sm sm:leading-6 bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100"
+                      className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 dark:placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:focus:ring-indigo-400 sm:text-sm sm:leading-6 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                       value={password2}
                       onChange={(e) => setPassword2(e.target.value)}
                     />
@@ -152,7 +152,7 @@ function RegistrationPage() {
                   <div className="w-full border-t border-gray-200 dark:border-gray-800" />
                 </div>
                 <div className="relative flex justify-center text-sm font-medium leading-6">
-                  <span className="bg-gray-100 dark:bg-gray-900 px-6 text-gray-900 dark:text-gray-100">
+                  <span className="bg-gray-100 dark:bg-gray-800 px-6 text-gray-900 dark:text-gray-100">
                     Or continue with
                   </span>
                 </div>

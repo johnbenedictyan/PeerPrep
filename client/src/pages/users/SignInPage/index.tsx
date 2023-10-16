@@ -227,7 +227,7 @@ function SignInPage() {
                   <div className="w-full border-t border-gray-200 dark:border-gray-800" />
                 </div>
                 <div className="relative flex justify-center text-sm font-medium leading-6">
-                  <span className="bg-gray-100 dark:bg-gray-900 px-6 text-gray-900 dark:text-gray-100">
+                  <span className="bg-gray-100 dark:bg-gray-800 px-6 text-gray-900 dark:text-gray-100">
                     Or continue with
                   </span>
                 </div>

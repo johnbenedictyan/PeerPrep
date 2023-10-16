@@ -30,7 +30,7 @@ export default function Toast({ icon, title, description }: ToastProps) {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="pointer-events-auto w-full max-w-sm overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-900 shadow-lg ring-1 ring-black dark:ring-white ring-opacity-5">
+            <div className="pointer-events-auto w-full max-w-sm overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800 shadow-lg ring-1 ring-black dark:ring-white ring-opacity-5">
               <div className="p-4">
                 <div className="flex items-start">
                   <div className="flex-shrink-0">{icon}</div>
@@ -45,7 +45,7 @@ export default function Toast({ icon, title, description }: ToastProps) {
                   <div className="ml-4 flex flex-shrink-0">
                     <button
                       type="button"
-                      className="inline-flex rounded-md bg-gray-100 dark:bg-gray-900 text-gray-400 dark:text-gray-600 hover:text-gray-500 hover:dark:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:ring-offset-2"
+                      className="inline-flex rounded-md bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-600 hover:text-gray-500 hover:dark:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:ring-offset-2"
                       onClick={() => {
                         setShow(false);
                       }}

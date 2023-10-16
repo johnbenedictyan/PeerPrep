@@ -139,7 +139,7 @@ function Navbar() {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                    <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-gray-100 dark:bg-gray-900 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-gray-100 dark:bg-gray-800 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                       {currentUser
                         ? userNavigationLoggedIn.map((item) => (
                             <Menu.Item key={item.name}>
@@ -148,7 +148,7 @@ function Navbar() {
                                   href={item.href}
                                   className={classNames(
                                     active
-                                      ? "bg-gray-100 dark:bg-gray-900"
+                                      ? "bg-gray-100 dark:bg-gray-800"
                                       : "",
                                     "block px-4 py-2 text-sm text-gray-700 dark:text-gray-300",
                                   )}
@@ -165,7 +165,7 @@ function Navbar() {
                                   href={item.href}
                                   className={classNames(
                                     active
-                                      ? "bg-gray-100 dark:bg-gray-900"
+                                      ? "bg-gray-100 dark:bg-gray-800"
                                       : "",
                                     "block px-4 py-2 text-sm text-gray-700 dark:text-gray-300",
                                   )}
@@ -189,7 +189,7 @@ function Navbar() {
                 {/* Mobile menu button */}
                 <Disclosure.Button
                   type="button"
-                  className="relative inline-flex items-center justify-center rounded-md bg-gray-100 dark:bg-gray-900 p-2 text-gray-400 dark:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-900 hover:text-gray-500 dark:hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  className="relative inline-flex items-center justify-center rounded-md bg-gray-100 dark:bg-gray-800 p-2 text-gray-400 dark:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-900 hover:text-gray-500 dark:hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                 >
                   <span className="absolute -inset-0.5" />
                   <span className="sr-only">Open main menu</span>
@@ -243,7 +243,7 @@ function Navbar() {
                 </div>
                 <button
                   type="button"
-                  className="relative ml-auto flex-shrink-0 rounded-full bg-gray-100 dark:bg-gray-900 p-1 text-gray-400 dark:text-gray-600 hover:text-gray-500 dark:hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  className="relative ml-auto flex-shrink-0 rounded-full bg-gray-100 dark:bg-gray-800 p-1 text-gray-400 dark:text-gray-600 hover:text-gray-500 dark:hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                 >
                   <span className="absolute -inset-1.5" />
                   <span className="sr-only">View notifications</span>

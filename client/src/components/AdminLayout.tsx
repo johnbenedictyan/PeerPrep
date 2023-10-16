@@ -11,6 +11,7 @@ import { Fragment, useState } from "react";
 import { Outlet } from "react-router-dom";
 
 import classNames from "../util/ClassNames";
+import DarkModeToggle from "./toggle/darkModeToggle/DarkModeToggle";
 
 const navigation = [
   { name: "Questions", href: "#", icon: FolderIcon, current: false },
@@ -54,7 +55,7 @@ export default function AdminLayout() {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-gray-100/80 dark:bg-gray-900/80" />
+            <div className="fixed inset-0 bg-gray-100/80 dark:bg-gray-800/80" />
           </Transition.Child>
 
           <div className="fixed inset-0 flex">
@@ -92,7 +93,7 @@ export default function AdminLayout() {
                   </div>
                 </Transition.Child>
                 {/* Sidebar component, swap this element with another sidebar if you like */}
-                <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-100 dark:bg-gray-900 px-6 ring-1 ring-white/10">
+                <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-100 dark:bg-gray-800 px-6 ring-1 ring-white/10">
                   <div className="flex h-16 shrink-0 items-center">
                     <img
                       className="h-8 w-auto"
@@ -152,12 +153,15 @@ export default function AdminLayout() {
       <div className="hidden xl:fixed xl:inset-y-0 xl:z-50 xl:flex xl:w-72 xl:flex-col">
         {/* Sidebar component, swap this element with another sidebar if you like */}
         <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-black/10 px-6 ring-1 ring-white/5">
-          <div className="flex h-16 shrink-0 items-center">
+          <div className="flex h-16 shrink-0 items-center justify-between">
             <img
               className="h-8 w-auto"
               src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
               alt="Your Company"
             />
+            <div className="">
+            <DarkModeToggle />
+            </div>
           </div>
           <nav className="flex flex-1 flex-col">
             <ul className="flex flex-1 flex-col gap-y-7">
@@ -205,7 +209,7 @@ export default function AdminLayout() {
 
       <div className="xl:pl-72">
         {/* Sticky search header */}
-        <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-6 border-b border-black/5 dark:border-white/5 bg-gray-100 dark:bg-gray-900 px-4 shadow-sm sm:px-6 lg:px-8">
+        <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-6 border-b border-black/5 dark:border-white/5 bg-gray-100 dark:bg-gray-800 px-4 shadow-sm sm:px-6 lg:px-8">
           <button
             type="button"
             className="-m-2.5 p-2.5 text-dark dark:text-white xl:hidden"
