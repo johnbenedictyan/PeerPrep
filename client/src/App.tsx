@@ -1,7 +1,8 @@
 import "./App.css";
 
+import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/outline";
 import * as Sentry from "@sentry/react";
-import React from "react";
+import React, { useContext } from "react";
 import {
   createRoutesFromChildren,
   matchRoutes,
@@ -14,7 +15,9 @@ import {
 import AdminLayout from "./components/AdminLayout";
 import Layout from "./components/Layout";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Toast from "./components/Toast";
 import { AuthContext } from "./context/FirebaseAuthContext";
+import { NotificationContext } from "./context/NotificationContext";
 import AdminPage from "./pages/AdminPage";
 import DashboardPage from "./pages/DashboardPage";
 import LandingPage from "./pages/LandingPage";
@@ -52,14 +55,22 @@ Sentry.init({
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 
 function App() {
-  const { currentUser } = React.useContext(AuthContext);
+  const { currentUser } = useContext(AuthContext);
+  const { notifications } = useContext(NotificationContext);
 
   return (
     <div className="App bg-gray-100 dark:bg-gray-800">
       <SentryRoutes>
         <Route path="/" element={<Layout />}>
           <Route path="" element={<LandingPage />} />
-          <Route path="match" element={<MatchPage />} />
+          <Route
+            path="match"
+            element={
+              <ProtectedRoute user={currentUser} permissionRole="user">
+                <MatchPage />
+              </ProtectedRoute>
+            }
+          />
           <Route path="sign-in" element={<SignInPage />} />
           <Route path="sign-out" element={<SignOutPage />} />
           <Route path="register" element={<RegistrationPage />} />
@@ -67,7 +78,11 @@ function App() {
           <Route path="questions" element={<QuestionPage />} />
           <Route
             path="questions/:questionId"
-            element={<SingleQuestionPage />}
+            element={
+              <ProtectedRoute user={currentUser} permissionRole="user">
+                <SingleQuestionPage />
+              </ProtectedRoute>
+            }
           />
           <Route path="profile" element={<ProfilePage />} />
           <Route path="*" element={<NotFoundPage />} />
@@ -85,6 +100,31 @@ function App() {
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </SentryRoutes>
+      {notifications.map((noti) =>
+        noti.type === "error" ? (
+          <Toast
+            icon={
+              <XCircleIcon
+                className="h-6 w-6 text-green-400"
+                aria-hidden="true"
+              />
+            }
+            title="Error"
+            description={noti.message}
+          />
+        ) : (
+          <Toast
+            icon={
+              <CheckCircleIcon
+                className="h-6 w-6 text-green-400"
+                aria-hidden="true"
+              />
+            }
+            title="Success!"
+            description={noti.message}
+          />
+        ),
+      )}
     </div>
   );
 }

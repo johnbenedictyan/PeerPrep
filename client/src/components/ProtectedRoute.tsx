@@ -1,4 +1,7 @@
-import { Navigate } from "react-router-dom";
+import { useContext } from "react";
+import { Navigate, redirect, useNavigate } from "react-router-dom";
+
+import { NotificationContext } from "../context/NotificationContext";
 import { FullUser } from "../interfaces/User";
 
 interface ProtectedRouteProps {
@@ -12,12 +15,21 @@ function ProtectedRoute({
   permissionRole,
   children,
 }: ProtectedRouteProps) {
+  const { addNotification } = useContext(NotificationContext);
+  const navigate = useNavigate();
+
   if (!user) {
-    return <Navigate to="/sign-in" />;
+    addNotification({
+      type: "error",
+      message: "Please Sign In to view this page",
+    });
+    navigate("/sign-in");
+    return <p>Redirecting...</p>;
   }
 
   if (!(permissionRole in user.roles)) {
-    return <Navigate to="/sign-in" />;
+    navigate("/sign-in");
+    return <p>Redirecting...</p>;
   }
 
   return <div>{children}</div>;
