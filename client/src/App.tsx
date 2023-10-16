@@ -16,7 +16,6 @@ import Layout from "./components/Layout";
 import Notifications from "./components/Notifications";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthContext } from "./context/FirebaseAuthContext";
-import { NotificationContext } from "./context/NotificationContext";
 import AdminPage from "./pages/AdminPage";
 import DashboardPage from "./pages/DashboardPage";
 import LandingPage from "./pages/LandingPage";
@@ -55,7 +54,6 @@ const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 
 function App() {
   const { currentUser } = useContext(AuthContext);
-  const { notifications } = useContext(NotificationContext);
 
   return (
     <div className="App bg-gray-100 dark:bg-gray-800">
