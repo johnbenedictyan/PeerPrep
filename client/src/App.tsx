@@ -60,6 +60,10 @@ function App() {
       <SentryRoutes>
         <Route path="/" element={<Layout />}>
           <Route path="" element={<LandingPage />} />
+          <Route path="sign-in" element={<SignInPage />} />
+          <Route path="register" element={<RegistrationPage />} />
+          <Route path="questions" element={<QuestionPage />} />
+          <Route path="profile" element={<ProfilePage />} />
           <Route
             path="match"
             element={
@@ -68,11 +72,24 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route path="sign-in" element={<SignInPage />} />
-          <Route path="sign-out" element={<SignOutPage />} />
-          <Route path="register" element={<RegistrationPage />} />
-          <Route path="dashboard" element={<DashboardPage />} />
-          <Route path="questions" element={<QuestionPage />} />
+          <Route
+            path="sign-out"
+            element={
+              <ProtectedRoute user={currentUser} permissionRole="user">
+                <SignOutPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="dashboard"
+            element={
+              <ProtectedRoute user={currentUser} permissionRole="user">
+                <DashboardPage />
+              </ProtectedRoute>
+            }
+          />
+
           <Route
             path="questions/:questionId"
             element={
@@ -81,7 +98,6 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route path="profile" element={<ProfilePage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
         <Route
