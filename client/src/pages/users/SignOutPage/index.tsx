@@ -2,7 +2,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/24/outline";
 import { Fragment, useContext, useRef, useState } from "react";
 
-import { AuthContext } from "../../context/FirebaseAuthContext";
+import { AuthContext } from "../../../context/FirebaseAuthContext";
 
 function SignOutPage() {
   const [open, setOpen] = useState(true);

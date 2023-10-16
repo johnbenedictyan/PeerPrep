@@ -1,8 +1,8 @@
 import { MoonIcon, SunIcon } from "@heroicons/react/24/outline";
 import { useContext } from "react";
 
-import { DarkModeContext } from "../../context/DarkModeContext";
-import Toggle from "../toggle/Toggle";
+import { DarkModeContext } from "../../../context/DarkModeContext";
+import Toggle from "../Toggle";
 
 function DarkModeToggle() {
   const { isDarkMode, setIsDarkMode } = useContext(DarkModeContext);

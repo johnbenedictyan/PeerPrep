@@ -21,13 +21,13 @@ import DashboardPage from "./pages/DashboardPage";
 import LandingPage from "./pages/LandingPage";
 import MatchPage from "./pages/MatchPage";
 import NotFoundPage from "./pages/NotFoundPage";
-import ProfilePage from "./pages/ProfilePage";
-import QuestionPage from "./pages/QuestionPage";
-import QuestionUpdatePage from "./pages/QuestionUpdatePage";
-import RegistrationPage from "./pages/RegistrationPage";
-import SignInPage from "./pages/SignInPage";
-import SignOutPage from "./pages/SignOutPage";
-import SingleQuestionPage from "./pages/SingleQuestionPage";
+import ProfilePage from "./pages/users/ProfilePage";
+import QuestionPage from "./pages/questions/AllQuestionsPage";
+import QuestionUpdatePage from "./pages/questions/QuestionUpdatePage";
+import RegistrationPage from "./pages/users/RegistrationPage";
+import SignInPage from "./pages/users/SignInPage";
+import SignOutPage from "./pages/users/SignOutPage";
+import SingleQuestionPage from "./pages/questions/SingleQuestionPage";
 
 Sentry.init({
   dsn: "https://e21ba66ad7a580aa7874699b6d737245@o1071968.ingest.sentry.io/4505986992832512",

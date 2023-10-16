@@ -3,10 +3,10 @@ import { FirebaseError } from "firebase/app";
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 
-import UserController from "../../controllers/user/user.controller";
-import { signInUser } from "../../util/auth";
-import classNames from "../../util/ClassNames";
-import { NotificationContext } from "../../context/NotificationContext";
+import UserController from "../../../controllers/user/user.controller";
+import { signInUser } from "../../../util/auth";
+import classNames from "../../../util/ClassNames";
+import { NotificationContext } from "../../../context/NotificationContext";
 
 function SignInPage() {
   const [email, setEmail] = useState<string>("");

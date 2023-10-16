@@ -10,7 +10,7 @@ import { Link, NavLink } from "react-router-dom";
 
 import { AuthContext } from "../context/FirebaseAuthContext";
 import classNames from "../util/ClassNames";
-import DarkModeToggle from "./DarkModeToggle/DarkModeToggle";
+import DarkModeToggle from "./toggle/darkModeToggle/DarkModeToggle";
 
 const user = {
   name: "Tom Cook",
