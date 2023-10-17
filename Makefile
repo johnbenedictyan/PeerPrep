@@ -17,3 +17,42 @@ restart_user_staging:
 restart_client_staging:
 	docker-compose -f docker-compose.staging.yml down client && \
 	docker-compose -f docker-compose.staging.yml up client --build -d
+
+restart_all:
+	$(MAKE) restart_client_staging restart_matching_staging restart_question_staging restart_socket_staging restart_user_staging
+
+up_matching_staging:
+	docker-compose -f docker-compose.staging.yml up matching -d
+
+up_question_staging:
+	docker-compose -f docker-compose.staging.yml up question -d
+
+up_socket_staging:
+	docker-compose -f docker-compose.staging.yml up socket -d
+
+up_user_staging:
+	docker-compose -f docker-compose.staging.yml up user -d
+
+up_client_staging:
+	docker-compose -f docker-compose.staging.yml up client -d
+
+up_staging:
+	$(MAKE) up_client_staging up_matching_staging up_question_staging up_socket_staging
+
+clean_client:
+	cd ./client && yarn run format && cd ..
+
+clean_matching:
+	cd ./services/matching-service && yarn run format && cd ../..
+
+clean_question:
+	cd ./services/question-service && yarn run format && cd ../..
+
+clean_socket:
+	cd ./services/socket-service && yarn run format && cd ../..
+
+clean_user:
+	cd ./services/user-service && yarn run format && cd ../..
+
+clean_all:
+	$(MAKE) clean_client clean_matching clean_question clean_socket clean_user
