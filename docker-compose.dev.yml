@@ -1,65 +1,42 @@
 # User          - 01
 # Matching      - 02
 # Question      - 03
-# Chat          - 04
-# Video Call    - 05
-# Socket        - 06
-# Collaboration - 07
+# Socket        - 04
 
 version: "3"
 services:
-  # user:
-  #   container_name: user-service
-  #   build:
-  #     context: ./services/user-service
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "5001:5000"
-  #   environment:
-  #     - PORT=5000
-  #   env_file:
-  #     - ./services/user-service/.env
-  #   links:
-  #     - kafka
-  #     - postgres_user_service
-  #   depends_on:
-  #     broker:
-  #       condition: service_healthy
-
-  # postgres_user_service:
-  #   image: postgres:latest
-  #   container_name: postgres-user-service
-  #   volumes:
-  #     - progresDB:/data/postgres/user-service
-  #   env_file:
-  #     - ./services/user-service/.env
-
-  socket:
-    container_name: socket-service
+  user:
+    container_name: user-service
     build:
-      context: ./services/socket-service
-      dockerfile: Dockerfile
+      context: ./services/user-service
+      dockerfile: Dockerfile.prod
     ports:
-      - "5006:5000"
+      - "5001:5000"
     environment:
       - PORT=5000
     env_file:
-      - ./services/socket-service/.env
-    # links:
-    #   - broker
-    depends_on:
-      broker:
-        condition: service_healthy
+      - ./services/user-service/.env
+    links:
+      - postgres_user_service
     networks:
-      - socket-service-network
+      - user-service-network
       - api-network
-      - kafka-network
+
+  postgres_user_service:
+    image: postgres:latest
+    container_name: postgres-user-service
+    volumes:
+      - progresDB:/data/postgres/user-service
+    env_file:
+      - ./services/user-service/.env
+    networks:
+      - user-service-network
 
   matching:
     container_name: matching-service
     build:
       context: ./services/matching-service
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
     ports:
       - "5002:5000"
     environment:
@@ -67,15 +44,10 @@ services:
     env_file:
       - ./services/matching-service/.env
     links:
-      # - broker
       - postgres_matching_service
-    depends_on:
-      broker:
-        condition: service_healthy
     networks:
       - matching-service-network
       - api-network
-      - kafka-network
 
   postgres_matching_service:
     image: postgres:latest
@@ -87,184 +59,53 @@ services:
     networks:
       - matching-service-network
 
-  # collaboration:
-  #   container_name: collaboration-service
-  #   build:
-  #     context: ./services/collaboration-service
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "5007:5000"
-  #   environment:
-  #     - PORT=5000
-  #   env_file:
-  #     - ./services/collaboration-service/.env
-  #   links:
-  #     - broker
-  #     - postgres_collaboration_service
-  #   depends_on:
-  #     broker:
-  #       condition: service_healthy
-  #   networks:
-  #     - collaboration-service-network
-
-  # postgres_collaboration_service:
-  #   image: postgres:latest
-  #   container_name: postgres-collaboration-service
-  #   volumes:
-  #     - progresDB:/data/postgres/collaboration-service
-  #   env_file:
-  #     - ./services/collaboration-service/.env
-  #   networks:
-  #     - collaboration-service-network
-
-  # question:
-  #   container_name: question-service
-  #   build:
-  #     context: ./services/question-service
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "5003:5000"
-  #   environment:
-  #     - PORT=5000
-  #   env_file:
-  #     - ./services/question-service/.env
-  #   links:
-  #     - broker
-  #     - postgres_question_service
-  #   depends_on:
-  #     broker:
-  #       condition: service_healthy
-
-  # postgres_question_service:
-  #   image: postgres:latest
-  #   container_name: postgres-question-service
-  #   volumes:
-  #     - progresDB:/data/postgres/question-service
-  #   env_file:
-  #     - ./services/question-service/.env
-
-  # chat:
-  #   container_name: chat-service
-  #   build:
-  #     context: ./services/chat-service
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "5004:5000"
-  #   environment:
-  #     - PORT=5000
-  #   env_file:
-  #     - ./services/chat-service/.env
-  #   links:
-  #     - broker
-  #     - postgres_chat_service
-  #   depends_on:
-  #     broker:
-  #       condition: service_healthy
-
-  # postgres_chat_service:
-  #   image: postgres:latest
-  #   container_name: postgres-chat-service
-  #   volumes:
-  #     - progresDB:/data/postgres/chat-service
-  #   env_file:
-  #     - ./services/chat-service/.env
-
-  # video-call:
-  #   container_name: video-call-service
-  #   build:
-  #     context: ./services/video-call-service
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "5005:5000"
-  #   environment:
-  #     - PORT=5000
-  #   env_file:
-  #     - ./services/video-call-service/.env
-  #   links:
-  #     - broker
-  #     - postgres_video_call_service
-  #   depends_on:
-  #     broker:
-  #       condition: service_healthy
-
-  # postgres_video_call_service:
-  #   image: postgres:latest
-  #   container_name: postgres-video-call-service
-  #   volumes:
-  #     - progresDB:/data/postgres/video-call-service
-  #   env_file:
-  #     - ./services/video-call-service/.env
-
-  # client:
-  #   container_name: client
-  #   build:
-  #     context: ./client
-  #     dockerfile: Dockerfile.dev
-  #   ports:
-  #     - "81:80"
-
-  # client2:
-  #   container_name: client2
-  #   build:
-  #     context: ./client
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "82:80"
-
-  # peer_server:
-  #   container_name: peer-server
-  #   image: peerjs/peerjs-server
-  #   ports:
-  #     - "9000:9000"
-
-  zookeeper:
-    image: confluentinc/cp-zookeeper:latest
-    container_name: zookeeper
-    environment:
-      - ZOOKEEPER_CLIENT_PORT=2181
-      - ZOOKEEPER_TICK_TIME=2000
-    volumes:
-      - zookeeper-data:/var/lib/zookeeper/data
-      - zookeeper-logs:/var/lib/zookeeper/log
+  question:
+    container_name: question-service
+    build:
+      context: ./services/question-service
+      dockerfile: Dockerfile.prod
     ports:
-      - "2181:2181"
-    networks:
-      - kafka-network
-    healthcheck:
-      test: ["CMD", "nc", "-z", "localhost", "2181"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-
-  broker:
-    image: confluentinc/cp-kafka:latest
-    container_name: kafka
-    depends_on:
-      zookeeper:
-        condition: service_healthy
+      - "5003:5000"
     environment:
-      KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:9092,PLAINTEXT_INTERNAL://broker:29092
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
-      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT_INTERNAL
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
-      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
-      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
-      KAFKA_AUTO_CREATE_TOPICS_ENABLE: true
-
-    volumes:
-      - kafka-data:/var/lib/kafka/data
-    ports:
-      - "9092:9092"
+      - PORT=5000
+    env_file:
+      - ./services/question-service/.env
+    links:
+      - postgres_question_service
     networks:
-      - kafka-network
-    healthcheck:
-      test: ["CMD", "nc", "-z", "localhost", "9092"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
+      - question-service-network
+      - api-network
+
+  postgres_question_service:
+    image: postgres:latest
+    container_name: postgres-question-service
+    volumes:
+      - progresDB:/data/postgres/question-service
+    env_file:
+      - ./services/question-service/.env
+
+  socket:
+    container_name: socket-service
+    build:
+      context: ./services/socket-service
+      dockerfile: Dockerfile.prod
+    ports:
+      - "5004:5000"
+    environment:
+      - PORT=5000
+    env_file:
+      - ./services/socket-service/.env
+    networks:
+      - socket-service-network
+      - api-network
+
+  client:
+    container_name: client
+    build:
+      context: ./client
+      dockerfile: Dockerfile.prod
+    ports:
+      - "80:80"
 
 networks:
   user-service-network:
@@ -276,22 +117,10 @@ networks:
   question-service-network:
     driver: bridge
 
-  chat-service-network:
-    driver: bridge
-
-  video-call-service-network:
-    driver: bridge
-
   socket-service-network:
     driver: bridge
 
-  collaboration-service-network:
-    driver: bridge
-
   client-network:
-    driver: bridge
-
-  kafka-network:
     driver: bridge
 
   api-network:
@@ -299,6 +128,3 @@ networks:
 
 volumes:
   progresDB:
-  zookeeper-data:
-  zookeeper-logs:
-  kafka-data:
