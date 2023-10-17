@@ -160,7 +160,7 @@ export default function AdminLayout() {
               alt="Your Company"
             />
             <div className="">
-            <DarkModeToggle />
+              <DarkModeToggle />
             </div>
           </div>
           <nav className="flex flex-1 flex-col">

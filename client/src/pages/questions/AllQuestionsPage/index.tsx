@@ -1,6 +1,7 @@
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import classNames from "../../../util/ClassNames";
 
 interface IQuestion {
   id: number;
@@ -306,11 +307,16 @@ function QuestionPage() {
           <div className="mx-auto max-w-9xl sm:px-6 lg:px-8">
             <div className="sm:flex sm:items-center">
               <div className="sm:flex-auto">
-                <h1 className="text-base font-semibold leading-6 text-gray-900 dark:text-gray-100">
-                  Questions
+                <h1 className="text-lg font-semibold leading-6 text-gray-900 dark:text-gray-100">
+                  Unleash Your Problem-Solving Prowess
                 </h1>
-                <p className="mt-2 text-sm text-gray-700 dark:text-gray-300">
-                  A list of all Questions
+                <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                  Dive into a comprehensive collection of curated coding
+                  challenges, meticulously designed to refine your skills and
+                  prepare you for any technical hurdle. Our diverse question
+                  bank covers a spectrum of complexity levels, ensuring
+                  there&apos;s something for every coding enthusiast, from
+                  beginners to seasoned professionals.
                 </p>
               </div>
               <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
@@ -423,18 +429,43 @@ function QuestionPage() {
                         )
                         .map((question) => (
                           <tr key={question.id}>
-                            <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-gray-100 sm:pl-0">
+                            <td
+                              className={classNames(
+                                "whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-0",
+                                "text-gray-700 dark:text-gray-300",
+                              )}
+                            >
                               Not Done
                             </td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-400">
+                            <td
+                              className={classNames(
+                                "whitespace-nowrap px-3 py-4 text-sm",
+                                "text-gray-700 dark:text-gray-300",
+                              )}
+                            >
                               {question.title}
                             </td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-400">
+                            <td
+                              className={classNames(
+                                "whitespace-nowrap px-3 py-4 text-sm",
+                                "text-gray-700 dark:text-gray-300",
+                              )}
+                            >
                               {question.difficulty}
                             </td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-400">
+                            <td
+                              className={classNames(
+                                "whitespace-nowrap px-3 py-4 text-sm",
+                                "text-gray-700 dark:text-gray-300",
+                              )}
+                            >
                               {question.tags.map((tag) => (
-                                <span className="inline-flex items-center rounded-full bg-gray-50 dark:bg-gray-950 px-2 py-1 text-xs font-medium text-gray-600 dark:text-gray-400 ring-1 ring-inset ring-gray-500/10">
+                                <span
+                                  className={classNames(
+                                    "inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ring-1 ring-inset",
+                                    "bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 ring-gray-500/10",
+                                  )}
+                                >
                                   {tag}
                                 </span>
                               ))}
@@ -464,7 +495,7 @@ function QuestionPage() {
                   <span className="font-medium">
                     {pageNumber * PAGINATION_SIZE + 1}
                   </span>{" "}
-                  to
+                  to{" "}
                   <span className="font-medium">
                     {(pageNumber + 1) * PAGINATION_SIZE > questions.length
                       ? questions.length

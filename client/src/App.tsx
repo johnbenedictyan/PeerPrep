@@ -104,7 +104,7 @@ function App() {
           path="/admin"
           element={
             // <ProtectedRoute user={currentUser} permissionRole="admin">
-              <AdminLayout />
+            <AdminLayout />
             // </ProtectedRoute>
           }
         >
