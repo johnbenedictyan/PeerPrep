@@ -83,6 +83,8 @@ services:
       - progresDB:/data/postgres/question-service
     env_file:
       - ./services/question-service/.env
+    networks:
+      - question-service-network
 
   socket:
     container_name: socket-service

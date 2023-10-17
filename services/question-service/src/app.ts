@@ -1,38 +1,55 @@
+import bodyParser from "body-parser";
+import cors from "cors";
 import dotenv from "dotenv";
-import express, { Express, Request, Response } from "express";
-import userEventConsumer from "./events/consumers/main";
+import express, { Express } from "express";
+
+import QuestionController from "./controllers/question/question.controller";
+import kafka from "./events/kafka";
+import QuestionProducer from "./events/producers/question/producer";
+import QuestionParser from "./parsers/question/question.parser";
+import QuestionRouter from "./routers/question/router";
+import QuestionService from "./services/question/question.service";
+import prismaClient from "./util/prisma/client";
 
 dotenv.config();
 
 const app: Express = express();
-const port = process.env.SERVER_PORT;
 
-app.get("/", (req: Request, res: Response) => {
-  // Get All Questions
-  res.send("Question Service Server");
+const corsOptions = {
+  origin: "*",
+  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
+
+// Event Producer
+const questionEventProducer = new QuestionProducer(kafka.producer());
+
+// Services
+const questionService = new QuestionService(
+  questionEventProducer,
+  prismaClient,
+);
+
+// Parsers
+const questionParser = new QuestionParser();
+
+// Controllers
+const questionController = new QuestionController(
+  questionService,
+  questionParser,
+);
+
+// Routers
+const questionRouter = new QuestionRouter(questionController, express.Router());
+
+app.use(cors(corsOptions));
+
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use(bodyParser.json());
+
+app.use("/api/healthCheck", (_req, res) => {
+  res.send("OK");
 });
+app.use("/api/question", questionRouter.registerRoutes());
 
-app.post("/", (req: Request, res: Response) => {
-  // Create a single question
-  res.send("Create single question");
-});
-
-app.put("/", (req: Request, res: Response) => {
-  // Update a single question
-  res.send("Update single question");
-});
-
-app.delete("/", (req: Request, res: Response) => {
-  // Delete a single question
-  res.send("Delete single question");
-});
-
-app.listen(port, () => {
-  console.log(
-    `⚡️[server]: Question Service is running at http://localhost:${port}`,
-  );
-
-  userEventConsumer().catch((err: any) => {
-    console.error("Error in Question Service Consumer: ", err);
-  });
-});
+export default app;
