@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 import express, { Express, Request, Response } from "express";
-import consume from "./kafka/consumer";
+import userEventConsumer from "./events/consumers/main";
 
 dotenv.config();
 
@@ -29,10 +29,10 @@ app.delete("/", (req: Request, res: Response) => {
 
 app.listen(port, () => {
   console.log(
-    `⚡️[server]: Question Service is running at http://localhost:${port}`
+    `⚡️[server]: Question Service is running at http://localhost:${port}`,
   );
 
-  consume().catch((err: any) => {
+  userEventConsumer().catch((err: any) => {
     console.error("Error in Question Service Consumer: ", err);
   });
 });
