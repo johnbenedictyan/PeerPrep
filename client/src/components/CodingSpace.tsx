@@ -2,9 +2,7 @@ import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { MatchingContext } from "../context/MatchingContext";
-import QuestionLanguageContext, {
-  codingLanguage,
-} from "../context/QuestionLanguageContext";
+import { QuestionContext, codingLanguage } from "../context/QuestionContext";
 import CodeEditor from "./CodeEditor";
 
 function CodingSpace() {
@@ -13,30 +11,30 @@ function CodingSpace() {
     [],
   );
 
-  const selectedLanguage = useContext(QuestionLanguageContext);
+  const { selectedLanguage, setSelectedLanguage } = useContext(QuestionContext);
   const { socketLanguage, changeLanguage } = useContext(MatchingContext);
-  const [language, setLanguage] = useState(
-    selectedLanguage || languageOptions[0],
-  );
   const navigate = useNavigate();
 
   const handleLanguageChange = useCallback(
-    (lang: string) => {
-      navigate(`/questions/1?lang=${lang}`);
+    // (lang: string) => {
+    //   navigate(`/questions/1?lang=${lang}`);
+    // },
+    // [navigate],
+    (newLanguage: codingLanguage) => {
+      setSelectedLanguage(newLanguage);
+      changeLanguage(newLanguage);
     },
-    [navigate],
+    [setSelectedLanguage, changeLanguage],
   );
 
-  useEffect(() => {
-    setLanguage(selectedLanguage || languageOptions[0]);
-    changeLanguage(selectedLanguage || languageOptions[0]);
-  }, [selectedLanguage, changeLanguage, languageOptions]);
+  //   useEffect(() => {
+  //     changeLanguage(selectedLanguage || languageOptions[0]);
+  //   }, [selectedLanguage, changeLanguage, languageOptions]);
 
   useEffect(() => {
-    if (socketLanguage === "") return;
-    if (socketLanguage === language) return;
-    handleLanguageChange(socketLanguage);
-  }, [socketLanguage, language, handleLanguageChange]);
+    // if (socketLanguage === selectedLanguage) return;
+    setSelectedLanguage(socketLanguage);
+  }, [socketLanguage, setSelectedLanguage]);
 
   return (
     <div>
@@ -55,8 +53,10 @@ function CodingSpace() {
             id="language"
             name="language"
             className="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 ring-1 ring-inset ring-gray-300 dark:ring-gray-700 focus:ring-2 focus:ring-indigo-600 dark:focus:ring-indigo-400 sm:text-sm sm:leading-6"
-            value={language}
-            onChange={(e) => handleLanguageChange(e.target.value)}
+            value={selectedLanguage}
+            onChange={(e) =>
+              handleLanguageChange(e.target.value as codingLanguage)
+            }
           >
             {languageOptions.map((lang, _index) => (
               <option key={`lang-opt-${lang}`}>{lang}</option>
@@ -64,7 +64,7 @@ function CodingSpace() {
           </select>
         </div>
       </div>
-      <CodeEditor selectedLanguage={language} />
+      <CodeEditor />
     </div>
   );
 }
