@@ -8,7 +8,9 @@ import Question, { IQuestion } from "../../../components/Question";
 import VideoCall from "../../../components/VideoCall";
 import { AuthContext } from "../../../context/FirebaseAuthContext";
 import { MatchingContext } from "../../../context/MatchingContext";
-import QuestionLanguageContext from "../../../context/QuestionLanguageContext";
+import QuestionLanguageContext, {
+  codingLanguage,
+} from "../../../context/QuestionLanguageContext";
 
 export default function SingleQuestionPage() {
   const { matchedUserId, matchingId, cancelCollaboration } =
@@ -16,7 +18,8 @@ export default function SingleQuestionPage() {
   const { currentUser } = useContext(AuthContext);
 
   const [searchParams] = useSearchParams();
-  const selectedLanguage = searchParams.get("lang");
+  const selectedLanguage =
+    (searchParams.get("lang") as codingLanguage) || ("java" as codingLanguage);
   const navigate = useNavigate();
 
   const question: IQuestion = {
