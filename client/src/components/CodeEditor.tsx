@@ -5,15 +5,13 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import { DarkModeContext } from "../context/DarkModeContext";
 import { AuthContext } from "../context/FirebaseAuthContext";
 import { MatchingContext } from "../context/MatchingContext";
-import { codingLanguage } from "../context/QuestionLanguageContext";
+import { QuestionContext } from "../context/QuestionContext";
 import CodeResult from "./CodeResult";
 
-interface ICodeEditorProps {
-  selectedLanguage: codingLanguage;
-}
+function CodeEditor() {
+  const { initialCode, selectedLanguage } = useContext(QuestionContext);
 
-function CodeEditor({ selectedLanguage }: ICodeEditorProps) {
-  const [currentCode, setCurrentCode] = useState("");
+  const [currentCode, setCurrentCode] = useState(initialCode);
   const [_codeSubmitted, setCodeSubmitted] = useState<boolean>(false);
   const [codeResult, setCodeResult] = useState<string>("");
   const [extensions, setExtensions] = useState<Extension[]>();
@@ -31,9 +29,8 @@ function CodeEditor({ selectedLanguage }: ICodeEditorProps) {
   };
 
   useEffect(() => {
-    const lang = selectedLanguage.toLowerCase() as keyof typeof langs;
-    if (langs[lang]) {
-      setExtensions([langs[lang]()]);
+    if (langs[selectedLanguage]) {
+      setExtensions([langs[selectedLanguage]()]);
     } else {
       setExtensions([]);
     }
@@ -50,6 +47,12 @@ function CodeEditor({ selectedLanguage }: ICodeEditorProps) {
     if (!currentUser) return;
     changeCode(currentCode);
   }, [currentCode, changeCode, currentUser]);
+
+  useEffect(() => {
+    console.log(initialCode);
+    if (currentCode === initialCode) return;
+    setCurrentCode(initialCode);
+  }, [currentCode, setCurrentCode, initialCode]);
 
   return (
     <div>
