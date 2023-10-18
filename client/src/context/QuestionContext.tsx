@@ -92,7 +92,7 @@ export const QuestionContext = createContext<QuestionContextType>({
 export function QuestionProvider({ children }: QuestionProviderProps) {
   const [question, setQuestion] = useState<FullQuestion>(defaultQuestion);
   const [selectedLanguage, setSelectedLanguage] = useState<codingLanguage>(
-    "java" as codingLanguage,
+    defaultSelectedLanguage
   );
   const [initialCode, setInitialCode] = useState<string>(defaultInitialCode);
   const [questionId, setQuestionId] = useState<number>();
