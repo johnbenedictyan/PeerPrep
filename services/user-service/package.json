@@ -4,7 +4,7 @@
     "private": true,
     "scripts": {
         "build": "tsc --project tsconfig.build.json",
-        "start": "node dist/src/server.js",
+        "start": "node dist/server.js",
         "dev": "concurrently \"tsc --watch\" \"nodemon -q dist/server.js\"",
         "start:migrate": "prisma db push && yarn run start",
         "dev:migrate": "prisma db push && yarn run dev",
