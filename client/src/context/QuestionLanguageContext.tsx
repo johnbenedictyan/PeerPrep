@@ -1,5 +1,10 @@
+import { langs } from "@uiw/codemirror-extensions-langs";
 import { createContext } from "react";
 
-const QuestionLanguageContext = createContext<string | null>(null);
+export type codingLanguage = keyof typeof langs;
+
+const QuestionLanguageContext = createContext<codingLanguage>(
+  "java" as codingLanguage,
+);
 
 export default QuestionLanguageContext;

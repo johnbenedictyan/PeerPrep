@@ -1,11 +1,17 @@
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import CodeEditor from "./CodeEditor";
+
 import { MatchingContext } from "../context/MatchingContext";
-import QuestionLanguageContext from "../context/QuestionLanguageContext";
+import QuestionLanguageContext, {
+  codingLanguage,
+} from "../context/QuestionLanguageContext";
+import CodeEditor from "./CodeEditor";
 
 function CodingSpace() {
-  const languageOptions = useMemo(() => ["javascript", "python"], []);
+  const languageOptions: codingLanguage[] = useMemo(
+    () => ["java", "python"],
+    [],
+  );
 
   const selectedLanguage = useContext(QuestionLanguageContext);
   const { socketLanguage, changeLanguage } = useContext(MatchingContext);

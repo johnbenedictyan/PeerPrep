@@ -5,10 +5,11 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import { DarkModeContext } from "../context/DarkModeContext";
 import { AuthContext } from "../context/FirebaseAuthContext";
 import { MatchingContext } from "../context/MatchingContext";
+import { codingLanguage } from "../context/QuestionLanguageContext";
 import CodeResult from "./CodeResult";
 
 interface ICodeEditorProps {
-  selectedLanguage: string;
+  selectedLanguage: codingLanguage;
 }
 
 function CodeEditor({ selectedLanguage }: ICodeEditorProps) {
