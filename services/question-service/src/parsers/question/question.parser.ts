@@ -11,18 +11,23 @@ class QuestionParser
   public parseCreateInput(
     input: StringInterface<FullQuestionCreateDTO>,
   ): FullQuestionCreateDTO {
-    if (!input.title || !input.content || !input.authorId) {
+    if (
+      !input.title ||
+      !input.content ||
+      !input.authorId ||
+      !input.difficulty
+    ) {
       throw new Error(
-        "Required fields of title, content, or author id are missing",
+        "Required fields of title, content,author id or difficulty are missing",
       );
     }
     if (input.initialCodes.length == 0) {
       return input;
     }
     input.initialCodes.forEach((x) => {
-      if (!x.code || !x.language || !x.questionId) {
+      if (!x.code || !x.language) {
         throw new Error(
-          "Required fields for question's initial code of code, language, or questionId id are missing",
+          "Required fields for question's initial code of code or language are missing",
         );
       }
     });

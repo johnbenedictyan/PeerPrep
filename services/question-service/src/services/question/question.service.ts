@@ -18,7 +18,7 @@ class QuestionService
     private readonly prismaClient: PrismaClient,
   ) {}
 
-  public async create(body: FullQuestionCreateDTO): Promise<Question> {
+  public async create(body: FullQuestionCreateDTO): Promise<FullQuestion> {
     const { initialCodes, ...rest } = body;
     try {
       const question = await this.prismaClient.question.create({
@@ -27,6 +27,9 @@ class QuestionService
           initialCodes: {
             create: initialCodes,
           },
+        },
+        include: {
+          initialCodes: true,
         },
       });
       return question;
@@ -56,9 +59,10 @@ class QuestionService
   }
 
   public async findOne(body: OptionalQuestion): Promise<Question | null> {
+    const { examples, constraints, ...rest } = body;
     try {
       const question = await this.prismaClient.question.findFirst({
-        where: body,
+        where: rest,
       });
       return question;
     } catch (error) {
