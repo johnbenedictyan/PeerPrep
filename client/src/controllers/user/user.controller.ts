@@ -11,20 +11,20 @@ class UserController extends GenericController {
     );
   }
 
-  createUser(data: UserCreateDTO): Promise<User> {
-    return this.post("user", data);
+  createUser(data: UserCreateDTO) {
+    return this.post<User, UserCreateDTO>("user", data);
   }
 
-  getUser(id: string): Promise<User> {
-    return this.get(`user/${id}`);
+  getUser(id: string) {
+    return this.get<User>(`user/${id}`);
   }
 
-  updateUser(id: string, data: Partial<UserUpdateDTO>): Promise<User> {
-    return this.put(`user/${id}`, data);
+  updateUser(id: string, data: Partial<UserUpdateDTO>) {
+    return this.put<User, Partial<UserUpdateDTO>>(`user/${id}`, data);
   }
 
-  deleteUser(id: string): Promise<User> {
-    return this.delete("user");
+  deleteUser(id: string) {
+    return this.delete<User>("user");
   }
 }
 

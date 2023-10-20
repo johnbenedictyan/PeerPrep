@@ -2,22 +2,22 @@ import { langs } from "@uiw/codemirror-extensions-langs";
 import CodeMirror, { Extension, ViewUpdate } from "@uiw/react-codemirror";
 import { useCallback, useContext, useEffect, useState } from "react";
 
+import { CollaborationContext } from "../context/CollaborationContext";
 import { DarkModeContext } from "../context/DarkModeContext";
 import { AuthContext } from "../context/FirebaseAuthContext";
-import { MatchingContext } from "../context/MatchingContext";
 import { QuestionContext } from "../context/QuestionContext";
-import CodeResult from "./CodeResult";
 
 function CodeEditor() {
   const { initialCode, selectedLanguage } = useContext(QuestionContext);
+  const { socketCode, changeCode } = useContext(CollaborationContext);
+  const { currentUser } = useContext(AuthContext);
+  const { isDarkMode } = useContext(DarkModeContext);
 
+  const [initializing, setInitializing] = useState<boolean>(true)
   const [currentCode, setCurrentCode] = useState(initialCode);
   const [_codeSubmitted, setCodeSubmitted] = useState<boolean>(false);
   const [codeResult, setCodeResult] = useState<string>("");
   const [extensions, setExtensions] = useState<Extension[]>();
-  const { socketCode, changeCode } = useContext(MatchingContext);
-  const { currentUser } = useContext(AuthContext);
-  const { isDarkMode } = useContext(DarkModeContext);
 
   const onChange = useCallback((value: string, _viewUpdate: ViewUpdate) => {
     setCurrentCode(value);
@@ -39,44 +39,29 @@ function CodeEditor() {
   useEffect(() => {
     if (!currentUser) return;
     if (socketCode === "") return;
-    if (socketCode === currentCode) return;
     setCurrentCode(socketCode);
-  }, [socketCode, currentUser, currentCode]);
+  }, [socketCode, currentUser, initialCode]);
 
   useEffect(() => {
     if (!currentUser) return;
+    if (initializing) return;
     changeCode(currentCode);
-  }, [currentCode, changeCode, currentUser]);
+  }, [currentCode, changeCode, currentUser, initialCode, initializing]);
 
   useEffect(() => {
-    console.log(initialCode);
-    if (currentCode === initialCode) return;
     setCurrentCode(initialCode);
-  }, [currentCode, setCurrentCode, initialCode]);
+    setInitializing(false);
+  }, [initialCode]);
 
   return (
-    <div>
-      <div className="h-144 border rounded-lg shadow">
-        <CodeMirror
-          value={currentCode}
-          height="576px"
-          extensions={extensions}
-          onChange={onChange}
-          theme={isDarkMode ? "dark" : "light"}
-        />
-      </div>
-      <div className="flex flex-row-reverse mt-5">
-        <button
-          type="button"
-          className="rounded-md bg-indigo-600 dark:bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 dark:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:focus-visible:outline-indigo-400"
-          onClick={handleSubmit}
-        >
-          Submit Code
-        </button>
-      </div>
-      <div className="mt-5">
-        <CodeResult result={codeResult} />
-      </div>
+    <div className="h-144 border rounded-lg shadow">
+      <CodeMirror
+        value={currentCode}
+        height="576px"
+        extensions={extensions}
+        onChange={onChange}
+        theme={isDarkMode ? "dark" : "light"}
+      />
     </div>
   );
 }

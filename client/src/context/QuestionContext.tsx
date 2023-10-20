@@ -64,6 +64,14 @@ const defaultQuestion: FullQuestion = {
       questionId: 1,
     },
   ],
+  testCases: [
+    {
+      testCaseNumber: 1,
+      input: "[1,3], 4",
+      expectedOutput: "[1,3]",
+      questionId: 1,
+    },
+  ],
 };
 
 const defaultInitialCode = "// Default Code //";
@@ -114,22 +122,22 @@ export function QuestionProvider({ children }: QuestionProviderProps) {
     ],
   );
 
-  const loadQuestionData = useCallback(() => {
-    if (!questionId) return;
-    const questionController = new QuestionController();
-    questionController
-      .getQuestion(questionId)
-      .then((res) => {
-        if (res) {
-          setQuestion(res.data);
-        }
-      })
-      .catch((err) => {});
-  }, [questionId]);
+//   const loadQuestionData = useCallback(() => {
+//     if (!questionId) return;
+//     const questionController = new QuestionController();
+//     questionController
+//       .getQuestion(questionId)
+//       .then((res) => {
+//         if (res) {
+//           setQuestion(res.data);
+//         }
+//       })
+//       .catch((err) => {});
+//   }, [questionId]);
 
-  useEffect(() => {
-    loadQuestionData();
-  }, [loadQuestionData]);
+//   useEffect(() => {
+//     loadQuestionData();
+//   }, [loadQuestionData]);
 
   const loadInitialCode = useCallback(() => {
     if (!question) return;

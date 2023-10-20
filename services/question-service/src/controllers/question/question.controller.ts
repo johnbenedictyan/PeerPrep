@@ -7,7 +7,7 @@ import { QuestionUpdateDTO } from "../../interfaces/question/updateDTO";
 import QuestionParser from "../../parsers/question/question.parser";
 import QuestionService from "../../services/question/question.service";
 import logger from "../../util/logger";
-import { Partial } from "../../util/partial";
+
 import Controller from "../controller.abstract";
 import CRUDController from "../crudController.interface";
 

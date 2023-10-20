@@ -5,6 +5,7 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 
 import App from "./App";
+import { CollaborationProvider } from "./context/CollaborationContext";
 import { DarkModeProvider } from "./context/DarkModeContext";
 import { AuthProvider } from "./context/FirebaseAuthContext";
 import { MatchingProvider } from "./context/MatchingContext";
@@ -24,7 +25,9 @@ root.render(
           <MatchingProvider>
             <DarkModeProvider>
               <QuestionProvider>
-                <App />
+                <CollaborationProvider>
+                  <App />
+                </CollaborationProvider>
               </QuestionProvider>
             </DarkModeProvider>
           </MatchingProvider>

@@ -1,4 +1,5 @@
 import GenericController from "../generic.controller";
+import { codingLanguage } from "../../context/QuestionContext";
 
 const url = "https://judge0-ce.p.rapidapi.com";
 const headers = {
@@ -6,9 +7,31 @@ const headers = {
   "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
 };
 
-export class Judge0Controller extends GenericController {
+type CodeInput = {
+  source_code: string;
+  stdin?: string;
+  expected_output?: string;
+};
+
+type SingleSubmissionDTO = {
+  language_id: number;
+} & CodeInput;
+
+type BatchSubmissionDTO = {
+  submissions: SingleSubmissionDTO[];
+};
+
+type SubmissionParams = {
+  wait?: boolean;
+  base64_encoded?: boolean;
+};
+
+export default class Judge0Controller extends GenericController {
+  private judge0LanguageMap: Map<codingLanguage, number>;
+
   constructor() {
     super(url);
+    this.judge0LanguageMap = new Map<codingLanguage, number>([["java", 91]]);
   }
 
   public about() {
@@ -43,5 +66,32 @@ export class Judge0Controller extends GenericController {
 
   public getConfiguration() {
     return this.get("config_info", headers);
+  }
+
+  public postSubmission(languageCode: codingLanguage, codeInput: CodeInput) {
+    const data: SingleSubmissionDTO = {
+      language_id: this.judge0LanguageMap.get(languageCode)!,
+      ...codeInput,
+    };
+    const params: SubmissionParams = {
+      base64_encoded: true,
+    };
+    return this.post("submissions", data, params);
+  }
+
+  public postBatchSubmission(
+    languageCode: codingLanguage,
+    codeInputs: CodeInput[],
+  ) {
+    const data: BatchSubmissionDTO = {
+      submissions: codeInputs.map((x) => ({
+        language_id: this.judge0LanguageMap.get(languageCode)!,
+        ...x,
+      })),
+    };
+    const params: SubmissionParams = {
+      base64_encoded: true,
+    };
+    return this.post("submissions/batch", data, params);
   }
 }

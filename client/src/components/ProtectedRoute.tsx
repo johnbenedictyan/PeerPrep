@@ -1,25 +1,23 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { NotificationContext } from "../context/NotificationContext";
 import { FullUser } from "../interfaces/User";
+import { AuthContext } from "../context/FirebaseAuthContext";
 
 interface ProtectedRouteProps {
-  user: FullUser | null;
   children: React.ReactNode;
   permissionRole: string;
 }
 
-function ProtectedRoute({
-  user,
-  permissionRole,
-  children,
-}: ProtectedRouteProps) {
+function ProtectedRoute({ permissionRole, children }: ProtectedRouteProps) {
   const { addNotification } = useContext(NotificationContext);
+  const { currentUser } = useContext(AuthContext);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!user) {
+  const checkUser = useCallback(() => {
+    if (!currentUser) {
       addNotification({
         type: "error",
         message: "Please Sign In to view this page",
@@ -28,16 +26,21 @@ function ProtectedRoute({
       return;
     }
 
-    if (!(permissionRole in user.roles)) {
+    if (currentUser.roles.indexOf(permissionRole) === -1) {
       addNotification({
         type: "error",
         message: "You do not have access to view this page",
       });
       navigate("/sign-in");
     }
-  }, [addNotification, navigate, permissionRole, user]);
+  }, [addNotification, navigate, permissionRole, currentUser]);
 
-  return <div>{children}</div>;
+  useEffect(() => {
+    setTimeout(checkUser, 2000);
+    setIsLoading(false);
+  }, [checkUser]);
+
+  return <div>{isLoading ? <p>Loading</p> : children}</div>;
 }
 
 export default ProtectedRoute;

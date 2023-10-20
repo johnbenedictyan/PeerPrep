@@ -1,5 +1,3 @@
-import { Partial } from "../../../util/partial";
-
 export type Question = {
   id: number;
   title: string;

@@ -1,4 +1,3 @@
-import { Partial } from "../../util/partial";
 import { Question } from "../question/object";
 import { QuestionInitialCode } from "../questionInitialCode/object";
 
