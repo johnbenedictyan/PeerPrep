@@ -10,7 +10,7 @@ interface ICancelMatchingRequest {
   userId: string;
 }
 
-const devServerUri = "http://localhost:5007";
+const devServerUri = "http://localhost:5002";
 const prodServerUri = "https://matching-service-qzxsy455sq-as.a.run.app";
 
 class MatchingController extends GenericController {

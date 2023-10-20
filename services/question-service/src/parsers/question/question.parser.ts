@@ -1,7 +1,7 @@
 import { FullQuestionCreateDTO } from "../../interfaces/fullQuestion/createDTO";
 import { FullQuestion } from "../../interfaces/fullQuestion/object";
 import { FullQuestionUpdateDTO } from "../../interfaces/fullQuestion/updateDTO";
-import { Partial } from "../../util/partial";
+
 import { StringInterface } from "../../util/stringInterface";
 import Parser from "../parser.interface";
 

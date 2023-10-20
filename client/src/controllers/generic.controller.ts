@@ -40,12 +40,14 @@ class GenericController {
   public async post<T, B, R = AxiosResponse<T>>(
     routePath: string,
     data: B,
+    params?: Record<string, any | any[]>,
     headers?: any,
   ): Promise<R> {
     const options: AxiosRequestConfig = {
       url: this.getUri(routePath),
       method: "post",
       data,
+      params,
       headers: {
         "Content-Type": "application/json",
         ...headers,

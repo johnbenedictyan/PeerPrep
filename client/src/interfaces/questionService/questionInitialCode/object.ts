@@ -1,5 +1,3 @@
-import { Partial } from "../../../util/partial";
-
 export type QuestionInitialCode = {
   language: string;
   code: string;

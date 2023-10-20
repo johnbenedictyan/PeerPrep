@@ -50,7 +50,7 @@ function Profile() {
         name,
       })
       .then((res) => {
-        setName(res.name);
+        // setName(res.name);
         setShowUpdateProfileToast(true);
       });
 

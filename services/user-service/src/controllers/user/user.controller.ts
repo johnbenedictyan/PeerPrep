@@ -8,7 +8,7 @@ import { UserUpdateDTO } from "../../interfaces/user/updateDTO";
 import UserParser from "../../parsers/user/user.parser";
 import UserService from "../../services/user/user.service";
 import logger from "../../util/logger";
-import { Partial } from "../../util/partial";
+
 import Controller from "../controller.abstract";
 import CRUDController from "../crudController.interface";
 

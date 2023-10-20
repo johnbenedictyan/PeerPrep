@@ -62,7 +62,7 @@ function MatchPage() {
     ) {
       setOpen(false);
       beginCollaboration();
-      navigate("/questions/1?lang=javascript");
+      navigate("/questions/1");
     }
   }, [
     foundMatch,

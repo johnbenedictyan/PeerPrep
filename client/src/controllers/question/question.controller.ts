@@ -3,7 +3,7 @@ import { FullQuestion } from "../../interfaces/questionService/fullQuestion/obje
 import { FullQuestionUpdateDTO } from "../../interfaces/questionService/fullQuestion/updateDTO";
 import GenericController from "../generic.controller";
 
-const devServerUri = "http://localhost:5007";
+const devServerUri = "http://localhost:5003";
 const prodServerUri = "https://question-service-qzxsy455sq-as.a.run.app";
 
 class QuestionController extends GenericController {

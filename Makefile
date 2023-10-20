@@ -22,7 +22,8 @@ restart_client_staging:
 	docker-compose -f docker-compose.staging.yml up client --build -d
 
 restart_staging:
-	$(MAKE) restart_client_staging restart_matching_staging restart_question_staging restart_socket_staging restart_user_staging
+	docker-compose -f docker-compose.staging.yml down && \
+	docker-compose -f docker-compose.staging.yml up --build -d
 
 up_matching_staging:
 	docker-compose -f docker-compose.staging.yml up matching -d

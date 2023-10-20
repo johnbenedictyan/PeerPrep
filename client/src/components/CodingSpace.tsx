@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { MatchingContext } from "../context/MatchingContext";
 import { QuestionContext, codingLanguage } from "../context/QuestionContext";
 import CodeEditor from "./CodeEditor";
+import CodeResult from "./CodeResult";
 
 function CodingSpace() {
   const languageOptions: codingLanguage[] = useMemo(
@@ -32,9 +33,9 @@ function CodingSpace() {
   //   }, [selectedLanguage, changeLanguage, languageOptions]);
 
   useEffect(() => {
-    // if (socketLanguage === selectedLanguage) return;
+    if (socketLanguage === selectedLanguage) return;
     setSelectedLanguage(socketLanguage);
-  }, [socketLanguage, setSelectedLanguage]);
+  }, [socketLanguage, setSelectedLanguage, selectedLanguage]);
 
   return (
     <div>
@@ -65,6 +66,7 @@ function CodingSpace() {
         </div>
       </div>
       <CodeEditor />
+      <CodeResult />
     </div>
   );
 }

@@ -67,7 +67,7 @@ function App() {
           <Route
             path="match"
             element={
-              <ProtectedRoute user={currentUser} permissionRole="user">
+              <ProtectedRoute permissionRole="user">
                 <MatchPage />
               </ProtectedRoute>
             }
@@ -75,7 +75,7 @@ function App() {
           <Route
             path="sign-out"
             element={
-              <ProtectedRoute user={currentUser} permissionRole="user">
+              <ProtectedRoute permissionRole="user">
                 <SignOutPage />
               </ProtectedRoute>
             }
@@ -84,7 +84,7 @@ function App() {
           <Route
             path="dashboard"
             element={
-              <ProtectedRoute user={currentUser} permissionRole="user">
+              <ProtectedRoute permissionRole="user">
                 <DashboardPage />
               </ProtectedRoute>
             }
@@ -93,7 +93,7 @@ function App() {
           <Route
             path="questions/:questionId"
             element={
-              //   <ProtectedRoute user={currentUser} permissionRole="user">
+              //   <ProtectedRoute permissionRole="user">
               <SingleQuestionPage />
               //   </ProtectedRoute>
             }
@@ -103,7 +103,7 @@ function App() {
         <Route
           path="/admin"
           element={
-            // <ProtectedRoute user={currentUser} permissionRole="admin">
+            // <ProtectedRoute permissionRole="admin">
             <AdminLayout />
             // </ProtectedRoute>
           }
