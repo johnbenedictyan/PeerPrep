@@ -33,8 +33,8 @@ describe("Test matching parser", () => {
       requestId: "1",
     };
 
-    expect(
-      () => parser.parseCreateInput(input as StringInterface<MatchingCreateDTO>)
+    expect(() =>
+      parser.parseCreateInput(input as StringInterface<MatchingCreateDTO>),
     ).toThrow("Invalid input");
   });
 
@@ -46,8 +46,8 @@ describe("Test matching parser", () => {
       requestId: "1",
     };
 
-    expect(
-      () => parser.parseCreateInput(input as StringInterface<MatchingCreateDTO>)
+    expect(() =>
+      parser.parseCreateInput(input as StringInterface<MatchingCreateDTO>),
     ).toThrow("Invalid input");
   });
 
@@ -59,8 +59,8 @@ describe("Test matching parser", () => {
       user2Id: "456",
     };
 
-    expect(
-      () => parser.parseCreateInput(input as StringInterface<MatchingCreateDTO>)
+    expect(() =>
+      parser.parseCreateInput(input as StringInterface<MatchingCreateDTO>),
     ).toThrow("Invalid input");
   });
 
@@ -82,25 +82,23 @@ describe("Test matching parser", () => {
     expect(() => parser.parseFindByIdInput(input)).toThrow("Invalid input");
   });
 
-  it("Parser - Parse Find One Input: No Input -> Parsed Input", () => {
+  it("Parser - Parse Find One Input: No Input -> Parser Error", () => {
     const parser = new MatchingParser();
 
     const input: Partial<StringInterface<Matching>> = {};
 
-    const expectedOutput: Partial<Matching> = {};
-
-    expect(parser.parseFindOneInput(input)).toEqual(expectedOutput);
+    expect(() => parser.parseFindOneInput(input)).toThrow("Invalid input");
   });
 
   it("Parser - Parse Find One Input: Valid Id Input -> Parsed Id Input", () => {
     const parser = new MatchingParser();
 
     const input: Partial<StringInterface<Matching>> = {
-        id: "1"
+      id: "1",
     };
 
     const expectedOutput: Partial<Matching> = {
-        id: 1
+      id: 1,
     };
 
     expect(parser.parseFindOneInput(input)).toEqual(expectedOutput);
@@ -110,11 +108,11 @@ describe("Test matching parser", () => {
     const parser = new MatchingParser();
 
     const input: Partial<StringInterface<Matching>> = {
-        user1Id: "1"
+      user1Id: "1",
     };
 
     const expectedOutput: Partial<Matching> = {
-        user1Id: "1"
+      user1Id: "1",
     };
 
     expect(parser.parseFindOneInput(input)).toEqual(expectedOutput);
@@ -124,11 +122,11 @@ describe("Test matching parser", () => {
     const parser = new MatchingParser();
 
     const input: Partial<StringInterface<Matching>> = {
-        user2Id: "1"
+      user2Id: "1",
     };
 
     const expectedOutput: Partial<Matching> = {
-        user2Id: "1"
+      user2Id: "1",
     };
 
     expect(parser.parseFindOneInput(input)).toEqual(expectedOutput);
@@ -138,11 +136,11 @@ describe("Test matching parser", () => {
     const parser = new MatchingParser();
 
     const input: Partial<StringInterface<Matching>> = {
-        requestId: "1"
+      requestId: "1",
     };
 
     const expectedOutput: Partial<Matching> = {
-        requestId: 1
+      requestId: 1,
     };
 
     expect(parser.parseFindOneInput(input)).toEqual(expectedOutput);
@@ -151,16 +149,16 @@ describe("Test matching parser", () => {
   it("Parser - Parse Find One Input: Valid dateTimeMatched Input -> Parsed Id Input", () => {
     const parser = new MatchingParser();
 
-    const FIXED_SYSTEM_TIME = '2020-11-18T00:00:00Z';
+    const FIXED_SYSTEM_TIME = "2020-11-18T00:00:00Z";
 
     const date = new Date(FIXED_SYSTEM_TIME);
 
     const input: Partial<StringInterface<Matching>> = {
-        dateTimeMatched: date.toString()
+      dateTimeMatched: date.toString(),
     };
 
     const expectedOutput: Partial<Matching> = {
-        dateTimeMatched: date
+      dateTimeMatched: date,
     };
 
     expect(parser.parseFindOneInput(input)).toEqual(expectedOutput);
@@ -192,8 +190,8 @@ describe("Test matching parser", () => {
       requestId: "1",
     };
 
-    expect(
-      () => parser.parseUpdateInput(input as StringInterface<MatchingUpdateDTO>)
+    expect(() =>
+      parser.parseUpdateInput(input as StringInterface<MatchingUpdateDTO>),
     ).toThrow("Invalid input");
   });
 
@@ -205,8 +203,8 @@ describe("Test matching parser", () => {
       requestId: "1",
     };
 
-    expect(
-      () => parser.parseUpdateInput(input as StringInterface<MatchingUpdateDTO>)
+    expect(() =>
+      parser.parseUpdateInput(input as StringInterface<MatchingUpdateDTO>),
     ).toThrow("Invalid input");
   });
 
@@ -218,8 +216,8 @@ describe("Test matching parser", () => {
       user2Id: "456",
     };
 
-    expect(
-      () => parser.parseUpdateInput(input as StringInterface<MatchingUpdateDTO>)
+    expect(() =>
+      parser.parseUpdateInput(input as StringInterface<MatchingUpdateDTO>),
     ).toThrow("Invalid input");
   });
 

@@ -38,7 +38,7 @@ class MatchingRequestParser
   public parseFindOneInput(
     input: Partial<StringInterface<MatchingRequest>>,
   ): Partial<MatchingRequest> {
-    if (!input) {
+    if (!input || Object.keys(input).length == 0) {
       throw new Error("Invalid input");
     }
     const result: Partial<MatchingRequest> = {};
@@ -53,6 +53,9 @@ class MatchingRequestParser
     }
     if (input.difficulty) {
       result.difficulty = input.difficulty;
+    }
+    if (input.dateRequested) {
+      result.dateRequested = new Date(input.dateRequested);
     }
     return result;
   }

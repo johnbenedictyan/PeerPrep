@@ -31,6 +31,9 @@ class MatchingParser
   public parseFindOneInput(
     input: Partial<StringInterface<Matching>>,
   ): Partial<Matching> {
+    if (!input || Object.keys(input).length == 0) {
+      throw new Error("Invalid input");
+    }
     const parsedInput: Partial<Matching> = {};
     if (input.id) {
       parsedInput.id = parseInt(input.id, 10);
