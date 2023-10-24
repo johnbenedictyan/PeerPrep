@@ -5,10 +5,11 @@ import httpStatus from "http-status";
 import { Kafka } from "kafkajs";
 
 import MatchingRequestEventProducer from "../../events/producers/matchingRequest/producer";
-import { IMatchingRequestCreateInput } from "../../interfaces/IMatching";
+import { MatchingRequestCreateDTO } from "../../interfaces/matchingRequest/createDTO";
+import { MatchingRequest } from "../../interfaces/matchingRequest/object";
 import MatchingRequestParser from "../../parsers/matchingRequest/matchingRequest.parser";
 import MatchingRequestService from "../../services/matchingRequest/matchingRequest.service";
-import MatchingRequestController from "./matchingRequest.controller";
+import MatchingRequestController from "../matchingRequest/matchingRequest.controller";
 
 jest.mock("kafkajs");
 jest.mock("@prisma/client");
@@ -26,14 +27,13 @@ const MockMatchingRequestParser = jest.mocked(MatchingRequestParser);
 
 const MockKafkaInstance = new MockKafka({
   brokers: ["localhost:9092"],
-  clientId: "matching-service",
+  clientId: "matchingRequest-service",
 });
 const MockMatchingRequestEventProducerInstance =
   new MockMatchingRequestEventProducer(MockKafkaInstance.producer());
 const MockMatchingRequestParserInstance = new MockMatchingRequestParser();
 const MockPrismaInstance = new MockPrisma();
 const MockMatchingRequestServiceInstance = new MockRequestService(
-  MockMatchingRequestEventProducerInstance,
   MockPrismaInstance,
 );
 
@@ -50,86 +50,151 @@ describe("Test matching request controller", () => {
     const controller = new MatchingRequestController(
       MockMatchingRequestServiceInstance,
       MockMatchingRequestParserInstance,
+      MockMatchingRequestEventProducerInstance,
     );
     controller.healthCheck(req, res);
 
     expect(res.json).toHaveBeenCalledWith({ message: "OK" });
   });
 
-  test("Happy Path: Complete Create Matching Request should be 200", async () => {
-    const completedMatchingRequestInput: IMatchingRequestCreateInput = {
-      userId: "123",
-      questionId: 12,
+  test("Controller-Service: Valid Input To Service -> Return Object", async () => {
+    const input: MatchingRequestCreateDTO = {
+      userId: "abc",
       difficulty: "easy",
+    };
+
+    const expectedMatchingRequest: MatchingRequest = {
+      id: 1,
       dateRequested: new Date(),
-    };
-
-    const expectedMatchingRequest = {
-      ...completedMatchingRequestInput,
-      id: 1,
       success: false,
+      userId: input.userId,
+      questionId: input.questionId || null,
+      difficulty: input.difficulty,
     };
 
-    jest
-      .spyOn(MockMatchingRequestServiceInstance, "create")
-      .mockResolvedValue(expectedMatchingRequest as any);
-
-    const { res } = getMockRes({ locals: {} });
-    const req = getMockReq({ body: completedMatchingRequestInput });
-
-    const controller = new MatchingRequestController(
+    const serviceCreateMethod = jest.spyOn(
       MockMatchingRequestServiceInstance,
-      MockMatchingRequestParserInstance,
+      "create",
     );
-    await controller.create(req, res);
 
-    expect(res.status).toHaveBeenCalledWith(httpStatus.OK);
-    expect(res.json).toHaveBeenCalledWith(expectedMatchingRequest);
-  });
-
-  test("Happy Path: No Optional Create Matching Request should be 200", async () => {
-    const completedMatchingRequestInput: IMatchingRequestCreateInput = {
-      userId: "123",
-      difficulty: "easy",
-    };
-
-    const expectedMatchingRequest = {
-      ...completedMatchingRequestInput,
-      id: 1,
-      success: false,
-    };
-
-    const { res } = getMockRes({ locals: {} });
-    const req = getMockReq({ body: completedMatchingRequestInput });
-
-    jest
-      .spyOn(MockMatchingRequestServiceInstance, "create")
-      .mockResolvedValue(expectedMatchingRequest as any);
-
-    const controller = new MatchingRequestController(
-      MockMatchingRequestServiceInstance,
-      MockMatchingRequestParserInstance,
+    const eventProducerMethod = jest.spyOn(
+      MockMatchingRequestEventProducerInstance,
+      "create",
     );
-    await controller.create(req, res);
 
-    expect(res.status).toHaveBeenCalledWith(httpStatus.OK);
-    expect(res.json).toHaveBeenCalledWith(expectedMatchingRequest);
-  });
+    serviceCreateMethod.mockResolvedValue(expectedMatchingRequest);
 
-  test("Unhappy Path: Parser Error Create Matching Request should be 400", async () => {
-    const { res } = getMockRes({ locals: {} });
+    const { res } = getMockRes({});
     const req = getMockReq({});
 
     const controller = new MatchingRequestController(
       MockMatchingRequestServiceInstance,
       MockMatchingRequestParserInstance,
+      MockMatchingRequestEventProducerInstance,
+    );
+    await controller.create(req, res);
+
+    expect(serviceCreateMethod).toBeCalled();
+    expect(eventProducerMethod).toBeCalled();
+    expect(res.status).toHaveBeenCalledWith(httpStatus.OK);
+    expect(res.json).toHaveBeenCalledWith(expectedMatchingRequest);
+  });
+
+  test("Controller-Service: Invalid Input To Service -> Return Error", async () => {
+    const serviceCreateMethod = jest.spyOn(
+      MockMatchingRequestServiceInstance,
+      "create",
     );
 
-    jest
-      .spyOn(MockMatchingRequestParserInstance, "parseCreateInput")
-      .mockImplementation(() => {
-        throw new Error("Parser Error");
-      });
+    serviceCreateMethod.mockImplementation(() => {
+      throw new Error("Service Error");
+    });
+
+    const { res } = getMockRes({});
+    const req = getMockReq({});
+
+    const controller = new MatchingRequestController(
+      MockMatchingRequestServiceInstance,
+      MockMatchingRequestParserInstance,
+      MockMatchingRequestEventProducerInstance,
+    );
+    await controller.create(req, res);
+
+    expect(serviceCreateMethod).toThrowError();
+    expect(res.status).toHaveBeenCalledWith(httpStatus.BAD_REQUEST);
+  });
+
+  test("Controller-Parser: Create Matching Request, All Fields -> Test Pass Information to Parser", async () => {
+    const inputAllFields: MatchingRequestCreateDTO = {
+      userId: "abc",
+      questionId: 1,
+      difficulty: "easy",
+    };
+    const { res } = getMockRes({});
+    const req = getMockReq({
+      body: inputAllFields,
+    });
+
+    const controller = new MatchingRequestController(
+      MockMatchingRequestServiceInstance,
+      MockMatchingRequestParserInstance,
+      MockMatchingRequestEventProducerInstance,
+    );
+
+    const parserParseMethod = jest.spyOn(
+      MockMatchingRequestParserInstance,
+      "parseCreateInput",
+    );
+
+    await controller.create(req, res);
+
+    expect(parserParseMethod).toBeCalledWith(inputAllFields);
+  });
+
+  test("Controller-Parser: Create Matching Request, All Required Fields -> Test Pass Information to Parser", async () => {
+    const inputAllRequiredFields: MatchingRequestCreateDTO = {
+      userId: "abc",
+      difficulty: "easy",
+    };
+    const { res } = getMockRes({});
+    const req = getMockReq({
+      body: inputAllRequiredFields,
+    });
+
+    const controller = new MatchingRequestController(
+      MockMatchingRequestServiceInstance,
+      MockMatchingRequestParserInstance,
+      MockMatchingRequestEventProducerInstance,
+    );
+
+    const parserParseMethod = jest.spyOn(
+      MockMatchingRequestParserInstance,
+      "parseCreateInput",
+    );
+
+    await controller.create(req, res);
+
+    expect(parserParseMethod).toBeCalledWith(inputAllRequiredFields);
+  });
+
+  test("Controller-Parser: Invalid Input To Parser -> Return Error", async () => {
+    const { res } = getMockRes({});
+    const req = getMockReq({});
+
+    const controller = new MatchingRequestController(
+      MockMatchingRequestServiceInstance,
+      MockMatchingRequestParserInstance,
+      MockMatchingRequestEventProducerInstance,
+    );
+
+    const parserParseMethod = jest.spyOn(
+      MockMatchingRequestParserInstance,
+      "parseCreateInput",
+    );
+
+    parserParseMethod.mockImplementation(() => {
+      throw new Error("Parser Error");
+    });
 
     await controller.create(req, res);
 

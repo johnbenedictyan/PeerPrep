@@ -1,6 +1,5 @@
 import { MatchingRequest, PrismaClient } from "@prisma/client";
 
-import EventProducer from "../../events/producers/main.interface";
 import { MatchingRequestCreateDTO } from "../../interfaces/matchingRequest/createDTO";
 import { OptionalMatchingRequest } from "../../interfaces/matchingRequest/object";
 import { MatchingRequestUpdateDTO } from "../../interfaces/matchingRequest/updateDTO";
@@ -14,10 +13,7 @@ class MatchingRequestService
       MatchingRequest
     >
 {
-  constructor(
-    private readonly eventProducer: EventProducer<MatchingRequest>,
-    private readonly prismaClient: PrismaClient,
-  ) {}
+  constructor(private readonly prismaClient: PrismaClient) {}
 
   public async create(
     body: MatchingRequestCreateDTO,
@@ -26,9 +22,6 @@ class MatchingRequestService
       const matchingRequest = await this.prismaClient.matchingRequest.create({
         data: body,
       });
-      if (matchingRequest) {
-        this.eventProducer.create(matchingRequest);
-      }
       return matchingRequest;
     } catch (error) {
       throw new Error("Failed to create matching request.");
