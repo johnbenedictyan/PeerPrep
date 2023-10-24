@@ -2,6 +2,11 @@ import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 
 import formatUrl from "../util/formatUrl";
 
+export type ControllerParamsHeaders = {
+  params?: Record<string, any | any[]>;
+  headers?: any;
+};
+
 class GenericController {
   private mainUri: string;
 
@@ -20,16 +25,15 @@ class GenericController {
 
   public async get<T, R = AxiosResponse<T>>(
     routePath: string,
-    params?: Record<string, any | any[]>,
-    headers?: any,
+    paramsHeader?: ControllerParamsHeaders,
   ): Promise<R> {
     const options: AxiosRequestConfig = {
       url: this.getUri(routePath),
       method: "get",
-      params,
+      params: paramsHeader?.params,
       headers: {
         "Content-Type": "application/json",
-        ...headers,
+        ...paramsHeader?.headers,
       },
     };
     const response = axios<T, R>(options);
@@ -40,17 +44,16 @@ class GenericController {
   public async post<T, B, R = AxiosResponse<T>>(
     routePath: string,
     data: B,
-    params?: Record<string, any | any[]>,
-    headers?: any,
+    paramsHeader?: ControllerParamsHeaders,
   ): Promise<R> {
     const options: AxiosRequestConfig = {
       url: this.getUri(routePath),
       method: "post",
       data,
-      params,
+      params: paramsHeader?.params,
       headers: {
         "Content-Type": "application/json",
-        ...headers,
+        ...paramsHeader?.headers,
       },
     };
     const response = axios<T, R>(options);

@@ -41,7 +41,7 @@ up_client_staging:
 	docker-compose -f docker-compose.staging.yml up client -d
 
 up_staging:
-	$(MAKE) up_client_staging up_matching_staging up_question_staging up_socket_staging
+	docker-compose -f docker-compose.staging.yml up -d
 
 clean_client:
 	cd ./client && yarn run format && cd ..

@@ -11,22 +11,26 @@ import {
 import socket from "../util/socket";
 import { AuthContext } from "./FirebaseAuthContext";
 import { MatchingContext } from "./MatchingContext";
-import { codingLanguage } from "./QuestionContext";
+import { CodingLanguage } from "./QuestionContext";
 
 interface CollaborationProviderProps {
   children: ReactNode;
 }
 
 interface CollaborationContextType {
+  currentCode: string;
   socketCode: string;
-  socketLanguage: codingLanguage;
+  socketLanguage: CodingLanguage;
+  setCurrentCode: (code: string) => void;
   changeCode: (code: string) => void;
   changeLanguage: (language: string) => void;
 }
 
 export const CollaborationContext = createContext<CollaborationContextType>({
+  currentCode: "",
   socketCode: "",
   socketLanguage: "java",
+  setCurrentCode: () => {},
   changeCode: () => {},
   changeLanguage: () => {},
 });
@@ -39,7 +43,8 @@ export function CollaborationProvider({
 
   const [connectionLoading, setConnectionLoading] = useState<boolean>(true);
   const [socketCode, setSocketCode] = useState<string>("");
-  const [socketLanguage, setSocketLanguage] = useState<codingLanguage>("java");
+  const [socketLanguage, setSocketLanguage] = useState<CodingLanguage>("java");
+  const [currentCode, setCurrentCode] = useState<string>("");
 
   const emitSocketEvent = useCallback(
     (eventName: string, data: Record<string, any> = {}) => {
@@ -123,13 +128,23 @@ export function CollaborationProvider({
 
   const value = useMemo(
     () => ({
+      currentCode,
       socketCode,
       socketLanguage,
       connectionLoading,
+      setCurrentCode,
       changeCode,
       changeLanguage,
     }),
-    [socketCode, socketLanguage, connectionLoading, changeCode, changeLanguage],
+    [
+      currentCode,
+      socketCode,
+      socketLanguage,
+      connectionLoading,
+      setCurrentCode,
+      changeCode,
+      changeLanguage,
+    ],
   );
 
   return (

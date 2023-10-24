@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 
 import socket from "../util/socket";
 import { AuthContext } from "./FirebaseAuthContext";
-import { codingLanguage } from "./QuestionContext";
+import { CodingLanguage } from "./QuestionContext";
 
 interface MatchingProviderProps {
   children: ReactNode;
@@ -21,7 +21,7 @@ interface MatchingContextType {
   matchingId: string;
   matchedUserId: string;
   socketCode: string;
-  socketLanguage: codingLanguage;
+  socketLanguage: CodingLanguage;
   establishedConnection: boolean;
   foundMatch: boolean;
   connectionLoading: boolean;
@@ -65,7 +65,7 @@ export function MatchingProvider({ children }: MatchingProviderProps) {
   const [matchingId, setMatchingId] = useState<string>("");
 
   const [socketCode, setSocketCode] = useState<string>("");
-  const [socketLanguage, setSocketLanguage] = useState<codingLanguage>("java");
+  const [socketLanguage, setSocketLanguage] = useState<CodingLanguage>("java");
 
   const navigate = useNavigate();
 

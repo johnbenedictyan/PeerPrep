@@ -21,7 +21,7 @@ const user = {
 
 function Navbar() {
   const navigation = useRef([
-    { name: "Dashboard", href: "/dashboard", current: false },
+    // { name: "Dashboard", href: "/dashboard", current: false },
     { name: "Questions", href: "/questions", current: false },
     { name: "Match", href: "/match", current: false },
   ]);

@@ -9,7 +9,7 @@ import VideoCall from "../../../components/VideoCall";
 import { AuthContext } from "../../../context/FirebaseAuthContext";
 import { MatchingContext } from "../../../context/MatchingContext";
 import {
-  codingLanguage,
+  CodingLanguage,
   QuestionContext,
 } from "../../../context/QuestionContext";
 
@@ -24,8 +24,8 @@ export default function SingleQuestionPage() {
 
   useEffect(() => {
     const selectedLanguage =
-      (searchParams.get("lang") as codingLanguage) ||
-      ("java" as codingLanguage);
+      (searchParams.get("lang") as CodingLanguage) ||
+      ("java" as CodingLanguage);
     setSelectedLanguage(selectedLanguage);
   }, [setSelectedLanguage, searchParams]);
 

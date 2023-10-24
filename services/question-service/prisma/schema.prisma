@@ -21,9 +21,19 @@ model Question {
     updatedAt    DateTime              @updatedAt
     authorId     String
     initialCodes QuestionInitialCode[]
+    runnerCodes  QuestionRunnerCode[]
 }
 
 model QuestionInitialCode {
+    language   String
+    code       String
+    Question   Question @relation(fields: [questionId], references: [id])
+    questionId Int
+
+    @@unique([language, questionId])
+}
+
+model QuestionRunnerCode {
     language   String
     code       String
     Question   Question @relation(fields: [questionId], references: [id])

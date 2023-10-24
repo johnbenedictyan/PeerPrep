@@ -19,7 +19,7 @@ class QuestionService
   ) {}
 
   public async create(body: FullQuestionCreateDTO): Promise<FullQuestion> {
-    const { initialCodes, ...rest } = body;
+    const { initialCodes, runnerCodes, ...rest } = body;
     try {
       const question = await this.prismaClient.question.create({
         data: {
@@ -27,9 +27,13 @@ class QuestionService
           initialCodes: {
             create: initialCodes,
           },
+          runnerCodes: {
+            create: runnerCodes,
+          },
         },
         include: {
           initialCodes: true,
+          runnerCodes: true,
         },
       });
       return question;
@@ -50,6 +54,7 @@ class QuestionService
         },
         include: {
           initialCodes: true,
+          runnerCodes: true,
         },
       });
       return question;
@@ -84,7 +89,7 @@ class QuestionService
     body: Partial<FullQuestionUpdateDTO>,
   ): Promise<FullQuestion> {
     assert(id, "id should be defined in the question service update method");
-    const { initialCodes, ...rest } = body;
+    const { initialCodes, runnerCodes, ...rest } = body;
     try {
       const updatedQuestionXRelations = await this.prismaClient.question.update(
         {
@@ -96,49 +101,96 @@ class QuestionService
           },
           include: {
             initialCodes: true,
+            runnerCodes: true,
           },
         },
       );
 
-      if (!initialCodes) {
+      if (!initialCodes && !runnerCodes) {
         return updatedQuestionXRelations;
       }
 
-      await this.prismaClient.question.update({
-        where: {
-          id,
-        },
-        data: {
-          initialCodes: {
-            set: [],
+      let updatedQuestionWRelations = updatedQuestionXRelations;
+
+      if (initialCodes) {
+        await this.prismaClient.question.update({
+          where: {
+            id,
           },
-        },
-      });
-      return await this.prismaClient.question.update({
-        where: {
-          id,
-        },
-        data: {
-          initialCodes: {
-            connectOrCreate: initialCodes.map((x) => ({
-              where: {
-                language_questionId: {
-                  language: x.language,
-                  questionId: id,
+          data: {
+            initialCodes: {
+              set: [],
+            },
+          },
+        });
+        updatedQuestionWRelations = await this.prismaClient.question.update({
+          where: {
+            id,
+          },
+          data: {
+            initialCodes: {
+              connectOrCreate: initialCodes.map((x) => ({
+                where: {
+                  language_questionId: {
+                    language: x.language,
+                    questionId: id,
+                  },
                 },
-              },
-              create: {
-                language: x.language,
-                code: x.code,
-                language_questionId: id,
-              },
-            })),
+                create: {
+                  language: x.language,
+                  code: x.code,
+                  language_questionId: id,
+                },
+              })),
+            },
           },
-        },
-        include: {
-          initialCodes: true,
-        },
-      });
+          include: {
+            initialCodes: true,
+            runnerCodes: true,
+          },
+        });
+      }
+
+      if (runnerCodes) {
+        await this.prismaClient.question.update({
+          where: {
+            id,
+          },
+          data: {
+            runnerCodes: {
+              set: [],
+            },
+          },
+        });
+        updatedQuestionWRelations = await this.prismaClient.question.update({
+          where: {
+            id,
+          },
+          data: {
+            runnerCodes: {
+              connectOrCreate: runnerCodes.map((x) => ({
+                where: {
+                  language_questionId: {
+                    language: x.language,
+                    questionId: id,
+                  },
+                },
+                create: {
+                  language: x.language,
+                  code: x.code,
+                  language_questionId: id,
+                },
+              })),
+            },
+          },
+          include: {
+            initialCodes: true,
+            runnerCodes: true,
+          },
+        });
+      }
+
+      return updatedQuestionWRelations;
     } catch (error) {
       throw new Error("Failed to update question.");
     }

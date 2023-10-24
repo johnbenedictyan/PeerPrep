@@ -1,41 +1,27 @@
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 import { MatchingContext } from "../context/MatchingContext";
-import { QuestionContext, codingLanguage } from "../context/QuestionContext";
+import { CodingLanguage, QuestionContext } from "../context/QuestionContext";
 import CodeEditor from "./CodeEditor";
 import CodeResult from "./CodeResult";
 
 function CodingSpace() {
-  const languageOptions: codingLanguage[] = useMemo(
-    () => ["java", "python"],
-    [],
-  );
+  const languageOptions: CodingLanguage[] = useMemo(() => ["java", "cpp"], []);
 
   const { selectedLanguage, setSelectedLanguage } = useContext(QuestionContext);
   const { socketLanguage, changeLanguage } = useContext(MatchingContext);
-  const navigate = useNavigate();
 
   const handleLanguageChange = useCallback(
-    // (lang: string) => {
-    //   navigate(`/questions/1?lang=${lang}`);
-    // },
-    // [navigate],
-    (newLanguage: codingLanguage) => {
+    (newLanguage: CodingLanguage) => {
       setSelectedLanguage(newLanguage);
       changeLanguage(newLanguage);
     },
     [setSelectedLanguage, changeLanguage],
   );
 
-  //   useEffect(() => {
-  //     changeLanguage(selectedLanguage || languageOptions[0]);
-  //   }, [selectedLanguage, changeLanguage, languageOptions]);
-
   useEffect(() => {
-    if (socketLanguage === selectedLanguage) return;
     setSelectedLanguage(socketLanguage);
-  }, [socketLanguage, setSelectedLanguage, selectedLanguage]);
+  }, [socketLanguage, setSelectedLanguage]);
 
   return (
     <div>
@@ -56,7 +42,7 @@ function CodingSpace() {
             className="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 ring-1 ring-inset ring-gray-300 dark:ring-gray-700 focus:ring-2 focus:ring-indigo-600 dark:focus:ring-indigo-400 sm:text-sm sm:leading-6"
             value={selectedLanguage}
             onChange={(e) =>
-              handleLanguageChange(e.target.value as codingLanguage)
+              handleLanguageChange(e.target.value as CodingLanguage)
             }
           >
             {languageOptions.map((lang, _index) => (
