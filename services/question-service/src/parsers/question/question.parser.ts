@@ -31,6 +31,16 @@ class QuestionParser
         );
       }
     });
+    if (input.runnerCodes.length == 0) {
+      return input;
+    }
+    input.runnerCodes.forEach((x) => {
+      if (!x.code || !x.language) {
+        throw new Error(
+          "Required fields for question's runner code of code or language are missing",
+        );
+      }
+    });
     return input;
   }
 
