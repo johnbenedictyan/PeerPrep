@@ -144,23 +144,22 @@ describe("Test matching service", () => {
 
   // Find Match
   test("Find Match No Question Id, Valid Input To Prisma -> Return Object", async () => {
-
     const matching: MatchingRequest = {
-        id: 1,
-        userId: "asd",
-        questionId: null,
-        difficulty: "easy",
-        dateRequested: new Date(),
-        success: false
+      id: 1,
+      userId: "asd",
+      questionId: null,
+      difficulty: "easy",
+      dateRequested: new Date(),
+      success: false,
     };
 
     const expectedMatching: MatchingRequest = {
-        id: 2,
-        userId: "qwe",
-        questionId: null,
-        difficulty: "easy",
-        dateRequested: new Date(),
-        success: false
+      id: 2,
+      userId: "qwe",
+      questionId: null,
+      difficulty: "easy",
+      dateRequested: new Date(),
+      success: false,
     };
 
     prismaMock.matchingRequest.findFirst.mockResolvedValue(expectedMatching);

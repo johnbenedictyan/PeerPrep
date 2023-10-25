@@ -9,24 +9,23 @@ import MatchingRequestTopics from "../../topics/matchingRequest/topic";
 const mockProducer = mockDeep<Producer>();
 
 const obj: MatchingRequest = {
-    id: 1,
-    userId: "abc",
-    questionId: 123,
-    difficulty: "easy",
-    dateRequested: new Date(),
-    success: false,
-  };
+  id: 1,
+  userId: "abc",
+  questionId: 123,
+  difficulty: "easy",
+  dateRequested: new Date(),
+  success: false,
+};
 
 describe("Test Matching Request Event Producer", () => {
-    beforeAll(()=> {
-        jest.clearAllMocks()
-    })
+  beforeAll(() => {
+    jest.clearAllMocks();
+  });
   // Create Event
   test("Create Event should call kafka methods", async () => {
     const producerConnectMethod = jest.spyOn(mockProducer, "connect");
     const producerSendMethod = jest.spyOn(mockProducer, "send");
     const producerDisconnectMethod = jest.spyOn(mockProducer, "connect");
-
 
     const eventProducer = new MatchingRequestProducer(mockProducer);
     await eventProducer.create(obj);

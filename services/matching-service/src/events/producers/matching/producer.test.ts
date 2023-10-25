@@ -9,17 +9,17 @@ import MatchingTopics from "../../topics/matching/matching";
 const mockProducer = mockDeep<Producer>();
 
 const obj: Matching = {
-    id: 1,
-    user1Id: "asd",
-    user2Id: "zxc",
-    requestId: 1,
-    dateTimeMatched: new Date()
+  id: 1,
+  user1Id: "asd",
+  user2Id: "zxc",
+  requestId: 1,
+  dateTimeMatched: new Date(),
 };
 
 describe("Test Matching Event Producer", () => {
-    beforeAll(()=> {
-        jest.clearAllMocks()
-    })
+  beforeAll(() => {
+    jest.clearAllMocks();
+  });
   // Create Event
   test("Create Event should call kafka methods", async () => {
     const producerConnectMethod = jest.spyOn(mockProducer, "connect");
@@ -82,5 +82,4 @@ describe("Test Matching Event Producer", () => {
     });
     expect(producerDisconnectMethod).toBeCalled();
   });
-
 });
