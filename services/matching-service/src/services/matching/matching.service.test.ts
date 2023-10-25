@@ -5,6 +5,7 @@ import { Matching } from "../../interfaces/matching/object";
 import MatchingService from "../../services/matching/matching.service";
 import { prismaMock } from "../../util/prisma/singleton";
 import { MatchingUpdateDTO } from "../../interfaces/matching/updateDTO";
+import { MatchingRequest } from "../../interfaces/matchingRequest/object";
 
 jest.mock("kafkajs");
 jest.mock("@prisma/client");
@@ -137,6 +138,35 @@ describe("Test matching service", () => {
 
     const service = new MatchingService(prismaMock);
     const result = await service.delete(testId);
+
+    expect(result).toEqual(expectedMatching);
+  });
+
+  // Find Match
+  test("Find Match No Question Id, Valid Input To Prisma -> Return Object", async () => {
+
+    const matching: MatchingRequest = {
+        id: 1,
+        userId: "asd",
+        questionId: null,
+        difficulty: "easy",
+        dateRequested: new Date(),
+        success: false
+    };
+
+    const expectedMatching: MatchingRequest = {
+        id: 2,
+        userId: "qwe",
+        questionId: null,
+        difficulty: "easy",
+        dateRequested: new Date(),
+        success: false
+    };
+
+    prismaMock.matchingRequest.findFirst.mockResolvedValue(expectedMatching);
+
+    const service = new MatchingService(prismaMock);
+    const result = await service.findMatch(matching);
 
     expect(result).toEqual(expectedMatching);
   });
