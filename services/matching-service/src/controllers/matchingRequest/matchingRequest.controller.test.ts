@@ -125,6 +125,10 @@ describe("Test matching request controller", () => {
 
     expect(serviceCreateMethod).toThrowError();
     expect(res.status).toHaveBeenCalledWith(httpStatus.BAD_REQUEST);
+    expect(res.json).toHaveBeenCalledWith({
+      errors: "Service Error",
+      success: false,
+    });
   });
 
   test("Controller-Parser: Create Matching Request, All Fields -> Test Pass Information to Parser", async () => {
@@ -202,6 +206,10 @@ describe("Test matching request controller", () => {
     await controller.create(req, res);
 
     expect(res.status).toHaveBeenCalledWith(httpStatus.BAD_REQUEST);
+    expect(res.json).toHaveBeenCalledWith({
+      errors: "Parser Error",
+      success: false,
+    });
   });
 
   // Find By Id
@@ -265,6 +273,10 @@ describe("Test matching request controller", () => {
 
     expect(serviceFindByIdMethod).toThrowError();
     expect(res.status).toHaveBeenCalledWith(httpStatus.BAD_REQUEST);
+    expect(res.json).toHaveBeenCalledWith({
+      errors: "Service Error",
+      success: false,
+    });
   });
 
   test("Controller-Parser: Find MatchingRequest By Id, All Fields -> Test Pass Information to Parser", async () => {
@@ -304,7 +316,7 @@ describe("Test matching request controller", () => {
 
     const parserParseMethod = jest.spyOn(
       MockMatchingRequestParserInstance,
-      "parseCreateInput",
+      "parseFindByIdInput",
     );
 
     parserParseMethod.mockImplementation(() => {
@@ -314,6 +326,10 @@ describe("Test matching request controller", () => {
     await controller.findById(req, res);
 
     expect(res.status).toHaveBeenCalledWith(httpStatus.BAD_REQUEST);
+    expect(res.json).toHaveBeenCalledWith({
+      errors: "Parser Error",
+      success: false,
+    });
   });
 
   // Find One
@@ -389,6 +405,10 @@ describe("Test matching request controller", () => {
 
     expect(serviceFindOneMethod).toThrowError();
     expect(res.status).toHaveBeenCalledWith(httpStatus.BAD_REQUEST);
+    expect(res.json).toHaveBeenCalledWith({
+      errors: "Service Error",
+      success: false,
+    });
   });
 
   test("Controller-Parser: Find One MatchingRequest, Invalid Input To Parser -> Return Error", async () => {
@@ -413,6 +433,10 @@ describe("Test matching request controller", () => {
     await controller.findOne(req, res);
 
     expect(res.status).toHaveBeenCalledWith(httpStatus.BAD_REQUEST);
+    expect(res.json).toHaveBeenCalledWith({
+      errors: "Parser Error",
+      success: false,
+    });
   });
 
   // Find All
@@ -481,6 +505,10 @@ describe("Test matching request controller", () => {
 
     expect(serviceFindAllMethod).toThrowError();
     expect(res.status).toHaveBeenCalledWith(httpStatus.BAD_REQUEST);
+    expect(res.json).toHaveBeenCalledWith({
+      errors: "Service Error",
+      success: false,
+    });
   });
 
   // Update
@@ -562,6 +590,10 @@ describe("Test matching request controller", () => {
 
     expect(serviceUpdateMethod).toThrowError();
     expect(res.status).toHaveBeenCalledWith(httpStatus.BAD_REQUEST);
+    expect(res.json).toHaveBeenCalledWith({
+      errors: "Service Error",
+      success: false,
+    });
   });
 
   test("Controller-Parser: Update MatchingRequest, All Fields -> Test Pass Information to Parsers", async () => {
@@ -614,6 +646,10 @@ describe("Test matching request controller", () => {
     await controller.update(req, res);
 
     expect(res.status).toHaveBeenCalledWith(httpStatus.BAD_REQUEST);
+    expect(res.json).toHaveBeenCalledWith({
+      errors: "Parser Error",
+      success: false,
+    });
   });
 
   test("Controller-Parser: Update MatchingRequest, Parser Update Input Error -> Return Error", async () => {
@@ -638,6 +674,10 @@ describe("Test matching request controller", () => {
     await controller.update(req, res);
 
     expect(res.status).toHaveBeenCalledWith(httpStatus.BAD_REQUEST);
+    expect(res.json).toHaveBeenCalledWith({
+      errors: "Parser Error",
+      success: false,
+    });
   });
 
   // Delete
@@ -714,6 +754,10 @@ describe("Test matching request controller", () => {
 
     expect(serviceDeleteMethod).toThrowError();
     expect(res.status).toHaveBeenCalledWith(httpStatus.BAD_REQUEST);
+    expect(res.json).toHaveBeenCalledWith({
+      errors: "Service Error",
+      success: false,
+    });
   });
 
   test("Controller-Parser: Delete MatchingRequest, All Fields -> Test Pass Information to Parser", async () => {
@@ -763,5 +807,9 @@ describe("Test matching request controller", () => {
     await controller.delete(req, res);
 
     expect(res.status).toHaveBeenCalledWith(httpStatus.BAD_REQUEST);
+    expect(res.json).toHaveBeenCalledWith({
+      errors: "Parser Error",
+      success: false,
+    });
   });
 });
