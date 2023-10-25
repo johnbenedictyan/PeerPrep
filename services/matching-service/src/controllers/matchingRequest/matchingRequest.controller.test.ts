@@ -59,7 +59,7 @@ describe("Test matching request controller", () => {
     expect(res.json).toHaveBeenCalledWith({ message: "OK" });
   });
 
-    // Create
+  // Create
   test("Controller-Service: Create Matching Request, Valid Input To Service -> Return Object", async () => {
     const input: MatchingRequestCreateDTO = {
       userId: "abc",
@@ -217,12 +217,12 @@ describe("Test matching request controller", () => {
     const testId: string = "1";
 
     const expectedMatchingRequest: MatchingRequest = {
-        id: 1,
-        userId: "abc",
-        questionId: 123,
-        difficulty: "easy",
-        dateRequested: new Date,
-        success: false
+      id: 1,
+      userId: "abc",
+      questionId: 123,
+      difficulty: "easy",
+      dateRequested: new Date(),
+      success: false,
     };
 
     const serviceFindByIdMethod = jest.spyOn(
@@ -335,21 +335,21 @@ describe("Test matching request controller", () => {
   // Find One
   test("Controller-Service: Find One MatchingRequest, Valid Input To Service -> Return Object", async () => {
     const input: StringInterface<MatchingRequest> = {
-        id: "1",
-        userId: "abc",
-        questionId: "123",
-        difficulty: "easy",
-        dateRequested: new Date().toString(),
-        success: "false"
+      id: "1",
+      userId: "abc",
+      questionId: "123",
+      difficulty: "easy",
+      dateRequested: new Date().toString(),
+      success: "false",
     };
 
     const expectedMatchingRequest: MatchingRequest = {
-        id: 1,
-        userId: "abc",
-        questionId: 123,
-        difficulty: "easy",
-        dateRequested: new Date,
-        success: false
+      id: 1,
+      userId: "abc",
+      questionId: 123,
+      difficulty: "easy",
+      dateRequested: new Date(),
+      success: false,
     };
 
     const serviceFindOneMethod = jest.spyOn(
@@ -442,24 +442,27 @@ describe("Test matching request controller", () => {
   // Find All
   test("Controller-Service: Find All MatchingRequest, Valid Input To Service -> Return Object", async () => {
     const expectedMatchingRequest1: MatchingRequest = {
-        id: 1,
-        userId: "abc",
-        questionId: 1,
-        difficulty: "easy",
-        dateRequested: new Date(),
-        success: false
+      id: 1,
+      userId: "abc",
+      questionId: 1,
+      difficulty: "easy",
+      dateRequested: new Date(),
+      success: false,
     };
 
     const expectedMatchingRequest2: MatchingRequest = {
-        id: 2,
-        userId: "qwe",
-        questionId: 2,
-        difficulty: "easy",
-        dateRequested: new Date(),
-        success: false
+      id: 2,
+      userId: "qwe",
+      questionId: 2,
+      difficulty: "easy",
+      dateRequested: new Date(),
+      success: false,
     };
 
-    const expectedMatchingRequests = [expectedMatchingRequest1, expectedMatchingRequest2];
+    const expectedMatchingRequests = [
+      expectedMatchingRequest1,
+      expectedMatchingRequest2,
+    ];
 
     const serviceFindAllMethod = jest.spyOn(
       MockMatchingRequestServiceInstance,
@@ -515,16 +518,16 @@ describe("Test matching request controller", () => {
   test("Controller-Service: Update MatchingRequest, Valid Input To Service -> Return Object", async () => {
     const testId: number = 1;
     const input: MatchingRequestUpdateDTO = {
-        userId: "abc",
-        questionId: 123,
-        difficulty: "easy",
-        success: false
+      userId: "abc",
+      questionId: 123,
+      difficulty: "easy",
+      success: false,
     };
 
     const expectedMatchingRequest: MatchingRequest = {
-        id: 1,
-        dateRequested: new Date(),
-        ...input
+      id: 1,
+      dateRequested: new Date(),
+      ...input,
     };
 
     const serviceUpdateMethod = jest.spyOn(
@@ -598,10 +601,10 @@ describe("Test matching request controller", () => {
 
   test("Controller-Parser: Update MatchingRequest, All Fields -> Test Pass Information to Parsers", async () => {
     const inputAllFields: MatchingRequestUpdateDTO = {
-        userId: "abc",
-        questionId: 123,
-        difficulty: "easy",
-        success: false
+      userId: "abc",
+      questionId: 123,
+      difficulty: "easy",
+      success: false,
     };
     const { res } = getMockRes({});
     const req = getMockReq({
@@ -685,12 +688,12 @@ describe("Test matching request controller", () => {
     const testId: string = "1";
 
     const expectedMatchingRequest: MatchingRequest = {
-        id: parseInt(testId),
-        userId: "abc",
-        questionId: 123,
-        difficulty: "easy",
-        dateRequested: new Date,
-        success: false
+      id: parseInt(testId),
+      userId: "abc",
+      questionId: 123,
+      difficulty: "easy",
+      dateRequested: new Date(),
+      success: false,
     };
 
     const serviceDeleteMethod = jest.spyOn(
