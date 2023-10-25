@@ -10,6 +10,8 @@ import { MatchingRequest } from "../../interfaces/matchingRequest/object";
 import MatchingRequestParser from "../../parsers/matchingRequest/matchingRequest.parser";
 import MatchingRequestService from "../../services/matchingRequest/matchingRequest.service";
 import MatchingRequestController from "../matchingRequest/matchingRequest.controller";
+import { StringInterface } from "../../util/stringInterface";
+import { MatchingRequestUpdateDTO } from "../../interfaces/matchingRequest/updateDTO";
 
 jest.mock("kafkajs");
 jest.mock("@prisma/client");
@@ -57,7 +59,8 @@ describe("Test matching request controller", () => {
     expect(res.json).toHaveBeenCalledWith({ message: "OK" });
   });
 
-  test("Controller-Service: Valid Input To Service -> Return Object", async () => {
+    // Create
+  test("Controller-Service: Create Matching Request, Valid Input To Service -> Return Object", async () => {
     const input: MatchingRequestCreateDTO = {
       userId: "abc",
       difficulty: "easy",
@@ -100,7 +103,7 @@ describe("Test matching request controller", () => {
     expect(res.json).toHaveBeenCalledWith(expectedMatchingRequest);
   });
 
-  test("Controller-Service: Invalid Input To Service -> Return Error", async () => {
+  test("Controller-Service: Create Matching Request, Invalid Input To Service -> Return Error", async () => {
     const serviceCreateMethod = jest.spyOn(
       MockMatchingRequestServiceInstance,
       "create",
@@ -177,7 +180,7 @@ describe("Test matching request controller", () => {
     expect(parserParseMethod).toBeCalledWith(inputAllRequiredFields);
   });
 
-  test("Controller-Parser: Invalid Input To Parser -> Return Error", async () => {
+  test("Controller-Parser: Create Matching Request, Invalid Input To Parser -> Return Error", async () => {
     const { res } = getMockRes({});
     const req = getMockReq({});
 
@@ -197,6 +200,567 @@ describe("Test matching request controller", () => {
     });
 
     await controller.create(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(httpStatus.BAD_REQUEST);
+  });
+
+  // Find By Id
+  test("Controller-Service: Find MatchingRequest By Id, Valid Input To Service -> Return Object", async () => {
+    const testId: string = "1";
+
+    const expectedMatchingRequest: MatchingRequest = {
+        id: 1,
+        userId: "abc",
+        questionId: 123,
+        difficulty: "easy",
+        dateRequested: new Date,
+        success: false
+    };
+
+    const serviceFindByIdMethod = jest.spyOn(
+      MockMatchingRequestServiceInstance,
+      "findById",
+    );
+
+    serviceFindByIdMethod.mockResolvedValue(expectedMatchingRequest);
+
+    const { res } = getMockRes({});
+    const req = getMockReq({
+      params: {
+        id: testId,
+      },
+    });
+
+    const controller = new MatchingRequestController(
+      MockMatchingRequestServiceInstance,
+      MockMatchingRequestParserInstance,
+      MockMatchingRequestEventProducerInstance,
+    );
+    await controller.findById(req, res);
+
+    expect(serviceFindByIdMethod).toBeCalled();
+    expect(res.status).toHaveBeenCalledWith(httpStatus.OK);
+    expect(res.json).toHaveBeenCalledWith(expectedMatchingRequest);
+  });
+
+  test("Controller-Service: Find MatchingRequest By Id, Invalid Input To Service -> Return Error", async () => {
+    const serviceFindByIdMethod = jest.spyOn(
+      MockMatchingRequestServiceInstance,
+      "findById",
+    );
+
+    serviceFindByIdMethod.mockImplementation(() => {
+      throw new Error("Service Error");
+    });
+
+    const { res } = getMockRes({});
+    const req = getMockReq({});
+
+    const controller = new MatchingRequestController(
+      MockMatchingRequestServiceInstance,
+      MockMatchingRequestParserInstance,
+      MockMatchingRequestEventProducerInstance,
+    );
+    await controller.findById(req, res);
+
+    expect(serviceFindByIdMethod).toThrowError();
+    expect(res.status).toHaveBeenCalledWith(httpStatus.BAD_REQUEST);
+  });
+
+  test("Controller-Parser: Find MatchingRequest By Id, All Fields -> Test Pass Information to Parser", async () => {
+    const testId: string = "1";
+    const { res } = getMockRes({});
+    const req = getMockReq({
+      params: {
+        id: testId,
+      },
+    });
+
+    const controller = new MatchingRequestController(
+      MockMatchingRequestServiceInstance,
+      MockMatchingRequestParserInstance,
+      MockMatchingRequestEventProducerInstance,
+    );
+
+    const parserParseMethod = jest.spyOn(
+      MockMatchingRequestParserInstance,
+      "parseFindByIdInput",
+    );
+
+    await controller.findById(req, res);
+
+    expect(parserParseMethod).toBeCalledWith(testId);
+  });
+
+  test("Controller-Parser: Find MatchingRequest By Id, Invalid Input To Parser -> Return Error", async () => {
+    const { res } = getMockRes({});
+    const req = getMockReq({});
+
+    const controller = new MatchingRequestController(
+      MockMatchingRequestServiceInstance,
+      MockMatchingRequestParserInstance,
+      MockMatchingRequestEventProducerInstance,
+    );
+
+    const parserParseMethod = jest.spyOn(
+      MockMatchingRequestParserInstance,
+      "parseCreateInput",
+    );
+
+    parserParseMethod.mockImplementation(() => {
+      throw new Error("Parser Error");
+    });
+
+    await controller.findById(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(httpStatus.BAD_REQUEST);
+  });
+
+  // Find One
+  test("Controller-Service: Find One MatchingRequest, Valid Input To Service -> Return Object", async () => {
+    const input: StringInterface<MatchingRequest> = {
+        id: "1",
+        userId: "abc",
+        questionId: "123",
+        difficulty: "easy",
+        dateRequested: new Date().toString(),
+        success: "false"
+    };
+
+    const expectedMatchingRequest: MatchingRequest = {
+        id: 1,
+        userId: "abc",
+        questionId: 123,
+        difficulty: "easy",
+        dateRequested: new Date,
+        success: false
+    };
+
+    const serviceFindOneMethod = jest.spyOn(
+      MockMatchingRequestServiceInstance,
+      "findOne",
+    );
+
+    serviceFindOneMethod.mockResolvedValue(expectedMatchingRequest);
+
+    const parserParseMethod = jest.spyOn(
+      MockMatchingRequestParserInstance,
+      "parseFindOneInput",
+    );
+
+    parserParseMethod.mockImplementation(() => expectedMatchingRequest);
+
+    const { res } = getMockRes({});
+    const req = getMockReq({
+      body: input,
+    });
+
+    const controller = new MatchingRequestController(
+      MockMatchingRequestServiceInstance,
+      MockMatchingRequestParserInstance,
+      MockMatchingRequestEventProducerInstance,
+    );
+    await controller.findOne(req, res);
+
+    expect(serviceFindOneMethod).toBeCalledWith(expectedMatchingRequest);
+    expect(res.status).toHaveBeenCalledWith(httpStatus.OK);
+    expect(res.json).toHaveBeenCalledWith(expectedMatchingRequest);
+  });
+
+  test("Controller-Service: Find One MatchingRequest, Invalid Input To Service -> Return Error", async () => {
+    const serviceFindOneMethod = jest.spyOn(
+      MockMatchingRequestServiceInstance,
+      "findOne",
+    );
+
+    serviceFindOneMethod.mockImplementation(() => {
+      throw new Error("Service Error");
+    });
+
+    const { res } = getMockRes({});
+    const req = getMockReq({});
+
+    const controller = new MatchingRequestController(
+      MockMatchingRequestServiceInstance,
+      MockMatchingRequestParserInstance,
+      MockMatchingRequestEventProducerInstance,
+    );
+    await controller.findOne(req, res);
+
+    expect(serviceFindOneMethod).toThrowError();
+    expect(res.status).toHaveBeenCalledWith(httpStatus.BAD_REQUEST);
+  });
+
+  test("Controller-Parser: Find One MatchingRequest, Invalid Input To Parser -> Return Error", async () => {
+    const { res } = getMockRes({});
+    const req = getMockReq({});
+
+    const controller = new MatchingRequestController(
+      MockMatchingRequestServiceInstance,
+      MockMatchingRequestParserInstance,
+      MockMatchingRequestEventProducerInstance,
+    );
+
+    const parserParseMethod = jest.spyOn(
+      MockMatchingRequestParserInstance,
+      "parseFindOneInput",
+    );
+
+    parserParseMethod.mockImplementation(() => {
+      throw new Error("Parser Error");
+    });
+
+    await controller.findOne(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(httpStatus.BAD_REQUEST);
+  });
+
+  // Find All
+  test("Controller-Service: Find All MatchingRequest, Valid Input To Service -> Return Object", async () => {
+    const expectedMatchingRequest1: MatchingRequest = {
+        id: 1,
+        userId: "abc",
+        questionId: 1,
+        difficulty: "easy",
+        dateRequested: new Date(),
+        success: false
+    };
+
+    const expectedMatchingRequest2: MatchingRequest = {
+        id: 2,
+        userId: "qwe",
+        questionId: 2,
+        difficulty: "easy",
+        dateRequested: new Date(),
+        success: false
+    };
+
+    const expectedMatchingRequests = [expectedMatchingRequest1, expectedMatchingRequest2];
+
+    const serviceFindAllMethod = jest.spyOn(
+      MockMatchingRequestServiceInstance,
+      "findAll",
+    );
+
+    serviceFindAllMethod.mockResolvedValue(expectedMatchingRequests);
+
+    const { res } = getMockRes({});
+    const req = getMockReq({});
+
+    const controller = new MatchingRequestController(
+      MockMatchingRequestServiceInstance,
+      MockMatchingRequestParserInstance,
+      MockMatchingRequestEventProducerInstance,
+    );
+    await controller.findAll(req, res);
+
+    expect(serviceFindAllMethod).toBeCalled();
+    expect(res.status).toHaveBeenCalledWith(httpStatus.OK);
+    expect(res.json).toHaveBeenCalledWith(expectedMatchingRequests);
+  });
+
+  test("Controller-Service: Find All MatchingRequest, Invalid Input To Service -> Return Error", async () => {
+    const serviceFindAllMethod = jest.spyOn(
+      MockMatchingRequestServiceInstance,
+      "findAll",
+    );
+
+    serviceFindAllMethod.mockImplementation(() => {
+      throw new Error("Service Error");
+    });
+
+    const { res } = getMockRes({});
+    const req = getMockReq({});
+
+    const controller = new MatchingRequestController(
+      MockMatchingRequestServiceInstance,
+      MockMatchingRequestParserInstance,
+      MockMatchingRequestEventProducerInstance,
+    );
+    await controller.findAll(req, res);
+
+    expect(serviceFindAllMethod).toThrowError();
+    expect(res.status).toHaveBeenCalledWith(httpStatus.BAD_REQUEST);
+  });
+
+  // Update
+  test("Controller-Service: Update MatchingRequest, Valid Input To Service -> Return Object", async () => {
+    const testId: number = 1;
+    const input: MatchingRequestUpdateDTO = {
+        userId: "abc",
+        questionId: 123,
+        difficulty: "easy",
+        success: false
+    };
+
+    const expectedMatchingRequest: MatchingRequest = {
+        id: 1,
+        dateRequested: new Date(),
+        ...input
+    };
+
+    const serviceUpdateMethod = jest.spyOn(
+      MockMatchingRequestServiceInstance,
+      "update",
+    );
+
+    serviceUpdateMethod.mockResolvedValue(expectedMatchingRequest);
+
+    const eventProducerMethod = jest.spyOn(
+      MockMatchingRequestEventProducerInstance,
+      "update",
+    );
+
+    const parserParseFindByIdInputMethod = jest.spyOn(
+      MockMatchingRequestParserInstance,
+      "parseFindByIdInput",
+    );
+
+    const parserParseUpdateInputMethod = jest.spyOn(
+      MockMatchingRequestParserInstance,
+      "parseUpdateInput",
+    );
+
+    parserParseFindByIdInputMethod.mockImplementation(() => testId);
+    parserParseUpdateInputMethod.mockImplementation(() => input);
+
+    const { res } = getMockRes({});
+    const req = getMockReq({});
+
+    const controller = new MatchingRequestController(
+      MockMatchingRequestServiceInstance,
+      MockMatchingRequestParserInstance,
+      MockMatchingRequestEventProducerInstance,
+    );
+    await controller.update(req, res);
+
+    expect(serviceUpdateMethod).toBeCalledWith(testId, input);
+    expect(eventProducerMethod).toBeCalled();
+    expect(res.status).toHaveBeenCalledWith(httpStatus.OK);
+    expect(res.json).toHaveBeenCalledWith(expectedMatchingRequest);
+  });
+
+  test("Controller-Service: Update MatchingRequest, Invalid Input To Service -> Return Error", async () => {
+    const serviceUpdateMethod = jest.spyOn(
+      MockMatchingRequestServiceInstance,
+      "update",
+    );
+
+    serviceUpdateMethod.mockImplementation(() => {
+      throw new Error("Service Error");
+    });
+
+    const { res } = getMockRes({});
+    const req = getMockReq({});
+
+    const controller = new MatchingRequestController(
+      MockMatchingRequestServiceInstance,
+      MockMatchingRequestParserInstance,
+      MockMatchingRequestEventProducerInstance,
+    );
+    await controller.update(req, res);
+
+    expect(serviceUpdateMethod).toThrowError();
+    expect(res.status).toHaveBeenCalledWith(httpStatus.BAD_REQUEST);
+  });
+
+  test("Controller-Parser: Update MatchingRequest, All Fields -> Test Pass Information to Parsers", async () => {
+    const inputAllFields: MatchingRequestUpdateDTO = {
+        userId: "abc",
+        questionId: 123,
+        difficulty: "easy",
+        success: false
+    };
+    const { res } = getMockRes({});
+    const req = getMockReq({
+      body: inputAllFields,
+    });
+
+    const controller = new MatchingRequestController(
+      MockMatchingRequestServiceInstance,
+      MockMatchingRequestParserInstance,
+      MockMatchingRequestEventProducerInstance,
+    );
+
+    const parserParseMethod = jest.spyOn(
+      MockMatchingRequestParserInstance,
+      "parseUpdateInput",
+    );
+
+    await controller.update(req, res);
+
+    expect(parserParseMethod).toBeCalledWith(inputAllFields);
+  });
+
+  test("Controller-Parser: Update MatchingRequest, Parser Find By Input Error -> Return Error", async () => {
+    const { res } = getMockRes({});
+    const req = getMockReq({});
+
+    const controller = new MatchingRequestController(
+      MockMatchingRequestServiceInstance,
+      MockMatchingRequestParserInstance,
+      MockMatchingRequestEventProducerInstance,
+    );
+
+    const parserParseMethod = jest.spyOn(
+      MockMatchingRequestParserInstance,
+      "parseFindByIdInput",
+    );
+
+    parserParseMethod.mockImplementation(() => {
+      throw new Error("Parser Error");
+    });
+
+    await controller.update(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(httpStatus.BAD_REQUEST);
+  });
+
+  test("Controller-Parser: Update MatchingRequest, Parser Update Input Error -> Return Error", async () => {
+    const { res } = getMockRes({});
+    const req = getMockReq({});
+
+    const controller = new MatchingRequestController(
+      MockMatchingRequestServiceInstance,
+      MockMatchingRequestParserInstance,
+      MockMatchingRequestEventProducerInstance,
+    );
+
+    const parserParseMethod = jest.spyOn(
+      MockMatchingRequestParserInstance,
+      "parseUpdateInput",
+    );
+
+    parserParseMethod.mockImplementation(() => {
+      throw new Error("Parser Error");
+    });
+
+    await controller.update(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(httpStatus.BAD_REQUEST);
+  });
+
+  // Delete
+  test("Controller-Service: Delete MatchingRequest, Valid Input To Service -> Return Object", async () => {
+    const testId: string = "1";
+
+    const expectedMatchingRequest: MatchingRequest = {
+        id: parseInt(testId),
+        userId: "abc",
+        questionId: 123,
+        difficulty: "easy",
+        dateRequested: new Date,
+        success: false
+    };
+
+    const serviceDeleteMethod = jest.spyOn(
+      MockMatchingRequestServiceInstance,
+      "delete",
+    );
+
+    serviceDeleteMethod.mockResolvedValue(expectedMatchingRequest);
+
+    const eventProducerMethod = jest.spyOn(
+      MockMatchingRequestEventProducerInstance,
+      "delete",
+    );
+
+    const parserParseMethod = jest.spyOn(
+      MockMatchingRequestParserInstance,
+      "parseFindByIdInput",
+    );
+
+    parserParseMethod.mockImplementation(() => parseInt(testId));
+
+    const { res } = getMockRes({});
+    const req = getMockReq({
+      params: {
+        id: testId,
+      },
+    });
+
+    const controller = new MatchingRequestController(
+      MockMatchingRequestServiceInstance,
+      MockMatchingRequestParserInstance,
+      MockMatchingRequestEventProducerInstance,
+    );
+    await controller.delete(req, res);
+
+    expect(serviceDeleteMethod).toBeCalledWith(parseInt(testId));
+    expect(eventProducerMethod).toBeCalled();
+    expect(res.status).toHaveBeenCalledWith(httpStatus.OK);
+    expect(res.json).toHaveBeenCalledWith(expectedMatchingRequest);
+  });
+
+  test("Controller-Service: Delete MatchingRequest, Invalid Input To Service -> Return Error", async () => {
+    const serviceDeleteMethod = jest.spyOn(
+      MockMatchingRequestServiceInstance,
+      "delete",
+    );
+
+    serviceDeleteMethod.mockImplementation(() => {
+      throw new Error("Service Error");
+    });
+
+    const { res } = getMockRes({});
+    const req = getMockReq({});
+
+    const controller = new MatchingRequestController(
+      MockMatchingRequestServiceInstance,
+      MockMatchingRequestParserInstance,
+      MockMatchingRequestEventProducerInstance,
+    );
+    await controller.delete(req, res);
+
+    expect(serviceDeleteMethod).toThrowError();
+    expect(res.status).toHaveBeenCalledWith(httpStatus.BAD_REQUEST);
+  });
+
+  test("Controller-Parser: Delete MatchingRequest, All Fields -> Test Pass Information to Parser", async () => {
+    const testId: string = "1";
+    const { res } = getMockRes({});
+    const req = getMockReq({
+      params: {
+        id: testId,
+      },
+    });
+
+    const controller = new MatchingRequestController(
+      MockMatchingRequestServiceInstance,
+      MockMatchingRequestParserInstance,
+      MockMatchingRequestEventProducerInstance,
+    );
+
+    const parserParseMethod = jest.spyOn(
+      MockMatchingRequestParserInstance,
+      "parseFindByIdInput",
+    );
+
+    await controller.delete(req, res);
+
+    expect(parserParseMethod).toBeCalledWith(testId);
+  });
+
+  test("Controller-Parser: Delete MatchingRequest, Invalid Input To Parser -> Return Error", async () => {
+    const { res } = getMockRes({});
+    const req = getMockReq({});
+
+    const controller = new MatchingRequestController(
+      MockMatchingRequestServiceInstance,
+      MockMatchingRequestParserInstance,
+      MockMatchingRequestEventProducerInstance,
+    );
+
+    const parserParseMethod = jest.spyOn(
+      MockMatchingRequestParserInstance,
+      "parseFindByIdInput",
+    );
+
+    parserParseMethod.mockImplementation(() => {
+      throw new Error("Parser Error");
+    });
+
+    await controller.delete(req, res);
 
     expect(res.status).toHaveBeenCalledWith(httpStatus.BAD_REQUEST);
   });

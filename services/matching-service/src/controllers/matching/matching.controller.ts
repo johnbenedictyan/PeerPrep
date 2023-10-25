@@ -74,7 +74,7 @@ class MatchingController extends Controller implements CRUDController {
     }
 
     try {
-      const matchings = this.service.findAll();
+      const matchings = await this.service.findAll();
       return MatchingController.handleSuccess(res, matchings);
     } catch (e: any) {
       return MatchingController.handleBadRequest(res, e.message);
