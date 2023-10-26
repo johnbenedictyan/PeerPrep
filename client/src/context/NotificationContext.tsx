@@ -56,7 +56,7 @@ export function NotificationProvider({ children }: NotificationProviderProps) {
     if (notifications.length > 0) {
       intervalId = setInterval(() => {
         setNotifications(notifications.filter((v, idx) => idx > 0));
-      }, 5000);
+      }, 1000);
     }
 
     return () => clearInterval(intervalId);

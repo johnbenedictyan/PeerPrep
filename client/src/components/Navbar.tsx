@@ -144,8 +144,8 @@ function Navbar() {
                         ? userNavigationLoggedIn.map((item) => (
                             <Menu.Item key={item.name}>
                               {({ active }) => (
-                                <a
-                                  href={item.href}
+                                <NavLink
+                                  to={item.href}
                                   className={classNames(
                                     active
                                       ? "bg-gray-100 dark:bg-gray-800"
@@ -154,15 +154,15 @@ function Navbar() {
                                   )}
                                 >
                                   {item.name}
-                                </a>
+                                </NavLink>
                               )}
                             </Menu.Item>
                           ))
                         : userNavigationLoggedOut.map((item) => (
                             <Menu.Item key={item.name}>
                               {({ active }) => (
-                                <a
-                                  href={item.href}
+                                <NavLink
+                                  to={item.href}
                                   className={classNames(
                                     active
                                       ? "bg-gray-100 dark:bg-gray-800"
@@ -171,7 +171,7 @@ function Navbar() {
                                   )}
                                 >
                                   {item.name}
-                                </a>
+                                </NavLink>
                               )}
                             </Menu.Item>
                           ))}
@@ -253,24 +253,26 @@ function Navbar() {
               <div className="mt-3 space-y-1">
                 {currentUser
                   ? userNavigationLoggedIn.map((item) => (
-                      <Disclosure.Button
-                        key={item.name}
-                        as="a"
-                        href={item.href}
-                        className="block px-4 py-2 text-base font-medium text-gray-500 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-900 hover:text-gray-800 dark:hover:text-gray-200"
-                      >
-                        {item.name}
-                      </Disclosure.Button>
+                      <Link to={item.href}>
+                        <Disclosure.Button
+                          key={item.name}
+                          as="button"
+                          className="block px-4 py-2 text-base font-medium text-gray-500 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-900 hover:text-gray-800 dark:hover:text-gray-200"
+                        >
+                          {item.name}
+                        </Disclosure.Button>
+                      </Link>
                     ))
                   : userNavigationLoggedOut.map((item) => (
-                      <Disclosure.Button
-                        key={item.name}
-                        as="a"
-                        href={item.href}
-                        className="block px-4 py-2 text-base font-medium text-gray-500 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-900 hover:text-gray-800 dark:hover:text-gray-200"
-                      >
-                        {item.name}
-                      </Disclosure.Button>
+                      <Link to={item.href}>
+                        <Disclosure.Button
+                          key={item.name}
+                          as="button"
+                          className="block px-4 py-2 text-base font-medium text-gray-500 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-900 hover:text-gray-800 dark:hover:text-gray-200"
+                        >
+                          {item.name}
+                        </Disclosure.Button>
+                      </Link>
                     ))}
               </div>
             </div>

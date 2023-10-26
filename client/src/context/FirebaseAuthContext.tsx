@@ -35,9 +35,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
   // As soon as setting the current user to null,
   // the user will be redirected to the home page.
   const signOut = useCallback(() => {
-    SignOutUser();
-    setCurrentUser(null);
-    navigate("/");
+    SignOutUser().then(() => {
+      setCurrentUser(null);
+      navigate("/");
+    });
   }, [setCurrentUser, navigate]);
 
   useEffect(() => {
@@ -58,6 +59,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
           .catch((error: any) => {
             console.error("HIHIH", error);
           });
+      } else {
+        setCurrentUser(null);
       }
     });
     return unsubscribe;

@@ -1,7 +1,7 @@
 import { ExclamationCircleIcon } from "@heroicons/react/24/outline";
 import { FirebaseError } from "firebase/app";
 import { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import UserController from "../../../controllers/user/user.controller";
 import { signInUser } from "../../../util/auth";
@@ -18,6 +18,7 @@ function SignInPage() {
   const [noUserFlag, setNoUserFlag] = useState<boolean>(false);
   const userController = new UserController();
   const { addNotification } = useContext(NotificationContext);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -27,12 +28,15 @@ function SignInPage() {
     try {
       // Send the email and password to firebase
       const userCredential = await signInUser(email, password);
-      userController.getUser(userCredential.user.uid).catch(() => {
-        addNotification({
-          type: "error",
-          message: "There was an error in connecting to the user service",
+      userController
+        .getUser(userCredential.user.uid)
+        .then(() => navigate("/"))
+        .catch(() => {
+          addNotification({
+            type: "error",
+            message: "There was an error in connecting to the user service",
+          });
         });
-      });
       setLoading(false);
     } catch (err: unknown) {
       if (err instanceof FirebaseError) {
