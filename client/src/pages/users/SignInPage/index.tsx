@@ -20,6 +20,8 @@ function SignInPage() {
   const { addNotification } = useContext(NotificationContext);
   const navigate = useNavigate();
 
+  const navigate = useNavigate();
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);

@@ -10,8 +10,8 @@ interface ProtectedRouteProps {
 }
 
 function ProtectedRoute({ permissionRole, children }: ProtectedRouteProps) {
-  const { currentUser } = useContext(AuthContext);
   const { addNotification } = useContext(NotificationContext);
+  const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
   useEffect(() => {

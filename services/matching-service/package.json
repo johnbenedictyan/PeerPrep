@@ -10,6 +10,7 @@
         "dev:migrate": "prisma db push && yarn run dev",
         "lint": "eslint ./src",
         "test": "jest",
+        "test:coverage": "jest --coverage",
         "format": "prettier --write ./src"
     },
     "dependencies": {

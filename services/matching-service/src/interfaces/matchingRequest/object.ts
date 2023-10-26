@@ -6,5 +6,3 @@ export type MatchingRequest = {
   dateRequested: Date;
   success: boolean;
 };
-
-export type OptionalMatchingRequest = Partial<MatchingRequest>;
