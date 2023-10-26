@@ -1,10 +1,9 @@
-import {
-  QuestionCreateDTO,
-  QuestionUpdateDTO,
-} from "../../interfaces/Question";
+import { FullQuestionCreateDTO } from "../../interfaces/questionService/fullQuestion/createDTO";
+import { FullQuestion } from "../../interfaces/questionService/fullQuestion/object";
+import { FullQuestionUpdateDTO } from "../../interfaces/questionService/fullQuestion/updateDTO";
 import GenericController from "../generic.controller";
 
-const devServerUri = "http://localhost:5007";
+const devServerUri = "http://localhost:5003";
 const prodServerUri = "https://question-service-qzxsy455sq-as.a.run.app";
 
 class QuestionController extends GenericController {
@@ -15,9 +14,12 @@ class QuestionController extends GenericController {
     );
   }
 
-  public async createQuestion(data: QuestionCreateDTO) {
+  public async createQuestion(data: FullQuestionCreateDTO) {
     try {
-      return await this.post("question", data);
+      return await this.post<FullQuestion, FullQuestionCreateDTO>(
+        "question",
+        data,
+      );
     } catch (error) {
       return null;
     }
@@ -31,9 +33,20 @@ class QuestionController extends GenericController {
     }
   }
 
-  public async updateQuestion(id: number, data: QuestionUpdateDTO) {
+  public async getQuestion(id: number) {
     try {
-      return await this.put(`question/${id}`, data);
+      return await this.get<FullQuestion>(`question/${id}`);
+    } catch (error) {
+      return null;
+    }
+  }
+
+  public async updateQuestion(id: number, data: FullQuestionUpdateDTO) {
+    try {
+      return await this.put<FullQuestion, FullQuestionUpdateDTO>(
+        `question/${id}`,
+        data,
+      );
     } catch (error) {
       return null;
     }

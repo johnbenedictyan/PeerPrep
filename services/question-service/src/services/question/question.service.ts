@@ -2,6 +2,9 @@ import { PrismaClient } from "@prisma/client";
 import assert from "assert";
 
 import EventProducer from "../../events/producers/main.interface";
+import { FullQuestionCreateDTO } from "../../interfaces/fullQuestion/createDTO";
+import { FullQuestion } from "../../interfaces/fullQuestion/object";
+import { FullQuestionUpdateDTO } from "../../interfaces/fullQuestion/updateDTO";
 import { QuestionCreateDTO } from "../../interfaces/question/createDTO";
 import { OptionalQuestion, Question } from "../../interfaces/question/object";
 import { QuestionUpdateDTO } from "../../interfaces/question/updateDTO";
@@ -15,10 +18,23 @@ class QuestionService
     private readonly prismaClient: PrismaClient,
   ) {}
 
-  public async create(body: QuestionCreateDTO): Promise<Question> {
+  public async create(body: FullQuestionCreateDTO): Promise<FullQuestion> {
+    const { initialCodes, runnerCodes, ...rest } = body;
     try {
       const question = await this.prismaClient.question.create({
-        data: body,
+        data: {
+          ...rest,
+          initialCodes: {
+            create: initialCodes,
+          },
+          runnerCodes: {
+            create: runnerCodes,
+          },
+        },
+        include: {
+          initialCodes: true,
+          runnerCodes: true,
+        },
       });
       return question;
     } catch (error) {
@@ -26,7 +42,7 @@ class QuestionService
     }
   }
 
-  public async findById(id: number): Promise<Question | null> {
+  public async findById(id: number): Promise<FullQuestion | null> {
     assert(
       id,
       "id should be defined in the question service find by id method",
@@ -36,6 +52,10 @@ class QuestionService
         where: {
           id,
         },
+        include: {
+          initialCodes: true,
+          runnerCodes: true,
+        },
       });
       return question;
     } catch (error) {
@@ -44,9 +64,10 @@ class QuestionService
   }
 
   public async findOne(body: OptionalQuestion): Promise<Question | null> {
+    const { examples, constraints, ...rest } = body;
     try {
       const question = await this.prismaClient.question.findFirst({
-        where: body,
+        where: rest,
       });
       return question;
     } catch (error) {
@@ -65,16 +86,111 @@ class QuestionService
 
   public async update(
     id: number,
-    body: Partial<QuestionUpdateDTO>,
-  ): Promise<Question> {
+    body: Partial<FullQuestionUpdateDTO>,
+  ): Promise<FullQuestion> {
     assert(id, "id should be defined in the question service update method");
+    const { initialCodes, runnerCodes, ...rest } = body;
     try {
-      return await this.prismaClient.question.update({
-        where: {
-          id,
+      const updatedQuestionXRelations = await this.prismaClient.question.update(
+        {
+          where: {
+            id,
+          },
+          data: {
+            ...rest,
+          },
+          include: {
+            initialCodes: true,
+            runnerCodes: true,
+          },
         },
-        data: body,
-      });
+      );
+
+      if (!initialCodes && !runnerCodes) {
+        return updatedQuestionXRelations;
+      }
+
+      let updatedQuestionWRelations = updatedQuestionXRelations;
+
+      if (initialCodes) {
+        await this.prismaClient.question.update({
+          where: {
+            id,
+          },
+          data: {
+            initialCodes: {
+              set: [],
+            },
+          },
+        });
+        updatedQuestionWRelations = await this.prismaClient.question.update({
+          where: {
+            id,
+          },
+          data: {
+            initialCodes: {
+              connectOrCreate: initialCodes.map((x) => ({
+                where: {
+                  language_questionId: {
+                    language: x.language,
+                    questionId: id,
+                  },
+                },
+                create: {
+                  language: x.language,
+                  code: x.code,
+                  language_questionId: id,
+                },
+              })),
+            },
+          },
+          include: {
+            initialCodes: true,
+            runnerCodes: true,
+          },
+        });
+      }
+
+      if (runnerCodes) {
+        await this.prismaClient.question.update({
+          where: {
+            id,
+          },
+          data: {
+            runnerCodes: {
+              set: [],
+            },
+          },
+        });
+        updatedQuestionWRelations = await this.prismaClient.question.update({
+          where: {
+            id,
+          },
+          data: {
+            runnerCodes: {
+              connectOrCreate: runnerCodes.map((x) => ({
+                where: {
+                  language_questionId: {
+                    language: x.language,
+                    questionId: id,
+                  },
+                },
+                create: {
+                  language: x.language,
+                  code: x.code,
+                  language_questionId: id,
+                },
+              })),
+            },
+          },
+          include: {
+            initialCodes: true,
+            runnerCodes: true,
+          },
+        });
+      }
+
+      return updatedQuestionWRelations;
     } catch (error) {
       throw new Error("Failed to update question.");
     }

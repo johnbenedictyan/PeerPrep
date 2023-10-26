@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 
 import socket from "../util/socket";
 import { AuthContext } from "./FirebaseAuthContext";
+import { CodingLanguage } from "./QuestionContext";
 
 interface MatchingProviderProps {
   children: ReactNode;
@@ -20,7 +21,7 @@ interface MatchingContextType {
   matchingId: string;
   matchedUserId: string;
   socketCode: string;
-  socketLanguage: string;
+  socketLanguage: CodingLanguage;
   establishedConnection: boolean;
   foundMatch: boolean;
   connectionLoading: boolean;
@@ -37,7 +38,7 @@ export const MatchingContext = createContext<MatchingContextType>({
   matchingId: "",
   matchedUserId: "",
   socketCode: "",
-  socketLanguage: "",
+  socketLanguage: "java",
   establishedConnection: false,
   foundMatch: false,
   connectionLoading: true,
@@ -64,7 +65,7 @@ export function MatchingProvider({ children }: MatchingProviderProps) {
   const [matchingId, setMatchingId] = useState<string>("");
 
   const [socketCode, setSocketCode] = useState<string>("");
-  const [socketLanguage, setSocketLanguage] = useState<string>("");
+  const [socketLanguage, setSocketLanguage] = useState<CodingLanguage>("java");
 
   const navigate = useNavigate();
 
@@ -244,20 +245,20 @@ export function MatchingProvider({ children }: MatchingProviderProps) {
       changeLanguage,
     }),
     [
+      matchingId,
+      matchedUserId,
+      socketCode,
+      socketLanguage,
+      establishedConnection,
+      foundMatch,
+      connectionLoading,
+      matchLoading,
+      setMatchedUserId,
+      setMatchingId,
       beginCollaboration,
       cancelCollaboration,
       changeCode,
       changeLanguage,
-      connectionLoading,
-      establishedConnection,
-      foundMatch,
-      matchLoading,
-      matchedUserId,
-      matchingId,
-      setMatchedUserId,
-      setMatchingId,
-      socketCode,
-      socketLanguage,
     ],
   );
 

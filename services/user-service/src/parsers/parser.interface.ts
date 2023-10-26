@@ -1,9 +1,8 @@
-import { Partial } from "../util/partial";
 import { StringInterface } from "../util/stringInterface";
 
 type ObjWithId = {
-    id: unknown;
-}
+  id: unknown;
+};
 
 interface Parser<CreateDTO, UpdateDTO, Obj extends ObjWithId> {
   parseCreateInput(input: StringInterface<CreateDTO>): CreateDTO;

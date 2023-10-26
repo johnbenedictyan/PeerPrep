@@ -1,7 +1,7 @@
 import { MatchingRequestCreateDTO } from "../../interfaces/matchingRequest/createDTO";
 import { MatchingRequest } from "../../interfaces/matchingRequest/object";
 import { MatchingRequestUpdateDTO } from "../../interfaces/matchingRequest/updateDTO";
-import { Partial } from "../../util/partial";
+
 import { StringInterface } from "../../util/stringInterface";
 import Parser from "../parser.interface";
 

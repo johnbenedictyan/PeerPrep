@@ -1,21 +1,46 @@
-import { QuestionCreateDTO } from "../../interfaces/question/createDTO";
-import { Question } from "../../interfaces/question/object";
-import { QuestionUpdateDTO } from "../../interfaces/question/updateDTO";
-import { Partial } from "../../util/partial";
+import { FullQuestionCreateDTO } from "../../interfaces/fullQuestion/createDTO";
+import { FullQuestion } from "../../interfaces/fullQuestion/object";
+import { FullQuestionUpdateDTO } from "../../interfaces/fullQuestion/updateDTO";
+
 import { StringInterface } from "../../util/stringInterface";
 import Parser from "../parser.interface";
 
 class QuestionParser
-  implements Parser<QuestionCreateDTO, QuestionUpdateDTO, Question>
+  implements Parser<FullQuestionCreateDTO, FullQuestionUpdateDTO, FullQuestion>
 {
   public parseCreateInput(
-    input: StringInterface<QuestionCreateDTO>,
-  ): QuestionCreateDTO {
-    if (!input.title || !input.content || !input.authorId) {
+    input: StringInterface<FullQuestionCreateDTO>,
+  ): FullQuestionCreateDTO {
+    if (
+      !input.title ||
+      !input.content ||
+      !input.authorId ||
+      !input.difficulty
+    ) {
       throw new Error(
-        "Required fields of title, content, and author id are missing",
+        "Required fields of title, content,author id or difficulty are missing",
       );
     }
+    if (input.initialCodes.length == 0) {
+      return input;
+    }
+    input.initialCodes.forEach((x) => {
+      if (!x.code || !x.language) {
+        throw new Error(
+          "Required fields for question's initial code of code or language are missing",
+        );
+      }
+    });
+    if (input.runnerCodes.length == 0) {
+      return input;
+    }
+    input.runnerCodes.forEach((x) => {
+      if (!x.code || !x.language) {
+        throw new Error(
+          "Required fields for question's runner code of code or language are missing",
+        );
+      }
+    });
     return input;
   }
 
@@ -24,9 +49,9 @@ class QuestionParser
   }
 
   public parseFindOneInput(
-    input: Partial<StringInterface<Question>>,
-  ): Partial<Question> {
-    const parsedInput: Partial<Question> = {};
+    input: Partial<StringInterface<FullQuestion>>,
+  ): Partial<FullQuestion> {
+    const parsedInput: Partial<FullQuestion> = {};
     if (input.id) {
       parsedInput.id = parseInt(input.id, 10);
     }
@@ -43,9 +68,9 @@ class QuestionParser
   }
 
   public parseUpdateInput(
-    input: Partial<StringInterface<QuestionUpdateDTO>>,
-  ): Partial<QuestionUpdateDTO> {
-    const parsedInput: Partial<QuestionUpdateDTO> = {};
+    input: Partial<StringInterface<FullQuestionUpdateDTO>>,
+  ): Partial<FullQuestionUpdateDTO> {
+    const parsedInput: Partial<FullQuestionUpdateDTO> = {};
     if (input.title) {
       parsedInput.title = input.title;
     }

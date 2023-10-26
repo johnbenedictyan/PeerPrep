@@ -1,7 +1,7 @@
 import { UserCreateDTO } from "../../interfaces/user/createDTO";
 import { User } from "../../interfaces/user/object";
 import { UserUpdateDTO } from "../../interfaces/user/updateDTO";
-import { Partial } from "../../util/partial";
+
 import { StringInterface } from "../../util/stringInterface";
 import Parser from "../parser.interface";
 

@@ -22,7 +22,7 @@ export const AuthContext = createContext({
   // "User" comes from firebase auth-public.d.ts
   currentUser: {} as FullUser | null,
   setCurrentUser: (_user: FullUser) => {},
-  signOut: () => {},
+  signOut: async () => {},
 });
 
 export function AuthProvider({ children }: AuthProviderProps) {
@@ -34,11 +34,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   // As soon as setting the current user to null,
   // the user will be redirected to the home page.
-  const signOut = useCallback(() => {
-    SignOutUser().then(() => {
-      setCurrentUser(null);
-      navigate("/");
-    });
+  const signOut = useCallback(async () => {
+    await SignOutUser();
+    setCurrentUser(null);
+    navigate("/");
   }, [setCurrentUser, navigate]);
 
   useEffect(() => {
@@ -46,10 +45,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
       if (user) {
         ctrlInstance
           .getUser(user.uid)
-          .then((userFromDb: User) => {
-            if (!userFromDb) {
+          .then((res) => {
+            if (!res) {
               return;
             }
+
+            const userFromDb: User = res.data;
 
             setCurrentUser({
               ...userFromDb,

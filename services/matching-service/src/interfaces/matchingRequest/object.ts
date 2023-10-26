@@ -1,5 +1,3 @@
-import { Partial } from "../../util/partial";
-
 export type MatchingRequest = {
   id: number;
   userId: string;
