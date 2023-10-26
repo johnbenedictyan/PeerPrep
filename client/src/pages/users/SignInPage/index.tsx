@@ -18,6 +18,7 @@ function SignInPage() {
   const [noUserFlag, setNoUserFlag] = useState<boolean>(false);
   const userController = new UserController();
   const { addNotification } = useContext(NotificationContext);
+  const navigate = useNavigate();
 
   const navigate = useNavigate();
 
@@ -31,9 +32,7 @@ function SignInPage() {
       const userCredential = await signInUser(email, password);
       userController
         .getUser(userCredential.user.uid)
-        .then(() => {
-          navigate("");
-        })
+        .then(() => navigate("/"))
         .catch(() => {
           addNotification({
             type: "error",

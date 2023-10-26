@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import MatchingModal from "../../components/MatchingModal";
@@ -6,6 +6,7 @@ import ThreeTier from "../../components/ThreeTier";
 import { AuthContext } from "../../context/FirebaseAuthContext";
 import { MatchingContext } from "../../context/MatchingContext";
 import MatchingController from "../../controllers/matching/matching.controller";
+import useTimer from "../../util/useTimer";
 
 function MatchPage() {
   const { currentUser } = useContext(AuthContext);
@@ -28,30 +29,53 @@ function MatchPage() {
     new MatchingController(),
   );
 
-  useEffect(() => {
-    if (
-      difficulty === "" ||
-      foundMatch ||
-      !establishedConnection ||
-      !currentUser
-    ) {
-      return;
-    }
-    setOpen(true);
+  const { time, startTimer, stopTimer, resetTimer, isActive, percent } =
+    useTimer(10);
 
-    matchingController.current.createMatchingRequest({
-      userId: currentUser.uid,
-      difficulty,
-    });
-  }, [difficulty, foundMatch, establishedConnection, currentUser]);
-
-  const cancelMatch = () => {
+  const cancelMatch = useCallback(() => {
     if (!currentUser) return;
     setOpen(false);
+    setDifficulty("");
+    stopTimer();
     matchingController.current.cancelMatchingRequest({
       userId: currentUser.uid,
     });
-  };
+  }, [currentUser, stopTimer]);
+
+  const startMatching = useCallback(
+    (newDifficulty: string) => {
+      if (newDifficulty === "") return;
+      setDifficulty(newDifficulty);
+      if (foundMatch || !currentUser) {
+        return;
+      }
+      resetTimer();
+      setOpen(true);
+      startTimer();
+      if (!establishedConnection) {
+        return;
+      }
+      matchingController.current.createMatchingRequest({
+        userId: currentUser.uid,
+        difficulty,
+      });
+    },
+    [
+      currentUser,
+      difficulty,
+      establishedConnection,
+      foundMatch,
+      startTimer,
+      resetTimer,
+    ],
+  );
+
+  useEffect(() => {
+    console.log(time);
+    if (!isActive) {
+      cancelMatch();
+    }
+  }, [isActive, cancelMatch, time]);
 
   useEffect(() => {
     if (
@@ -75,7 +99,7 @@ function MatchPage() {
 
   return (
     <div className="space-y-16 py-16 xl:space-y-20">
-      <ThreeTier setDifficulty={setDifficulty} />
+      <ThreeTier startMatching={startMatching} />
       <MatchingModal
         difficulty={difficulty}
         open={open}
@@ -85,6 +109,7 @@ function MatchPage() {
         matchLoading={matchLoading}
         matchSuccess={foundMatch}
         cancelMatch={cancelMatch}
+        waitingPercentage={percent}
       />
     </div>
   );

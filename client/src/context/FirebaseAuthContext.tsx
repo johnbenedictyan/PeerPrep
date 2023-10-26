@@ -60,6 +60,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
           .catch((error: any) => {
             console.error("HIHIH", error);
           });
+      } else {
+        setCurrentUser(null);
       }
     });
     return unsubscribe;
