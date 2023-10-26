@@ -1,7 +1,7 @@
 import "./App.css";
 
 import * as Sentry from "@sentry/react";
-import React, { useContext } from "react";
+import React from "react";
 import {
   createRoutesFromChildren,
   matchRoutes,
@@ -15,19 +15,18 @@ import AdminLayout from "./components/AdminLayout";
 import Layout from "./components/Layout";
 import Notifications from "./components/Notifications";
 import ProtectedRoute from "./components/ProtectedRoute";
-import { AuthContext } from "./context/FirebaseAuthContext";
 import AdminPage from "./pages/AdminPage";
 import DashboardPage from "./pages/DashboardPage";
 import LandingPage from "./pages/LandingPage";
 import MatchPage from "./pages/MatchPage";
 import NotFoundPage from "./pages/NotFoundPage";
-import ProfilePage from "./pages/users/ProfilePage";
 import QuestionPage from "./pages/questions/AllQuestionsPage";
 import QuestionUpdatePage from "./pages/questions/QuestionUpdatePage";
+import SingleQuestionPage from "./pages/questions/SingleQuestionPage";
+import ProfilePage from "./pages/users/ProfilePage";
 import RegistrationPage from "./pages/users/RegistrationPage";
 import SignInPage from "./pages/users/SignInPage";
 import SignOutPage from "./pages/users/SignOutPage";
-import SingleQuestionPage from "./pages/questions/SingleQuestionPage";
 
 Sentry.init({
   dsn: "https://e21ba66ad7a580aa7874699b6d737245@o1071968.ingest.sentry.io/4505986992832512",
@@ -53,8 +52,6 @@ Sentry.init({
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 
 function App() {
-  const { currentUser } = useContext(AuthContext);
-
   return (
     <div className="App bg-gray-100 dark:bg-gray-800">
       <SentryRoutes>
@@ -93,9 +90,9 @@ function App() {
           <Route
             path="questions/:questionId"
             element={
-              //   <ProtectedRoute permissionRole="user">
-              <SingleQuestionPage />
-              //   </ProtectedRoute>
+              <ProtectedRoute permissionRole="user">
+                <SingleQuestionPage />
+              </ProtectedRoute>
             }
           />
           <Route path="*" element={<NotFoundPage />} />
