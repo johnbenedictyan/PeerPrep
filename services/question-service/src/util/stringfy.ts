@@ -13,14 +13,14 @@ function stringify<T>(obj: T): StringInterface<T> {
 
       if (Array.isArray(value)) {
         convertedObject[key] = value.map((item) =>
-          isObject(item) ? stringify(item) : String(item)
+          isObject(item) ? stringify(item) : String(item),
         ) as StringInterface<T>[typeof key];
       } else if (value instanceof Date) {
         convertedObject[key] =
           value.toISOString() as StringInterface<T>[typeof key];
       } else if (isObject(value)) {
         convertedObject[key] = stringify(
-          value
+          value,
         ) as StringInterface<T>[typeof key];
       } else {
         convertedObject[key] = String(value) as StringInterface<T>[typeof key];

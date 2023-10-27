@@ -24,9 +24,7 @@ const corsOptions = {
 const questionEventProducer = new QuestionProducer(kafka.producer());
 
 // Services
-const questionService = new QuestionService(
-  prismaClient,
-);
+const questionService = new QuestionService(prismaClient);
 
 // Parsers
 const questionParser = new QuestionParser();
@@ -35,7 +33,7 @@ const questionParser = new QuestionParser();
 const questionController = new QuestionController(
   questionService,
   questionParser,
-  questionEventProducer
+  questionEventProducer,
 );
 
 // Routers

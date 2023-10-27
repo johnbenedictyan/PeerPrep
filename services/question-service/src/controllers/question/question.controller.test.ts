@@ -40,8 +40,6 @@ const MockQuestionParserInstance = new MockQuestionParser();
 const MockPrismaInstance = new MockPrisma();
 const MockQuestionServiceInstance = new MockQuestionService(MockPrismaInstance);
 
-
-
 describe("Test question request controller", () => {
   beforeEach(() => {
     MockQuestionService.mockClear();
@@ -69,59 +67,76 @@ describe("Test question request controller", () => {
     examples: ["1,2,3 = 6"],
     constraints: ["No constraints"],
     authorId: "abc",
-    runnerCodes: [{
+    runnerCodes: [
+      {
         language: "java",
-        code: 'hello world'
-    }],
-    initialCodes: [{
+        code: "hello world",
+      },
+    ],
+    initialCodes: [
+      {
         language: "python",
-        code: "print('Hello Word')"
-    }]
-};
+        code: "print('Hello Word')",
+      },
+    ],
+  };
 
-const createExpectedQuestion: FullQuestion = {
+  const createExpectedQuestion: FullQuestion = {
     ...createInputAllFields,
     id: 1,
     createdAt: new Date(),
-    updatedAt:  new Date(),
-    initialCodes: [{
-        language: 'java',
-        code: 'hello world',
-        questionId: 1
-    }],
-    runnerCodes: [{
-        language: 'java',
-        code: 'hello world',
-        questionId: 1
-    }]
-};
+    updatedAt: new Date(),
+    initialCodes: [
+      {
+        language: "java",
+        code: "hello world",
+        questionId: 1,
+      },
+    ],
+    runnerCodes: [
+      {
+        language: "java",
+        code: "hello world",
+        questionId: 1,
+      },
+    ],
+  };
 
-const updateInputAllFields: FullQuestionUpdateDTO = {
+  const updateInputAllFields: FullQuestionUpdateDTO = {
     title: "Question 2",
     content: "This is the question content edited",
     difficulty: "medium",
     examples: ["1,2,3 = 7"],
     constraints: ["Some constraints"],
-    runnerCodes: [{
+    runnerCodes: [
+      {
         language: "python",
-        code: 'console.log(hello world)'
-    }],
-    initialCodes: [{
+        code: "console.log(hello world)",
+      },
+    ],
+    initialCodes: [
+      {
         language: "python",
-        code: "def foo():"
-    }]
-};
+        code: "def foo():",
+      },
+    ],
+  };
 
-const updateExpectedQuestion: FullQuestion = {
+  const updateExpectedQuestion: FullQuestion = {
     ...updateInputAllFields,
     authorId: createInputAllFields.authorId,
     id: 1,
     createdAt: new Date(),
-    updatedAt:  new Date(),
-    runnerCodes: updateInputAllFields.runnerCodes.map(x => ({...x,questionId: 1})),
-    initialCodes: updateInputAllFields.initialCodes.map(x => ({...x,questionId: 1})),
-
-};
+    updatedAt: new Date(),
+    runnerCodes: updateInputAllFields.runnerCodes.map((x) => ({
+      ...x,
+      questionId: 1,
+    })),
+    initialCodes: updateInputAllFields.initialCodes.map((x) => ({
+      ...x,
+      questionId: 1,
+    })),
+  };
 
   // Create
   test("Controller-Service: Create Question, Valid Input To Service -> Return Object", async () => {
@@ -345,7 +360,9 @@ const updateExpectedQuestion: FullQuestion = {
 
   // Find One
   test("Controller-Service: Find One Question, Valid Input To Service -> Return Object", async () => {
-    const input: StringInterface<FullQuestion> = stringify(updateExpectedQuestion);
+    const input: StringInterface<FullQuestion> = stringify(
+      updateExpectedQuestion,
+    );
 
     const serviceFindOneMethod = jest.spyOn(
       MockQuestionServiceInstance,

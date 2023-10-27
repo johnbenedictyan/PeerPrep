@@ -45,7 +45,6 @@ class QuestionController extends Controller implements CRUDController {
       return QuestionController.handleValidationError(res, errors);
     }
 
-
     let parsedId: number;
 
     try {
@@ -136,7 +135,6 @@ class QuestionController extends Controller implements CRUDController {
     if (!errors.isEmpty()) {
       return QuestionController.handleValidationError(res, errors);
     }
-
 
     try {
       const parsedId = this.parser.parseFindByIdInput(req.params.id);

@@ -11,11 +11,10 @@ import { QuestionUpdateDTO } from "../../interfaces/question/updateDTO";
 import Service from "../service.interface";
 
 class QuestionService
-  implements Service<FullQuestionCreateDTO, FullQuestionUpdateDTO, FullQuestion>
+  implements
+    Service<FullQuestionCreateDTO, FullQuestionUpdateDTO, FullQuestion>
 {
-  constructor(
-    private readonly prismaClient: PrismaClient,
-  ) {}
+  constructor(private readonly prismaClient: PrismaClient) {}
 
   public async create(body: FullQuestionCreateDTO): Promise<FullQuestion> {
     const { initialCodes, runnerCodes, ...rest } = body;
@@ -62,15 +61,17 @@ class QuestionService
     }
   }
 
-  public async findOne(body: Partial<FullQuestion>): Promise<FullQuestion | null> {
+  public async findOne(
+    body: Partial<FullQuestion>,
+  ): Promise<FullQuestion | null> {
     const { examples, constraints, initialCodes, runnerCodes, ...rest } = body;
     try {
       const question = await this.prismaClient.question.findFirst({
         where: rest,
         include: {
-            initialCodes: true,
-            runnerCodes: true
-        }
+          initialCodes: true,
+          runnerCodes: true,
+        },
       });
       return question;
     } catch (error) {
@@ -82,9 +83,9 @@ class QuestionService
     try {
       const questions = await this.prismaClient.question.findMany({
         include: {
-            runnerCodes: true,
-            initialCodes: true
-        }
+          runnerCodes: true,
+          initialCodes: true,
+        },
       });
       return questions;
     } catch (error) {
@@ -212,9 +213,9 @@ class QuestionService
           id,
         },
         include: {
-            initialCodes: true,
-            runnerCodes: true
-        }
+          initialCodes: true,
+          runnerCodes: true,
+        },
       });
     } catch (error) {
       throw new Error("Failed to delete question.");
