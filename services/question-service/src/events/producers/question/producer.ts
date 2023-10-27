@@ -1,9 +1,9 @@
-import { Question } from "../../../interfaces/question/object";
+import { FullQuestion } from "../../../interfaces/fullQuestion/object";
 import QuestionTopics from "../../topics/question";
 import EventProducer from "../main.interface";
 
-class QuestionProducer extends EventProducer<Question> {
-  override create(object: Question): void {
+class FullQuestionProducer extends EventProducer<FullQuestion> {
+  override create(object: FullQuestion): void {
     this.sendEvent(QuestionTopics.CREATE, [
       {
         key: object.id.toString(),
@@ -12,7 +12,7 @@ class QuestionProducer extends EventProducer<Question> {
     ]);
   }
 
-  override update(object: Question): void {
+  override update(object: FullQuestion): void {
     this.sendEvent(QuestionTopics.UPDATE, [
       {
         key: object.id.toString(),
@@ -21,7 +21,7 @@ class QuestionProducer extends EventProducer<Question> {
     ]);
   }
 
-  override delete(object: Question): void {
+  override delete(object: FullQuestion): void {
     this.sendEvent(QuestionTopics.DELETE, [
       {
         key: object.id.toString(),
@@ -31,4 +31,4 @@ class QuestionProducer extends EventProducer<Question> {
   }
 }
 
-export default QuestionProducer;
+export default FullQuestionProducer;
