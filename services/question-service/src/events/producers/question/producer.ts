@@ -13,7 +13,7 @@ class QuestionProducer extends EventProducer<Question> {
   }
 
   override update(object: Question): void {
-    this.sendEvent(QuestionTopics.CREATE, [
+    this.sendEvent(QuestionTopics.UPDATE, [
       {
         key: object.id.toString(),
         value: JSON.stringify(object),
@@ -22,7 +22,7 @@ class QuestionProducer extends EventProducer<Question> {
   }
 
   override delete(object: Question): void {
-    this.sendEvent(QuestionTopics.CREATE, [
+    this.sendEvent(QuestionTopics.DELETE, [
       {
         key: object.id.toString(),
         value: JSON.stringify(object),

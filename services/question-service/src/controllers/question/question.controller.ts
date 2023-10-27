@@ -1,4 +1,3 @@
-import assert from "assert";
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 
@@ -10,11 +9,13 @@ import logger from "../../util/logger";
 
 import Controller from "../controller.abstract";
 import CRUDController from "../crudController.interface";
+import QuestionProducer from "../../events/producers/question/producer";
 
 class QuestionController extends Controller implements CRUDController {
   constructor(
     private readonly service: QuestionService,
     private readonly parser: QuestionParser,
+    private readonly eventProducer: QuestionProducer,
   ) {
     super();
   }
@@ -28,6 +29,9 @@ class QuestionController extends Controller implements CRUDController {
     try {
       const parsedQuestion = this.parser.parseCreateInput(req.body);
       const question = await this.service.create(parsedQuestion);
+      if (question) {
+        this.eventProducer.create(question);
+      }
       return QuestionController.handleSuccess(res, question);
     } catch (e: any) {
       return QuestionController.handleBadRequest(res, e.message);
@@ -41,7 +45,6 @@ class QuestionController extends Controller implements CRUDController {
       return QuestionController.handleValidationError(res, errors);
     }
 
-    assert(req.params.id, "id should be defined");
 
     let parsedId: number;
 
@@ -51,8 +54,6 @@ class QuestionController extends Controller implements CRUDController {
       return QuestionController.handleBadRequest(res, e.message);
     }
 
-    logger.info(`Finding question with id: ${parsedId}`);
-
     let questionFromDb: Question | null;
 
     try {
@@ -60,8 +61,6 @@ class QuestionController extends Controller implements CRUDController {
     } catch (e: any) {
       return QuestionController.handleError(res, e.message);
     }
-
-    logger.info(`Found question with id: ${parsedId}`);
 
     return QuestionController.handleSuccess(res, questionFromDb);
   };
@@ -90,7 +89,7 @@ class QuestionController extends Controller implements CRUDController {
     }
 
     try {
-      const questions = this.service.findAll();
+      const questions = await this.service.findAll();
       return QuestionController.handleSuccess(res, questions);
     } catch (e: any) {
       return QuestionController.handleBadRequest(res, e.message);
@@ -122,6 +121,9 @@ class QuestionController extends Controller implements CRUDController {
 
     try {
       const question = await this.service.update(parsedId, parsedUpdateInput);
+      if (question) {
+        this.eventProducer.update(question);
+      }
       return QuestionController.handleSuccess(res, question);
     } catch (e: any) {
       return QuestionController.handleError(res, e.message);
@@ -135,11 +137,13 @@ class QuestionController extends Controller implements CRUDController {
       return QuestionController.handleValidationError(res, errors);
     }
 
-    assert(req.params.id, "id should be defined");
 
     try {
       const parsedId = this.parser.parseFindByIdInput(req.params.id);
-      const question = this.service.delete(parsedId);
+      const question = await this.service.delete(parsedId);
+      if (question) {
+        this.eventProducer.delete(question);
+      }
       return QuestionController.handleSuccess(res, question);
     } catch (e: any) {
       return QuestionController.handleBadRequest(res, e.message);

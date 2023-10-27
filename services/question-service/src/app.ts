@@ -25,7 +25,6 @@ const questionEventProducer = new QuestionProducer(kafka.producer());
 
 // Services
 const questionService = new QuestionService(
-  questionEventProducer,
   prismaClient,
 );
 
@@ -36,6 +35,7 @@ const questionParser = new QuestionParser();
 const questionController = new QuestionController(
   questionService,
   questionParser,
+  questionEventProducer
 );
 
 // Routers

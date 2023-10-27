@@ -11,10 +11,9 @@ import { QuestionUpdateDTO } from "../../interfaces/question/updateDTO";
 import Service from "../service.interface";
 
 class QuestionService
-  implements Service<QuestionCreateDTO, QuestionUpdateDTO, Question>
+  implements Service<FullQuestionCreateDTO, FullQuestionUpdateDTO, FullQuestion>
 {
   constructor(
-    private readonly eventProducer: EventProducer<Question>,
     private readonly prismaClient: PrismaClient,
   ) {}
 
@@ -63,11 +62,15 @@ class QuestionService
     }
   }
 
-  public async findOne(body: OptionalQuestion): Promise<Question | null> {
-    const { examples, constraints, ...rest } = body;
+  public async findOne(body: Partial<FullQuestion>): Promise<FullQuestion | null> {
+    const { examples, constraints, initialCodes, runnerCodes, ...rest } = body;
     try {
       const question = await this.prismaClient.question.findFirst({
         where: rest,
+        include: {
+            initialCodes: true,
+            runnerCodes: true
+        }
       });
       return question;
     } catch (error) {
@@ -75,9 +78,14 @@ class QuestionService
     }
   }
 
-  public async findAll(): Promise<Question[]> {
+  public async findAll(): Promise<FullQuestion[]> {
     try {
-      const questions = await this.prismaClient.question.findMany();
+      const questions = await this.prismaClient.question.findMany({
+        include: {
+            runnerCodes: true,
+            initialCodes: true
+        }
+      });
       return questions;
     } catch (error) {
       throw new Error("Failed to find questions.");
@@ -196,13 +204,17 @@ class QuestionService
     }
   }
 
-  public async delete(id: number): Promise<Question> {
+  public async delete(id: number): Promise<FullQuestion> {
     assert(id, "id should be defined in the question service delete method");
     try {
       return await this.prismaClient.question.delete({
         where: {
           id,
         },
+        include: {
+            initialCodes: true,
+            runnerCodes: true
+        }
       });
     } catch (error) {
       throw new Error("Failed to delete question.");
