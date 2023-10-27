@@ -19,7 +19,7 @@ jest.mock("../../events/producers/matching/producer");
 jest.mock("../../parsers/matching/matching.parser");
 jest.mock("../../services/matching/matching.service");
 
-const MockRequestService = jest.mocked(MatchingService);
+const MockMatchingService = jest.mocked(MatchingService);
 const MockPrisma = jest.mocked(PrismaClient);
 const MockKafka = jest.mocked(Kafka);
 const MockMatchingEventProducer = jest.mocked(MatchingEventProducer);
@@ -34,11 +34,11 @@ const MockMatchingEventProducerInstance = new MockMatchingEventProducer(
 );
 const MockMatchingParserInstance = new MockMatchingParser();
 const MockPrismaInstance = new MockPrisma();
-const MockMatchingServiceInstance = new MockRequestService(MockPrismaInstance);
+const MockMatchingServiceInstance = new MockMatchingService(MockPrismaInstance);
 
 describe("Test matching request controller", () => {
   beforeEach(() => {
-    MockRequestService.mockClear();
+    MockMatchingService.mockClear();
     MockMatchingEventProducer.mockClear();
   });
 
