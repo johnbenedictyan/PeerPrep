@@ -4,7 +4,7 @@ import { FullQuestion } from "../../interfaces/fullQuestion/object";
 import { StringInterface } from "../../util/stringInterface";
 import QuestionParser from "./question.parser";
 
-describe("Test Question Parser Parse Find By One Input", () => {
+describe("Test Question Parser Parse Find One Input", () => {
   it("Parser - Parse Find One Input: No Input -> Parser Error", () => {
     const parser = new QuestionParser();
 
