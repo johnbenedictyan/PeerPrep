@@ -1,14 +1,13 @@
-import assert from "assert";
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 
+import UserProducer from "../../events/producers/user/producer";
 import { UserCreateDTO } from "../../interfaces/user/createDTO";
 import { User } from "../../interfaces/user/object";
 import { UserUpdateDTO } from "../../interfaces/user/updateDTO";
 import UserParser from "../../parsers/user/user.parser";
 import UserService from "../../services/user/user.service";
 import logger from "../../util/logger";
-
 import Controller from "../controller.abstract";
 import CRUDController from "../crudController.interface";
 
@@ -16,6 +15,7 @@ class UserController extends Controller implements CRUDController {
   constructor(
     private readonly service: UserService,
     private readonly parser: UserParser,
+    private readonly eventProducer: UserProducer,
   ) {
     super();
   }
@@ -29,6 +29,9 @@ class UserController extends Controller implements CRUDController {
     try {
       const parsedUser = this.parser.parseCreateInput(req.body);
       const user = await this.service.create(parsedUser);
+      if (user) {
+        this.eventProducer.create(user);
+      }
       return UserController.handleSuccess(res, user);
     } catch (e: any) {
       return UserController.handleBadRequest(res, e.message);
@@ -41,8 +44,6 @@ class UserController extends Controller implements CRUDController {
     if (!errors.isEmpty()) {
       return UserController.handleValidationError(res, errors);
     }
-
-    assert(req.params.id, "id should be defined");
 
     let parsedId: string;
 
@@ -112,7 +113,7 @@ class UserController extends Controller implements CRUDController {
     }
 
     try {
-      const users = this.service.findAll();
+      const users = await this.service.findAll();
       return UserController.handleSuccess(res, users);
     } catch (e: any) {
       return UserController.handleBadRequest(res, e.message);
@@ -144,6 +145,9 @@ class UserController extends Controller implements CRUDController {
 
     try {
       const user = await this.service.update(parsedId, parsedUpdateInput);
+      if (user) {
+        this.eventProducer.update(user);
+      }
       return UserController.handleSuccess(res, user);
     } catch (e: any) {
       return UserController.handleError(res, e.message);
@@ -157,11 +161,12 @@ class UserController extends Controller implements CRUDController {
       return UserController.handleValidationError(res, errors);
     }
 
-    assert(req.params.id, "id should be defined");
-
     try {
       const parsedId = this.parser.parseFindByIdInput(req.params.id);
-      const user = this.service.delete(parsedId);
+      const user = await this.service.delete(parsedId);
+      if (user) {
+        this.eventProducer.delete(user);
+      }
       return UserController.handleSuccess(res, user);
     } catch (e: any) {
       return UserController.handleBadRequest(res, e.message);
