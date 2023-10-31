@@ -15,7 +15,9 @@ const matchingRequestEventProducer = new MatchingRequestProducer(
   kafka.producer(),
 );
 const matchingService = new MatchingService(prismaClient);
-const matchingRequestService = new MatchingRequestService(prismaClient);
+const matchingRequestService = new MatchingRequestService(
+  prismaClient,
+);
 
 const createMatchingRequestConsumer: ConsumerFunction = async (message) => {
   logger.info(
