@@ -10,7 +10,7 @@ class UserParser implements Parser<UserCreateDTO, UserUpdateDTO, User> {
     input: StringInterface<UserCreateDTO>,
   ): UserCreateDTO {
     if (!input.id || !input.name || !input.roles) {
-        throw new Error("Invalid Input");
+      throw new Error("Invalid Input");
     }
     return {
       id: input.id,
@@ -20,7 +20,7 @@ class UserParser implements Parser<UserCreateDTO, UserUpdateDTO, User> {
   }
 
   public parseFindByIdInput(id: string): string {
-    if(!id) throw new Error("Invalid Input");
+    if (!id) throw new Error("Invalid Input");
     return id;
   }
 
@@ -37,7 +37,7 @@ class UserParser implements Parser<UserCreateDTO, UserUpdateDTO, User> {
       parsedInput.name = input.name;
     }
     if (input.roles) {
-        parsedInput.roles = input.roles
+      parsedInput.roles = input.roles;
     }
     if (input.questionsAuthored) {
       parsedInput.questionsAuthored = parseInt(input.questionsAuthored, 10);
@@ -65,7 +65,7 @@ class UserParser implements Parser<UserCreateDTO, UserUpdateDTO, User> {
   }
 
   public parseDeleteInput(id: string): string {
-    if(!id) throw new Error("Invalid Input");
+    if (!id) throw new Error("Invalid Input");
     return id;
   }
 }

@@ -5,9 +5,9 @@ import { StringInterface } from "../../util/stringInterface";
 import UserParser from "./user.parser";
 
 const allFieldsInput: StringInterface<UserCreateDTO> = {
-    id: "abc123",
-    name: "abc",
-    roles: ["user"]
+  id: "abc123",
+  name: "abc",
+  roles: ["user"],
 };
 
 describe("Test User Parser Parse Create Input", () => {
@@ -56,5 +56,4 @@ describe("Test User Parser Parse Create Input", () => {
       ),
     ).toThrow("Invalid Input");
   });
-
 });

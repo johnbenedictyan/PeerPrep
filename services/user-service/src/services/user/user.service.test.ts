@@ -11,27 +11,27 @@ jest.mock("@prisma/client");
 
 describe("Test user service", () => {
   const expectedUser: User = {
-      id: "abc123",
-      name: "abc",
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      questionsAuthored: 1,
-      roles: ["user"]
+    id: "abc123",
+    name: "abc",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    questionsAuthored: 1,
+    roles: ["user"],
   };
 
   // Create
   test("Create User, Valid Input To Prisma -> Return Object", async () => {
     const input: UserCreateDTO = {
-        id: "abc123",
-        name: "abc",
-        roles: ["user"]
+      id: "abc123",
+      name: "abc",
+      roles: ["user"],
     };
 
     const expectedUser: User = {
-        ...input,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        questionsAuthored: 1
+      ...input,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      questionsAuthored: 1,
     };
 
     prismaMock.user.create.mockResolvedValue(expectedUser);
@@ -67,12 +67,12 @@ describe("Test user service", () => {
   // Find All
   test("Find All User, Valid Input To Prisma -> Return Object", async () => {
     const expectedUser2: User = {
-        id: "qwe123",
-        name: "qwe",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        questionsAuthored: 0,
-        roles: ["admin"]
+      id: "qwe123",
+      name: "qwe",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      questionsAuthored: 0,
+      roles: ["admin"],
     };
 
     const expectedUsers = [expectedUser, expectedUser2];
@@ -90,16 +90,16 @@ describe("Test user service", () => {
     const testId: string = "abc123";
 
     const input: UserUpdateDTO = {
-        name: "abc",
-        roles: ["user"],
-        questionsAuthored: 1
+      name: "abc",
+      roles: ["user"],
+      questionsAuthored: 1,
     };
 
     const expectedUser: User = {
-        ...input,
-        id: "abc123",
-        createdAt: new Date(),
-        updatedAt: new Date()
+      ...input,
+      id: "abc123",
+      createdAt: new Date(),
+      updatedAt: new Date(),
     };
 
     prismaMock.user.update.mockResolvedValue(expectedUser);

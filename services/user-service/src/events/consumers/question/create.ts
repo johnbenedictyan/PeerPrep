@@ -7,7 +7,7 @@ import UserProducer from "../../producers/user/producer";
 import { ConsumerFunction } from "../main.interface";
 
 const userEventProducer = new UserProducer(kafka.producer());
-const userService = new UserService(userEventProducer, prismaClient);
+const userService = new UserService(prismaClient);
 
 const createQuestionConsumer: ConsumerFunction = async (message) => {
   logger.info("WE HAVE RECEIVED A MESSAGE FOR THE CREATION OF A QUESTION");

@@ -186,6 +186,89 @@ describe("Test user request controller", () => {
     });
   });
 
+  test("Controller: Create User, Validation Schema Error -> Return Error", async () => {
+    const { res } = getMockRes({});
+    const req = getMockReq({
+      "express-validator#contexts": [
+        {
+          fields: ["user1Id"],
+          locations: ["body", "cookies", "headers", "params", "query"],
+          stack: [
+            { negated: false, message: "User id is required" },
+            { negated: false, message: "User Id should be string" },
+          ],
+          optional: false,
+          bail: false,
+          _errors: [
+            {
+              type: "field",
+              msg: "User id is required",
+              path: "user1Id",
+              location: "body",
+            },
+            {
+              type: "field",
+              msg: "User Id should be string",
+              path: "user1Id",
+              location: "body",
+            },
+          ],
+          dataMap: {},
+        },
+        {
+          fields: ["user2Id"],
+          locations: ["body", "cookies", "headers", "params", "query"],
+          stack: [
+            { negated: false, message: "User id is required" },
+            { negated: false, message: "User Id should be string" },
+          ],
+          optional: false,
+          bail: false,
+          _errors: [
+            {
+              type: "field",
+              msg: "User id is required",
+              path: "user2Id",
+              location: "body",
+            },
+            {
+              type: "field",
+              msg: "User Id should be string",
+              path: "user2Id",
+              location: "body",
+            },
+          ],
+          dataMap: {},
+        },
+        {
+          fields: ["dateTimeMatched"],
+          locations: ["body", "cookies", "headers", "params", "query"],
+          stack: [
+            {
+              negated: false,
+              options: [null],
+              message: "Date matched should be string",
+            },
+          ],
+          optional: "undefined",
+          bail: false,
+          _errors: [],
+          dataMap: {},
+        },
+      ],
+    });
+
+    const controller = new UserController(
+      MockUserServiceInstance,
+      MockUserParserInstance,
+      MockUserEventProducerInstance,
+    );
+
+    await controller.create(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(httpStatus.BAD_REQUEST);
+  });
+
   // Find By Id
   test("Controller-Service: Find User By Id, Valid Input To Service -> Return Object", async () => {
     const testId: string = "1";
@@ -244,6 +327,79 @@ describe("Test user request controller", () => {
     });
   });
 
+  test("Controller-Service: Find User By Id, No User Found -> Create User", async () => {
+    const { res } = getMockRes({});
+    const req = getMockReq({});
+
+    const expectedUser: User = {
+      id: "abc123",
+      name: "abc",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      questionsAuthored: 0,
+      roles: ["users"],
+    };
+    const serviceFindByIdMethod = jest.spyOn(
+      MockUserServiceInstance,
+      "findById",
+    );
+
+    const serviceCreateMethod = jest.spyOn(MockUserServiceInstance, "create");
+
+    serviceFindByIdMethod.mockResolvedValue(null);
+    serviceCreateMethod.mockResolvedValue(expectedUser);
+
+    const controller = new UserController(
+      MockUserServiceInstance,
+      MockUserParserInstance,
+      MockUserEventProducerInstance,
+    );
+
+    await controller.findById(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(httpStatus.OK);
+    expect(res.json).toHaveBeenCalledWith(expectedUser);
+  });
+
+  test("Controller-Service: Find User By Id, No User Found -> Create User, Create Error -> Return Error", async () => {
+    const { res } = getMockRes({});
+    const req = getMockReq({});
+
+    const expectedUser: User = {
+      id: "abc123",
+      name: "abc",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      questionsAuthored: 0,
+      roles: ["users"],
+    };
+    const serviceFindByIdMethod = jest.spyOn(
+      MockUserServiceInstance,
+      "findById",
+    );
+
+    const serviceCreateMethod = jest.spyOn(MockUserServiceInstance, "create");
+
+    serviceFindByIdMethod.mockResolvedValue(null);
+    serviceCreateMethod.mockImplementation(() => {
+      throw new Error("Service Error");
+    });
+
+    const controller = new UserController(
+      MockUserServiceInstance,
+      MockUserParserInstance,
+      MockUserEventProducerInstance,
+    );
+
+    await controller.findById(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(httpStatus.INTERNAL_SERVER_ERROR);
+    expect(res.json).toHaveBeenCalledWith({
+      errors: "Service Error",
+      success: false,
+    });
+  });
+
   test("Controller-Parser: Find User By Id, All Fields -> Test Pass Information to Parser", async () => {
     const testId: string = "1";
     const { res } = getMockRes({});
@@ -295,6 +451,89 @@ describe("Test user request controller", () => {
       errors: "Parser Error",
       success: false,
     });
+  });
+
+  test("Controller: Find User By Id, Validation Schema Error -> Return Error", async () => {
+    const { res } = getMockRes({});
+    const req = getMockReq({
+      "express-validator#contexts": [
+        {
+          fields: ["user1Id"],
+          locations: ["body", "cookies", "headers", "params", "query"],
+          stack: [
+            { negated: false, message: "User id is required" },
+            { negated: false, message: "User Id should be string" },
+          ],
+          optional: false,
+          bail: false,
+          _errors: [
+            {
+              type: "field",
+              msg: "User id is required",
+              path: "user1Id",
+              location: "body",
+            },
+            {
+              type: "field",
+              msg: "User Id should be string",
+              path: "user1Id",
+              location: "body",
+            },
+          ],
+          dataMap: {},
+        },
+        {
+          fields: ["user2Id"],
+          locations: ["body", "cookies", "headers", "params", "query"],
+          stack: [
+            { negated: false, message: "User id is required" },
+            { negated: false, message: "User Id should be string" },
+          ],
+          optional: false,
+          bail: false,
+          _errors: [
+            {
+              type: "field",
+              msg: "User id is required",
+              path: "user2Id",
+              location: "body",
+            },
+            {
+              type: "field",
+              msg: "User Id should be string",
+              path: "user2Id",
+              location: "body",
+            },
+          ],
+          dataMap: {},
+        },
+        {
+          fields: ["dateTimeMatched"],
+          locations: ["body", "cookies", "headers", "params", "query"],
+          stack: [
+            {
+              negated: false,
+              options: [null],
+              message: "Date matched should be string",
+            },
+          ],
+          optional: "undefined",
+          bail: false,
+          _errors: [],
+          dataMap: {},
+        },
+      ],
+    });
+
+    const controller = new UserController(
+      MockUserServiceInstance,
+      MockUserParserInstance,
+      MockUserEventProducerInstance,
+    );
+
+    await controller.findById(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(httpStatus.BAD_REQUEST);
   });
 
   // Find One
@@ -382,6 +621,89 @@ describe("Test user request controller", () => {
     });
   });
 
+  test("Controller: Find One User, Validation Schema Error -> Return Error", async () => {
+    const { res } = getMockRes({});
+    const req = getMockReq({
+      "express-validator#contexts": [
+        {
+          fields: ["user1Id"],
+          locations: ["body", "cookies", "headers", "params", "query"],
+          stack: [
+            { negated: false, message: "User id is required" },
+            { negated: false, message: "User Id should be string" },
+          ],
+          optional: false,
+          bail: false,
+          _errors: [
+            {
+              type: "field",
+              msg: "User id is required",
+              path: "user1Id",
+              location: "body",
+            },
+            {
+              type: "field",
+              msg: "User Id should be string",
+              path: "user1Id",
+              location: "body",
+            },
+          ],
+          dataMap: {},
+        },
+        {
+          fields: ["user2Id"],
+          locations: ["body", "cookies", "headers", "params", "query"],
+          stack: [
+            { negated: false, message: "User id is required" },
+            { negated: false, message: "User Id should be string" },
+          ],
+          optional: false,
+          bail: false,
+          _errors: [
+            {
+              type: "field",
+              msg: "User id is required",
+              path: "user2Id",
+              location: "body",
+            },
+            {
+              type: "field",
+              msg: "User Id should be string",
+              path: "user2Id",
+              location: "body",
+            },
+          ],
+          dataMap: {},
+        },
+        {
+          fields: ["dateTimeMatched"],
+          locations: ["body", "cookies", "headers", "params", "query"],
+          stack: [
+            {
+              negated: false,
+              options: [null],
+              message: "Date matched should be string",
+            },
+          ],
+          optional: "undefined",
+          bail: false,
+          _errors: [],
+          dataMap: {},
+        },
+      ],
+    });
+
+    const controller = new UserController(
+      MockUserServiceInstance,
+      MockUserParserInstance,
+      MockUserEventProducerInstance,
+    );
+
+    await controller.findOne(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(httpStatus.BAD_REQUEST);
+  });
+
   // Find All
   test("Controller-Service: Find All User, Valid Input To Service -> Return Object", async () => {
     const expectedUsers = [createExpectedUser, updateExpectedUser];
@@ -428,6 +750,89 @@ describe("Test user request controller", () => {
       errors: "Service Error",
       success: false,
     });
+  });
+
+  test("Controller: Find All User, Validation Schema Error -> Return Error", async () => {
+    const { res } = getMockRes({});
+    const req = getMockReq({
+      "express-validator#contexts": [
+        {
+          fields: ["user1Id"],
+          locations: ["body", "cookies", "headers", "params", "query"],
+          stack: [
+            { negated: false, message: "User id is required" },
+            { negated: false, message: "User Id should be string" },
+          ],
+          optional: false,
+          bail: false,
+          _errors: [
+            {
+              type: "field",
+              msg: "User id is required",
+              path: "user1Id",
+              location: "body",
+            },
+            {
+              type: "field",
+              msg: "User Id should be string",
+              path: "user1Id",
+              location: "body",
+            },
+          ],
+          dataMap: {},
+        },
+        {
+          fields: ["user2Id"],
+          locations: ["body", "cookies", "headers", "params", "query"],
+          stack: [
+            { negated: false, message: "User id is required" },
+            { negated: false, message: "User Id should be string" },
+          ],
+          optional: false,
+          bail: false,
+          _errors: [
+            {
+              type: "field",
+              msg: "User id is required",
+              path: "user2Id",
+              location: "body",
+            },
+            {
+              type: "field",
+              msg: "User Id should be string",
+              path: "user2Id",
+              location: "body",
+            },
+          ],
+          dataMap: {},
+        },
+        {
+          fields: ["dateTimeMatched"],
+          locations: ["body", "cookies", "headers", "params", "query"],
+          stack: [
+            {
+              negated: false,
+              options: [null],
+              message: "Date matched should be string",
+            },
+          ],
+          optional: "undefined",
+          bail: false,
+          _errors: [],
+          dataMap: {},
+        },
+      ],
+    });
+
+    const controller = new UserController(
+      MockUserServiceInstance,
+      MockUserParserInstance,
+      MockUserEventProducerInstance,
+    );
+
+    await controller.findAll(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(httpStatus.BAD_REQUEST);
   });
 
   // Update
@@ -575,6 +980,89 @@ describe("Test user request controller", () => {
     });
   });
 
+  test("Controller: Update User, Validation Schema Error -> Return Error", async () => {
+    const { res } = getMockRes({});
+    const req = getMockReq({
+      "express-validator#contexts": [
+        {
+          fields: ["user1Id"],
+          locations: ["body", "cookies", "headers", "params", "query"],
+          stack: [
+            { negated: false, message: "User id is required" },
+            { negated: false, message: "User Id should be string" },
+          ],
+          optional: false,
+          bail: false,
+          _errors: [
+            {
+              type: "field",
+              msg: "User id is required",
+              path: "user1Id",
+              location: "body",
+            },
+            {
+              type: "field",
+              msg: "User Id should be string",
+              path: "user1Id",
+              location: "body",
+            },
+          ],
+          dataMap: {},
+        },
+        {
+          fields: ["user2Id"],
+          locations: ["body", "cookies", "headers", "params", "query"],
+          stack: [
+            { negated: false, message: "User id is required" },
+            { negated: false, message: "User Id should be string" },
+          ],
+          optional: false,
+          bail: false,
+          _errors: [
+            {
+              type: "field",
+              msg: "User id is required",
+              path: "user2Id",
+              location: "body",
+            },
+            {
+              type: "field",
+              msg: "User Id should be string",
+              path: "user2Id",
+              location: "body",
+            },
+          ],
+          dataMap: {},
+        },
+        {
+          fields: ["dateTimeMatched"],
+          locations: ["body", "cookies", "headers", "params", "query"],
+          stack: [
+            {
+              negated: false,
+              options: [null],
+              message: "Date matched should be string",
+            },
+          ],
+          optional: "undefined",
+          bail: false,
+          _errors: [],
+          dataMap: {},
+        },
+      ],
+    });
+
+    const controller = new UserController(
+      MockUserServiceInstance,
+      MockUserParserInstance,
+      MockUserEventProducerInstance,
+    );
+
+    await controller.update(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(httpStatus.BAD_REQUEST);
+  });
+
   // Delete
   test("Controller-Service: Delete User, Valid Input To Service -> Return Object", async () => {
     const testId: string = "abc123";
@@ -692,5 +1180,88 @@ describe("Test user request controller", () => {
       errors: "Parser Error",
       success: false,
     });
+  });
+
+  test("Controller: Delete User, Validation Schema Error -> Return Error", async () => {
+    const { res } = getMockRes({});
+    const req = getMockReq({
+      "express-validator#contexts": [
+        {
+          fields: ["user1Id"],
+          locations: ["body", "cookies", "headers", "params", "query"],
+          stack: [
+            { negated: false, message: "User id is required" },
+            { negated: false, message: "User Id should be string" },
+          ],
+          optional: false,
+          bail: false,
+          _errors: [
+            {
+              type: "field",
+              msg: "User id is required",
+              path: "user1Id",
+              location: "body",
+            },
+            {
+              type: "field",
+              msg: "User Id should be string",
+              path: "user1Id",
+              location: "body",
+            },
+          ],
+          dataMap: {},
+        },
+        {
+          fields: ["user2Id"],
+          locations: ["body", "cookies", "headers", "params", "query"],
+          stack: [
+            { negated: false, message: "User id is required" },
+            { negated: false, message: "User Id should be string" },
+          ],
+          optional: false,
+          bail: false,
+          _errors: [
+            {
+              type: "field",
+              msg: "User id is required",
+              path: "user2Id",
+              location: "body",
+            },
+            {
+              type: "field",
+              msg: "User Id should be string",
+              path: "user2Id",
+              location: "body",
+            },
+          ],
+          dataMap: {},
+        },
+        {
+          fields: ["dateTimeMatched"],
+          locations: ["body", "cookies", "headers", "params", "query"],
+          stack: [
+            {
+              negated: false,
+              options: [null],
+              message: "Date matched should be string",
+            },
+          ],
+          optional: "undefined",
+          bail: false,
+          _errors: [],
+          dataMap: {},
+        },
+      ],
+    });
+
+    const controller = new UserController(
+      MockUserServiceInstance,
+      MockUserParserInstance,
+      MockUserEventProducerInstance,
+    );
+
+    await controller.delete(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(httpStatus.BAD_REQUEST);
   });
 });

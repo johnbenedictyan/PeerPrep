@@ -5,9 +5,9 @@ import { StringInterface } from "../../util/stringInterface";
 import UserParser from "./user.parser";
 
 const allFieldsInput: StringInterface<UserUpdateDTO> = {
-    name: "abc123",
-    roles: ["admin"],
-    questionsAuthored: "3"
+  name: "abc123",
+  roles: ["admin"],
+  questionsAuthored: "3",
 };
 
 describe("Test User Parser Parse Update Input", () => {
@@ -15,8 +15,8 @@ describe("Test User Parser Parse Update Input", () => {
     const parser = new UserParser();
 
     const expectedOutput: UserUpdateDTO = {
-        ...allFieldsInput,
-        questionsAuthored: parseInt(allFieldsInput.questionsAuthored)
+      ...allFieldsInput,
+      questionsAuthored: parseInt(allFieldsInput.questionsAuthored),
     };
 
     expect(parser.parseUpdateInput(allFieldsInput)).toEqual(expectedOutput);

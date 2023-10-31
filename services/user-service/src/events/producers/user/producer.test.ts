@@ -1,20 +1,20 @@
-import { beforeAll, describe, expect, jest, test } from '@jest/globals';
-import { mockDeep } from 'jest-mock-extended';
-import { Producer } from 'kafkajs';
+import { beforeAll, describe, expect, jest, test } from "@jest/globals";
+import { mockDeep } from "jest-mock-extended";
+import { Producer } from "kafkajs";
 
-import { User } from '../../../interfaces/user/object';
-import UserTopics from '../../topics/user';
-import UserProducer from './producer';
+import { User } from "../../../interfaces/user/object";
+import UserTopics from "../../topics/user";
+import UserProducer from "./producer";
 
 const mockProducer = mockDeep<Producer>();
 
 const obj: User = {
-    id: "abc123",
-    name: "abc",
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    questionsAuthored: 0,
-    roles: ["user"]
+  id: "abc123",
+  name: "abc",
+  createdAt: new Date(),
+  updatedAt: new Date(),
+  questionsAuthored: 0,
+  roles: ["user"],
 };
 
 describe("Test User Event Producer", () => {
