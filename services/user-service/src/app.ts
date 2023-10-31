@@ -24,13 +24,17 @@ const corsOptions = {
 const userEventProducer = new UserProducer(kafka.producer());
 
 // Services
-const userService = new UserService(userEventProducer, prismaClient);
+const userService = new UserService(prismaClient);
 
 // Parsers
 const userParser = new UserParser();
 
 // Controllers
-const userController = new UserController(userService, userParser);
+const userController = new UserController(
+  userService,
+  userParser,
+  userEventProducer,
+);
 
 // Routers
 const userRouter = new UserRouter(userController, express.Router());

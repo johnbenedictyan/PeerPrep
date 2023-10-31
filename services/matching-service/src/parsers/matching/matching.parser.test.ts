@@ -35,7 +35,7 @@ describe("Test matching parser", () => {
 
     expect(() =>
       parser.parseCreateInput(input as StringInterface<MatchingCreateDTO>),
-    ).toThrow("Invalid input");
+    ).toThrow("Invalid Input");
   });
 
   it("Parser - Parse Create Input: Missing user2Id Input -> Throw Error", () => {
@@ -48,7 +48,7 @@ describe("Test matching parser", () => {
 
     expect(() =>
       parser.parseCreateInput(input as StringInterface<MatchingCreateDTO>),
-    ).toThrow("Invalid input");
+    ).toThrow("Invalid Input");
   });
 
   it("Parser - Parse Create Input: Missing requestId Input -> Throw Error", () => {
@@ -61,7 +61,7 @@ describe("Test matching parser", () => {
 
     expect(() =>
       parser.parseCreateInput(input as StringInterface<MatchingCreateDTO>),
-    ).toThrow("Invalid input");
+    ).toThrow("Invalid Input");
   });
 
   it("Parser - Parse Find By Id Input: Valid Input -> Parsed Create Input", () => {
@@ -79,7 +79,7 @@ describe("Test matching parser", () => {
 
     const input = undefined;
 
-    expect(() => parser.parseFindByIdInput(input)).toThrow("Invalid input");
+    expect(() => parser.parseFindByIdInput(input)).toThrow("Invalid Input");
   });
 
   it("Parser - Parse Find One Input: No Input -> Parser Error", () => {
@@ -87,7 +87,7 @@ describe("Test matching parser", () => {
 
     const input: Partial<StringInterface<Matching>> = {};
 
-    expect(() => parser.parseFindOneInput(input)).toThrow("Invalid input");
+    expect(() => parser.parseFindOneInput(input)).toThrow("Invalid Input");
   });
 
   it("Parser - Parse Find One Input: Valid Id Input -> Parsed Id Input", () => {
@@ -192,7 +192,7 @@ describe("Test matching parser", () => {
 
     expect(() =>
       parser.parseUpdateInput(input as StringInterface<MatchingUpdateDTO>),
-    ).toThrow("Invalid input");
+    ).toThrow("Invalid Input");
   });
 
   it("Parser - Parse Update Input: Missing user2Id Input -> Throw Error", () => {
@@ -205,7 +205,7 @@ describe("Test matching parser", () => {
 
     expect(() =>
       parser.parseUpdateInput(input as StringInterface<MatchingUpdateDTO>),
-    ).toThrow("Invalid input");
+    ).toThrow("Invalid Input");
   });
 
   it("Parser - Parse Update Input: Missing requestId Input -> Throw Error", () => {
@@ -218,7 +218,7 @@ describe("Test matching parser", () => {
 
     expect(() =>
       parser.parseUpdateInput(input as StringInterface<MatchingUpdateDTO>),
-    ).toThrow("Invalid input");
+    ).toThrow("Invalid Input");
   });
 
   it("Parser - Parse Delete Input: Valid Input -> Parsed Create Input", () => {
@@ -236,6 +236,6 @@ describe("Test matching parser", () => {
 
     const input = undefined;
 
-    expect(() => parser.parseDeleteInput(input)).toThrow("Invalid input");
+    expect(() => parser.parseDeleteInput(input)).toThrow("Invalid Input");
   });
 });
