@@ -1,28 +1,27 @@
-import { describe, expect, test } from "@jest/globals";
-import { mockDeep } from "jest-mock-extended";
-import { Producer } from "kafkajs";
+import { describe, expect, test } from '@jest/globals';
+import { mockDeep } from 'jest-mock-extended';
+import { Producer } from 'kafkajs';
 
-import { Question } from "../../../interfaces/question/object";
-import QuestionProducer from "./producer";
-import QuestionTopics from "../../topics/question";
-import { FullQuestion } from "../../../interfaces/fullQuestion/object";
+import { FullQuestion } from '../../../interfaces/fullQuestion/object';
+import QuestionTopics from '../../topics/question';
+import QuestionProducer from './producer';
 
 const mockProducer = mockDeep<Producer>();
 
 const obj: FullQuestion = {
-    id: 1,
-    title: "New Question",
-    content: "This is the new question",
-    authorId: "abc123",
-    difficulty: "easy",
-    examples: ["1,2,3"],
-    constraints: ["No Constraints"],
-    initialCodes: [{ language: "java", code: "hello world", questionId: 1 }],
-    runnerCodes: [
-      { language: "python", code: "def hello world():", questionId: 1 },
-    ],
-    createdAt: new Date(),
-    updatedAt: new Date(),
+  id: 1,
+  title: "New Question",
+  content: "This is the new question",
+  authorId: "abc123",
+  difficulty: "easy",
+  examples: ["1,2,3"],
+  constraints: ["No Constraints"],
+  initialCodes: [{ language: "java", code: "hello world", questionId: 1 }],
+  runnerCodes: [
+    { language: "python", code: "def hello world():", questionId: 1 },
+  ],
+  createdAt: new Date(),
+  updatedAt: new Date(),
 };
 
 describe("Test Question Event Producer", () => {
@@ -41,7 +40,7 @@ describe("Test Question Event Producer", () => {
     expect(producerSendMethod).toBeCalledWith({
       messages: [
         {
-          key: "1",
+          key: obj.id.toString(),
           value: JSON.stringify(obj),
         },
       ],
@@ -62,7 +61,7 @@ describe("Test Question Event Producer", () => {
     expect(producerSendMethod).toBeCalledWith({
       messages: [
         {
-          key: "1",
+          key: obj.id.toString(),
           value: JSON.stringify(obj),
         },
       ],
@@ -83,7 +82,7 @@ describe("Test Question Event Producer", () => {
     expect(producerSendMethod).toBeCalledWith({
       messages: [
         {
-          key: "1",
+          key: obj.id.toString(),
           value: JSON.stringify(obj),
         },
       ],

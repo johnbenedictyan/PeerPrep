@@ -5,17 +5,14 @@ import httpStatus from "http-status";
 import { Kafka } from "kafkajs";
 
 import QuestionEventProducer from "../../events/producers/question/producer";
-import { QuestionCreateDTO } from "../../interfaces/question/createDTO";
-import { Question } from "../../interfaces/question/object";
-import { QuestionUpdateDTO } from "../../interfaces/question/updateDTO";
-import QuestionParser from "../../parsers/question/question.parser";
-import QuestionService from "../../services/question/question.service";
-import { StringInterface } from "../../util/stringInterface";
-import QuestionController from "./question.controller";
+import { FullQuestionCreateDTO } from "../../interfaces/fullQuestion/createDTO";
 import { FullQuestion } from "../../interfaces/fullQuestion/object";
 import { FullQuestionUpdateDTO } from "../../interfaces/fullQuestion/updateDTO";
-import { FullQuestionCreateDTO } from "../../interfaces/fullQuestion/createDTO";
+import QuestionParser from "../../parsers/question/question.parser";
+import QuestionService from "../../services/question/question.service";
 import stringify from "../../util/stringfy";
+import { StringInterface } from "../../util/stringInterface";
+import QuestionController from "./question.controller";
 
 jest.mock("kafkajs");
 jest.mock("@prisma/client");
