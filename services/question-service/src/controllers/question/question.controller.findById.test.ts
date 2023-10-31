@@ -7,7 +7,6 @@ import { Kafka } from "kafkajs";
 import QuestionEventProducer from "../../events/producers/question/producer";
 import { FullQuestionCreateDTO } from "../../interfaces/fullQuestion/createDTO";
 import { FullQuestion } from "../../interfaces/fullQuestion/object";
-import { FullQuestionUpdateDTO } from "../../interfaces/fullQuestion/updateDTO";
 import QuestionParser from "../../parsers/question/question.parser";
 import QuestionService from "../../services/question/question.service";
 import QuestionController from "./question.controller";
