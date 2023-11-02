@@ -55,14 +55,15 @@ function MatchPage() {
       if (!establishedConnection) {
         return;
       }
-      matchingController.current.createMatchingRequest({
+      const obj = {
         userId: currentUser.uid,
-        difficulty,
-      });
+        difficulty: newDifficulty,
+      }
+      console.log(obj)
+      matchingController.current.createMatchingRequest(obj);
     },
     [
       currentUser,
-      difficulty,
       establishedConnection,
       foundMatch,
       startTimer,

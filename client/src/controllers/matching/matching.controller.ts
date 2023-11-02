@@ -1,10 +1,6 @@
+import { MatchingRequestCreateDTO } from "../../interfaces/matchingService/matchingRequest/createDTO";
 import GenericController from "../generic.controller";
 
-interface ICreateMatchingRequest {
-  userId: string;
-  difficulty: string;
-  questionId?: string;
-}
 
 interface ICancelMatchingRequest {
   userId: string;
@@ -17,7 +13,7 @@ class MatchingController extends GenericController {
   constructor() {
     super(
       window.location.hostname !== "localhost" ? prodServerUri : devServerUri,
-      "api",
+      "api"
     );
   }
 
@@ -29,10 +25,11 @@ class MatchingController extends GenericController {
     }
   }
 
-  public async createMatchingRequest(data: ICreateMatchingRequest) {
+  public async createMatchingRequest(data: MatchingRequestCreateDTO) {
     try {
       return await this.post("matchingRequest", data);
     } catch (error) {
+      console.error(error);
       return null;
     }
   }

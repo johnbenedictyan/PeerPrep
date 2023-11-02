@@ -9,11 +9,12 @@ services:
     container_name: user-service
     build:
       context: ./services/user-service
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
     ports:
       - "5001:5000"
     environment:
       - PORT=5000
+      - NODE_ENV=development
     env_file:
       - ./services/user-service/.env
     depends_on:
@@ -45,11 +46,12 @@ services:
     container_name: matching-service
     build:
       context: ./services/matching-service
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
     ports:
       - "5002:5000"
     environment:
       - PORT=5000
+      - NODE_ENV=development
     env_file:
       - ./services/matching-service/.env
     depends_on:
@@ -81,11 +83,12 @@ services:
     container_name: question-service
     build:
       context: ./services/question-service
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
     ports:
       - "5003:5000"
     environment:
       - PORT=5000
+      - NODE_ENV=development
     env_file:
       - ./services/question-service/.env
     depends_on:
@@ -117,13 +120,16 @@ services:
     container_name: socket-service
     build:
       context: ./services/socket-service
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
     ports:
       - "5004:5000"
     environment:
       - PORT=5000
     env_file:
       - ./services/socket-service/.env
+    depends_on:
+      broker:
+        condition: service_healthy
     networks:
       - socket-service-network
       - api-network
@@ -161,7 +167,7 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT_INTERNAL
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 3000
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: true

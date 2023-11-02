@@ -9,11 +9,12 @@ services:
     container_name: user-service
     build:
       context: ./services/user-service
-      dockerfile: Dockerfile.staging
+      dockerfile: Dockerfile
     ports:
       - "5001:5000"
     environment:
       - PORT=5000
+      - NODE_ENV=production
     env_file:
       - ./services/user-service/.env
     depends_on:
@@ -33,7 +34,7 @@ services:
     networks:
       - user-service-network
     healthcheck:
-      test: ["CMD-SHELL", "sh -c 'pg_isready'"]
+      test: ["CMD-SHELL", "sh -c 'pg_isready -U admin -d postgres'"]
       interval: 10s
       timeout: 3s
       retries: 3
@@ -42,11 +43,12 @@ services:
     container_name: matching-service
     build:
       context: ./services/matching-service
-      dockerfile: Dockerfile.staging
+      dockerfile: Dockerfile
     ports:
       - "5002:5000"
     environment:
       - PORT=5000
+      - NODE_ENV=production
     env_file:
       - ./services/matching-service/.env
     depends_on:
@@ -66,7 +68,7 @@ services:
     networks:
       - matching-service-network
     healthcheck:
-      test: ["CMD-SHELL", "sh -c 'pg_isready'"]
+      test: ["CMD-SHELL", "sh -c 'pg_isready -U admin -d postgres'"]
       interval: 10s
       timeout: 3s
       retries: 3
@@ -75,11 +77,12 @@ services:
     container_name: question-service
     build:
       context: ./services/question-service
-      dockerfile: Dockerfile.staging
+      dockerfile: Dockerfile
     ports:
       - "5003:5000"
     environment:
       - PORT=5000
+      - NODE_ENV=production
     env_file:
       - ./services/question-service/.env
     depends_on:
@@ -99,7 +102,7 @@ services:
     networks:
       - question-service-network
     healthcheck:
-      test: ["CMD-SHELL", "sh -c 'pg_isready'"]
+      test: ["CMD-SHELL", "sh -c 'pg_isready -U admin -d postgres'"]
       interval: 10s
       timeout: 3s
       retries: 3
@@ -108,11 +111,12 @@ services:
     container_name: socket-service
     build:
       context: ./services/socket-service
-      dockerfile: Dockerfile.staging
+      dockerfile: Dockerfile
     ports:
       - "5004:5000"
     environment:
       - PORT=5000
+      - NODE_ENV=production
     env_file:
       - ./services/socket-service/.env
     networks:
@@ -123,7 +127,7 @@ services:
     container_name: client
     build:
       context: ./client
-      dockerfile: Dockerfile.staging
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
 
