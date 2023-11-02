@@ -43,20 +43,20 @@ up_client_staging:
 up_staging:
 	docker-compose -f docker-compose.staging.yml up -d
 
-clean_client:
+format_client:
 	cd ./client && yarn run format && cd ..
 
-clean_matching:
+format_matching:
 	cd ./services/matching-service && yarn run format && cd ../..
 
-clean_question:
+format_question:
 	cd ./services/question-service && yarn run format && cd ../..
 
-clean_socket:
+format_socket:
 	cd ./services/socket-service && yarn run format && cd ../..
 
-clean_user:
+format_user:
 	cd ./services/user-service && yarn run format && cd ../..
 
-clean_all:
-	$(MAKE) clean_client clean_matching clean_question clean_socket clean_user
+format_all:
+	$(MAKE) format_client format_matching format_question format_socket format_user
