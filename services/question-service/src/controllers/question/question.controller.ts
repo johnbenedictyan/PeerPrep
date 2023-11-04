@@ -53,6 +53,8 @@ class QuestionController extends Controller implements CRUDController {
       return QuestionController.handleBadRequest(res, e.message);
     }
 
+    console.log("Parsed ID:", parsedId);
+
     let questionFromDb: Question | null;
 
     try {

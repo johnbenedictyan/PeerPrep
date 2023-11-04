@@ -19,9 +19,14 @@ class QuestionParser
     ) {
       throw new Error("Invalid Input");
     }
-    if (input.initialCodes.length == 0) {
-      return input;
-    }
+    input.testCases.forEach((x) => {
+      if (!x.testCaseNumber || !x.input || !x.expectedOutput) {
+        throw new Error(
+          "Required fields for question's test case of test case number or input or expected output are missing",
+        );
+      }
+    });
+
     input.initialCodes.forEach((x) => {
       if (!x.code || !x.language) {
         throw new Error(
@@ -29,9 +34,6 @@ class QuestionParser
         );
       }
     });
-    if (input.runnerCodes.length == 0) {
-      return input;
-    }
     input.runnerCodes.forEach((x) => {
       if (!x.code || !x.language) {
         throw new Error(
@@ -39,7 +41,13 @@ class QuestionParser
         );
       }
     });
-    return input;
+    return {
+      ...input,
+      testCases: input.testCases.map((x) => ({
+        ...x,
+        testCaseNumber: parseInt(x.testCaseNumber, 10),
+      })),
+    };
   }
 
   public parseFindByIdInput(id: string): number {
@@ -86,6 +94,13 @@ class QuestionParser
         questionId: parseInt(input.id!, 10),
       }));
     }
+    if (input.id && input.testCases) {
+      parsedInput.testCases = input.testCases.map((x) => ({
+        ...x,
+        testCaseNumber: parseInt(x.testCaseNumber, 10),
+        questionId: parseInt(input.id!, 10),
+      }));
+    }
     return parsedInput;
   }
 
@@ -100,6 +115,10 @@ class QuestionParser
     parsedInput.constraints = input.constraints;
     parsedInput.runnerCodes = input.runnerCodes;
     parsedInput.initialCodes = input.initialCodes;
+    parsedInput.testCases = input.testCases?.map((x) => ({
+      ...x,
+      testCaseNumber: parseInt(x.testCaseNumber, 10),
+    }));
     return parsedInput;
   }
 

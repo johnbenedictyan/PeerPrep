@@ -22,6 +22,7 @@ model Question {
     authorId     String
     initialCodes QuestionInitialCode[]
     runnerCodes  QuestionRunnerCode[]
+    testCases    QuestionTestCase[]
 }
 
 model QuestionInitialCode {
@@ -40,4 +41,14 @@ model QuestionRunnerCode {
     questionId Int
 
     @@unique([language, questionId])
+}
+
+model QuestionTestCase {
+    testCaseNumber Int
+    input          String
+    expectedOutput String[]
+    Question       Question @relation(fields: [questionId], references: [id])
+    questionId     Int
+
+    @@unique([testCaseNumber, questionId])
 }

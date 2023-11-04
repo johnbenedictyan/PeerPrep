@@ -20,6 +20,14 @@ const obj: FullQuestion = {
   runnerCodes: [
     { language: "python", code: "def hello world():", questionId: 1 },
   ],
+  testCases: [
+    {
+      testCaseNumber: 1,
+      input: "1",
+      expectedOutput: ["1"],
+      questionId: 1,
+    },
+  ],
   createdAt: new Date(),
   updatedAt: new Date(),
 };
