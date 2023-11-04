@@ -12,6 +12,13 @@ const allFieldsInput: StringInterface<FullQuestionUpdateDTO> = {
   constraints: ["No Constraints"],
   initialCodes: [{ language: "java", code: "hello world" }],
   runnerCodes: [{ language: "python", code: "def hello world():" }],
+  testCases: [
+    {
+      testCaseNumber: "1",
+      input: "2",
+      expectedOutput: ["2"],
+    },
+  ],
 };
 
 describe("Test Question Parser Parse Update Input", () => {
@@ -20,6 +27,10 @@ describe("Test Question Parser Parse Update Input", () => {
 
     const expectedOutput: FullQuestionUpdateDTO = {
       ...allFieldsInput,
+      testCases: allFieldsInput.testCases.map((x) => ({
+        ...x,
+        testCaseNumber: parseInt(x.testCaseNumber, 10),
+      })),
     };
 
     expect(parser.parseUpdateInput(allFieldsInput)).toEqual(expectedOutput);

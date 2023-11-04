@@ -22,6 +22,14 @@ describe("Test question service", () => {
     runnerCodes: [
       { language: "python", code: "def hello world():", questionId: 1 },
     ],
+    testCases: [
+      {
+        testCaseNumber: 1,
+        input: "1",
+        expectedOutput: ["1"],
+        questionId: 1,
+      },
+    ],
     createdAt: new Date(),
     updatedAt: new Date(),
   };
@@ -37,6 +45,13 @@ describe("Test question service", () => {
       constraints: ["No Constraints"],
       initialCodes: [{ language: "java", code: "hello world" }],
       runnerCodes: [{ language: "python", code: "def hello world():" }],
+      testCases: [
+        {
+          testCaseNumber: 1,
+          input: "1",
+          expectedOutput: ["1"],
+        },
+      ],
     };
 
     const expectedQuestion: FullQuestion = {
@@ -45,6 +60,7 @@ describe("Test question service", () => {
       id: 1,
       initialCodes: input.initialCodes.map((x) => ({ ...x, questionId: 1 })),
       runnerCodes: input.runnerCodes.map((x) => ({ ...x, questionId: 1 })),
+      testCases: input.testCases.map((x) => ({ ...x, questionId: 1 })),
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -93,6 +109,14 @@ describe("Test question service", () => {
       runnerCodes: [
         { language: "python", code: "def hello world():", questionId: 2 },
       ],
+      testCases: [
+        {
+          testCaseNumber: 1,
+          input: "3",
+          expectedOutput: ["3"],
+          questionId: 2,
+        },
+      ],
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -119,6 +143,13 @@ describe("Test question service", () => {
       constraints: ["No Constraints"],
       initialCodes: [{ language: "java", code: "hello world" }],
       runnerCodes: [{ language: "python", code: "def hello world():" }],
+      testCases: [
+        {
+          testCaseNumber: 1,
+          input: "2",
+          expectedOutput: ["2"],
+        },
+      ],
     };
 
     const expectedQuestion: FullQuestion = {
@@ -127,6 +158,7 @@ describe("Test question service", () => {
       id: 1,
       initialCodes: input.initialCodes.map((x) => ({ ...x, questionId: 1 })),
       runnerCodes: input.runnerCodes.map((x) => ({ ...x, questionId: 1 })),
+      testCases: input.testCases.map((x) => ({ ...x, questionId: 1 })),
       createdAt: new Date(),
       updatedAt: new Date(),
     };

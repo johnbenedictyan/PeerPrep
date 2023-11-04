@@ -1,13 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 import assert from "assert";
 
-import EventProducer from "../../events/producers/main.interface";
 import { FullQuestionCreateDTO } from "../../interfaces/fullQuestion/createDTO";
 import { FullQuestion } from "../../interfaces/fullQuestion/object";
 import { FullQuestionUpdateDTO } from "../../interfaces/fullQuestion/updateDTO";
-import { QuestionCreateDTO } from "../../interfaces/question/createDTO";
-import { OptionalQuestion, Question } from "../../interfaces/question/object";
-import { QuestionUpdateDTO } from "../../interfaces/question/updateDTO";
 import Service from "../service.interface";
 
 class QuestionService
@@ -17,7 +13,7 @@ class QuestionService
   constructor(private readonly prismaClient: PrismaClient) {}
 
   public async create(body: FullQuestionCreateDTO): Promise<FullQuestion> {
-    const { initialCodes, runnerCodes, ...rest } = body;
+    const { initialCodes, runnerCodes, testCases, ...rest } = body;
     try {
       const question = await this.prismaClient.question.create({
         data: {
@@ -28,14 +24,19 @@ class QuestionService
           runnerCodes: {
             create: runnerCodes,
           },
+          testCases: {
+            create: testCases,
+          },
         },
         include: {
           initialCodes: true,
           runnerCodes: true,
+          testCases: true,
         },
       });
       return question;
     } catch (error) {
+      console.error(error);
       throw new Error("Failed to create question.");
     }
   }
@@ -53,6 +54,7 @@ class QuestionService
         include: {
           initialCodes: true,
           runnerCodes: true,
+          testCases: true,
         },
       });
       return question;
@@ -64,13 +66,21 @@ class QuestionService
   public async findOne(
     body: Partial<FullQuestion>,
   ): Promise<FullQuestion | null> {
-    const { examples, constraints, initialCodes, runnerCodes, ...rest } = body;
+    const {
+      examples,
+      constraints,
+      initialCodes,
+      runnerCodes,
+      testCases,
+      ...rest
+    } = body;
     try {
       const question = await this.prismaClient.question.findFirst({
         where: rest,
         include: {
           initialCodes: true,
           runnerCodes: true,
+          testCases: true,
         },
       });
       return question;
@@ -85,6 +95,7 @@ class QuestionService
         include: {
           runnerCodes: true,
           initialCodes: true,
+          testCases: true,
         },
       });
       return questions;
@@ -98,7 +109,7 @@ class QuestionService
     body: Partial<FullQuestionUpdateDTO>,
   ): Promise<FullQuestion> {
     assert(id, "id should be defined in the question service update method");
-    const { initialCodes, runnerCodes, ...rest } = body;
+    const { initialCodes, runnerCodes, testCases, ...rest } = body;
     try {
       const updatedQuestionXRelations = await this.prismaClient.question.update(
         {
@@ -111,6 +122,7 @@ class QuestionService
           include: {
             initialCodes: true,
             runnerCodes: true,
+            testCases: true,
           },
         },
       );
@@ -156,6 +168,7 @@ class QuestionService
           include: {
             initialCodes: true,
             runnerCodes: true,
+            testCases: true,
           },
         });
       }
@@ -195,6 +208,48 @@ class QuestionService
           include: {
             initialCodes: true,
             runnerCodes: true,
+            testCases: true,
+          },
+        });
+      }
+
+      if (testCases) {
+        await this.prismaClient.question.update({
+          where: {
+            id,
+          },
+          data: {
+            testCases: {
+              set: [],
+            },
+          },
+        });
+        updatedQuestionWRelations = await this.prismaClient.question.update({
+          where: {
+            id,
+          },
+          data: {
+            testCases: {
+              connectOrCreate: testCases.map((x) => ({
+                where: {
+                  testCaseNumber_questionId: {
+                    testCaseNumber: x.testCaseNumber,
+                    questionId: id,
+                  },
+                },
+                create: {
+                  testCaseNumber: x.testCaseNumber,
+                  input: x.input,
+                  expectedOutput: x.expectedOutput,
+                  testCaseNumber_questionId: id,
+                },
+              })),
+            },
+          },
+          include: {
+            initialCodes: true,
+            runnerCodes: true,
+            testCases: true,
           },
         });
       }
@@ -215,6 +270,7 @@ class QuestionService
         include: {
           initialCodes: true,
           runnerCodes: true,
+          testCases: true,
         },
       });
     } catch (error) {

@@ -73,6 +73,13 @@ describe("Test question request controller", () => {
         code: "print('Hello Word')",
       },
     ],
+    testCases: [
+      {
+        testCaseNumber: 1,
+        input: "1",
+        expectedOutput: ["1"],
+      },
+    ],
   };
 
   const createExpectedQuestion: FullQuestion = {
@@ -91,6 +98,14 @@ describe("Test question request controller", () => {
       {
         language: "java",
         code: "hello world",
+        questionId: 1,
+      },
+    ],
+    testCases: [
+      {
+        testCaseNumber: 1,
+        input: "1",
+        expectedOutput: ["1"],
         questionId: 1,
       },
     ],

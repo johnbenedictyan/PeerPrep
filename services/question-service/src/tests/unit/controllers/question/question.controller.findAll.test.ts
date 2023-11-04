@@ -74,6 +74,13 @@ describe("Test question request controller", () => {
         code: "print('Hello Word')",
       },
     ],
+    testCases: [
+      {
+        testCaseNumber: 1,
+        input: "1",
+        expectedOutput: ["1"],
+      },
+    ],
   };
 
   const createExpectedQuestion: FullQuestion = {
@@ -92,6 +99,14 @@ describe("Test question request controller", () => {
       {
         language: "java",
         code: "hello world",
+        questionId: 1,
+      },
+    ],
+    testCases: [
+      {
+        testCaseNumber: 1,
+        input: "1",
+        expectedOutput: ["1"],
         questionId: 1,
       },
     ],
@@ -115,6 +130,13 @@ describe("Test question request controller", () => {
         code: "def foo():",
       },
     ],
+    testCases: [
+      {
+        testCaseNumber: 1,
+        input: "2",
+        expectedOutput: ["2"],
+      },
+    ],
   };
 
   const updateExpectedQuestion: FullQuestion = {
@@ -128,6 +150,10 @@ describe("Test question request controller", () => {
       questionId: 1,
     })),
     initialCodes: updateInputAllFields.initialCodes.map((x) => ({
+      ...x,
+      questionId: 1,
+    })),
+    testCases: updateInputAllFields.testCases.map((x) => ({
       ...x,
       questionId: 1,
     })),

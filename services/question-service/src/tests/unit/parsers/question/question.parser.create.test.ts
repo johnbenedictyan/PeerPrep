@@ -13,6 +13,13 @@ const allFieldsInput: StringInterface<FullQuestionCreateDTO> = {
   constraints: ["No Constraints"],
   initialCodes: [{ language: "java", code: "hello world" }],
   runnerCodes: [{ language: "python", code: "def hello world():" }],
+  testCases: [
+    {
+      testCaseNumber: "1",
+      input: "1",
+      expectedOutput: ["1"],
+    },
+  ],
 };
 
 describe("Test Question Parser Parse Create Input", () => {
@@ -21,6 +28,10 @@ describe("Test Question Parser Parse Create Input", () => {
 
     const expectedOutput: FullQuestionCreateDTO = {
       ...allFieldsInput,
+      testCases: allFieldsInput.testCases.map((x) => ({
+        ...x,
+        testCaseNumber: parseInt(x.testCaseNumber, 10),
+      })),
     };
 
     expect(parser.parseCreateInput(allFieldsInput)).toEqual(expectedOutput);
