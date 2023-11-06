@@ -110,154 +110,83 @@ class QuestionService
   ): Promise<FullQuestion> {
     assert(id, "id should be defined in the question service update method");
     const { initialCodes, runnerCodes, testCases, ...rest } = body;
+
     try {
-      const updatedQuestionXRelations = await this.prismaClient.question.update(
-        {
-          where: {
-            id,
-          },
-          data: {
-            ...rest,
-          },
-          include: {
-            initialCodes: true,
-            runnerCodes: true,
-            testCases: true,
-          },
-        },
-      );
-
-      if (!initialCodes && !runnerCodes) {
-        return updatedQuestionXRelations;
-      }
-
-      let updatedQuestionWRelations = updatedQuestionXRelations;
-
       if (initialCodes) {
-        await this.prismaClient.question.update({
-          where: {
-            id,
-          },
-          data: {
-            initialCodes: {
-              set: [],
+        for (let idx = 0; idx < initialCodes.length; idx++) {
+          const element = initialCodes[idx];
+          await this.prismaClient.questionInitialCode.update({
+            where: {
+              language_questionId: {
+                language: element.language,
+                questionId: id,
+              },
             },
-          },
-        });
-        updatedQuestionWRelations = await this.prismaClient.question.update({
-          where: {
-            id,
-          },
-          data: {
-            initialCodes: {
-              connectOrCreate: initialCodes.map((x) => ({
-                where: {
-                  language_questionId: {
-                    language: x.language,
-                    questionId: id,
-                  },
-                },
-                create: {
-                  language: x.language,
-                  code: x.code,
-                  language_questionId: id,
-                },
-              })),
+            data: {
+              ...element,
             },
-          },
-          include: {
-            initialCodes: true,
-            runnerCodes: true,
-            testCases: true,
-          },
-        });
+          });
+        }
       }
-
-      if (runnerCodes) {
-        await this.prismaClient.question.update({
-          where: {
-            id,
-          },
-          data: {
-            runnerCodes: {
-              set: [],
-            },
-          },
-        });
-        updatedQuestionWRelations = await this.prismaClient.question.update({
-          where: {
-            id,
-          },
-          data: {
-            runnerCodes: {
-              connectOrCreate: runnerCodes.map((x) => ({
-                where: {
-                  language_questionId: {
-                    language: x.language,
-                    questionId: id,
-                  },
-                },
-                create: {
-                  language: x.language,
-                  code: x.code,
-                  language_questionId: id,
-                },
-              })),
-            },
-          },
-          include: {
-            initialCodes: true,
-            runnerCodes: true,
-            testCases: true,
-          },
-        });
-      }
-
-      if (testCases) {
-        await this.prismaClient.question.update({
-          where: {
-            id,
-          },
-          data: {
-            testCases: {
-              set: [],
-            },
-          },
-        });
-        updatedQuestionWRelations = await this.prismaClient.question.update({
-          where: {
-            id,
-          },
-          data: {
-            testCases: {
-              connectOrCreate: testCases.map((x) => ({
-                where: {
-                  testCaseNumber_questionId: {
-                    testCaseNumber: x.testCaseNumber,
-                    questionId: id,
-                  },
-                },
-                create: {
-                  testCaseNumber: x.testCaseNumber,
-                  input: x.input,
-                  expectedOutput: x.expectedOutput,
-                  testCaseNumber_questionId: id,
-                },
-              })),
-            },
-          },
-          include: {
-            initialCodes: true,
-            runnerCodes: true,
-            testCases: true,
-          },
-        });
-      }
-
-      return updatedQuestionWRelations;
-    } catch (error) {
-      throw new Error("Failed to update question.");
+    } catch (error: any) {
+      console.log(error);
     }
+
+    try {
+      if (runnerCodes) {
+        for (let idx = 0; idx < runnerCodes.length; idx++) {
+          const element = runnerCodes[idx];
+          await this.prismaClient.questionRunnerCode.update({
+            where: {
+              language_questionId: {
+                language: element.language,
+                questionId: id,
+              },
+            },
+            data: {
+              ...element,
+            },
+          });
+        }
+      }
+    } catch (error: any) {
+      console.log(error);
+    }
+
+    try {
+      if (testCases) {
+        for (let idx = 0; idx < testCases.length; idx++) {
+          const element = testCases[idx];
+          await this.prismaClient.questionTestCase.update({
+            where: {
+              testCaseNumber_questionId: {
+                testCaseNumber: element.testCaseNumber,
+                questionId: id,
+              },
+            },
+            data: {
+              ...element,
+            },
+          });
+        }
+      }
+    } catch (error: any) {
+      console.log(error);
+    }
+
+    return await this.prismaClient.question.update({
+      where: {
+        id,
+      },
+      data: {
+        ...rest,
+      },
+      include: {
+        initialCodes: true,
+        runnerCodes: true,
+        testCases: true,
+      },
+    });
   }
 
   public async delete(id: number): Promise<FullQuestion> {
