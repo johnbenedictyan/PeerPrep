@@ -4,35 +4,7 @@ import { Link } from "react-router-dom";
 import classNames from "../../../util/ClassNames";
 import { QuestionContext } from "../../../context/QuestionContext";
 
-interface IQuestion {
-  id: number;
-  title: string;
-  difficulty: string;
-  tags: string[];
-}
-
 function QuestionPage() {
-  //   const questions: IQuestion[] = [
-  //     {
-  //       id: 1,
-  //       title: "two sum",
-  //       difficulty: "easy",
-  //       tags: ["algo"],
-  //     },
-  //     {
-  //       id: 2,
-  //       title: "three sum",
-  //       difficulty: "medium",
-  //       tags: ["algo"],
-  //     },
-  //     {
-  //       id: 3,
-  //       title: "reducing dishes",
-  //       difficulty: "hard",
-  //       tags: ["algo"],
-  //     },
-  //   ];
-
   const { questions } = useContext(QuestionContext);
 
   const PAGINATION_SIZE = 10;

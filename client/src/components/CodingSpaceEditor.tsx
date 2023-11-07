@@ -17,8 +17,6 @@ function CodingSpaceEditor() {
     [setSelectedLanguage],
   );
 
-  const navigate = useNavigate();
-
   return (
     <ComponentContainer>
       <div className="flex flex-row justify-between items-center">
