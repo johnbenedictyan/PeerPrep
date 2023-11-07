@@ -20,7 +20,6 @@ function CodeEditor() {
 
   const [initializing, setInitializing] = useState<boolean>(true);
   const [_codeSubmitted, setCodeSubmitted] = useState<boolean>(false);
-  const [codeResult, setCodeResult] = useState<string>("");
   const [extensions, setExtensions] = useState<Extension[]>();
 
   const onChange = useCallback(
@@ -29,11 +28,6 @@ function CodeEditor() {
     },
     [setCurrentCode],
   );
-
-  const handleSubmit = () => {
-    setCodeResult("hello world!");
-    setCodeSubmitted(true);
-  };
 
   useEffect(() => {
     if (langs[selectedLanguage]) {

@@ -1,0 +1,63 @@
+{
+  "title": "Two Sum",
+  "difficulty": "Easy",
+  "content": "<p>Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.You may assume that each input would have exactly one solution, and you may not use the same element twice.You can return the answer in any order.</p>",
+  "examples": [
+    "<p>'input': nums = [2,7,11,15], target = 9</p><p>Output: [0,1]</p><p>Explanation: Because nums[0] + nums[1] == 9, we return [0, 1]</p>",
+    "<p>'input': nums = [3,2,4], target = 6</p><p>Output: [1,2]</p>",
+    "<p>'input': nums = [3,3], target = 6</p><p>Output: [0,1]</p>"
+  ],
+  "constraints": [
+    "2 <= nums.length <= 104",
+    "-10^9 <= nums[i] <= 10^9",
+    "-10^9 <= target <= 10^9",
+    "Only one valid answer exists"
+  ],
+  "authorId": "abc123",
+  "initialCodes": [
+    {
+      "code": "Y2xhc3MgU29sdXRpb24gewogIHB1YmxpYyBpbnRbXSB0d29TdW0oaW50W10gbnVtcywgaW50IHRhcmdldCkgewogICAgTWFwPEludGVnZXIsIEludGVnZXI+IG51bU1hcCA9IG5ldyBIYXNoTWFwPD4oKTsKICAgIGludCBuID0gbnVtcy5sZW5ndGg7CiAgICBmb3IgKGludCBpID0gMDsgaSA8IG47IGkrKykgewogICAgICBpbnQgY29tcGxlbWVudCA9IHRhcmdldCAtIG51bXNbaV07CiAgICAgIGlmIChudW1NYXAuY29udGFpbnNLZXkoY29tcGxlbWVudCkpIHsKICAgICAgICByZXR1cm4gbmV3IGludFtde251bU1hcC5nZXQoY29tcGxlbWVudCksIGl9OwogICAgICB9CiAgICAgIG51bU1hcC5wdXQobnVtc1tpXSwgaSk7CiAgICB9CiAgICByZXR1cm4gbmV3IGludFtde307IC8vIE5vIHNvbHV0aW9uIGZvdW5kCiAgfQp9",
+      "language": "java"
+    },
+    {
+      "code": "Y2xhc3MgU29sdXRpb24gewogIHB1YmxpYzoKICB2ZWN0b3I8aW50PiB0d29TdW0odmVjdG9yPGludD4mIG51bXMsIGludCB0YXJnZXQpIHsKICAgIG1hcDxpbnQsIGludD4gaXhzOwogICAgZm9yKGludCBpID0gMDsgaSA8IG51bXMuc2l6ZSgpOyBpKyspewogICAgICBpbnQgY29tcGxlbWVudCA9IHRhcmdldCAtIG51bXNbaV07CiAgICAgIGlmKGl4cy5maW5kKGNvbXBsZW1lbnQpICE9IGl4cy5lbmQoKSl7CiAgICAgICAgcmV0dXJuIHZlY3RvcjxpbnQ+IHtpLCBpeHNbY29tcGxlbWVudF19OwogICAgICB9CiAgICAgIGl4c1tudW1zW2ldXSA9IGk7CiAgICB9CiAgICByZXR1cm4gdmVjdG9yPGludD4ge307CiAgfQp9Ow==",
+      "language": "cpp"
+    }
+  ],
+  "runnerCodes": [
+    {
+      "code": "aW1wb3J0IGphdmEudXRpbC4qOwoKcHVibGljIGNsYXNzIE1haW4gewogICAgcHVibGljIHN0YXRpYyB2b2lkIG1haW4oU3RyaW5nW10gYXJncykgewogICAgICAgIE1haW4gbWFpbiA9IG5ldyBNYWluKCk7bWFpbi5leGVjdXRlKCk7CiAgICB9CiAgICBwcml2YXRlIHZvaWQgZXhlY3V0ZSgpIHsKICAgICAgICBTb2x1dGlvbiBpbnN0YW5jZSA9IG5ldyBTb2x1dGlvbigpOwogICAgICAgIFNjYW5uZXIgc2Nhbm5lciA9IG5ldyBTY2FubmVyKFN5c3RlbS5pbik7CiAgICAgICAgaW50IG4gPSBzY2FubmVyLm5leHRJbnQoKTsKICAgICAgICBpbnRbXSBudW1iZXJzID0gbmV3IGludFtuXTtmb3IgKGludCBpID0gMDsgaSA8IG47IGkrKykgewogICAgICAgICAgICBudW1iZXJzW2ldID0gc2Nhbm5lci5uZXh0SW50KCk7CiAgICAgICAgfQogICAgICAgIGludCB0YXJnZXQgPSBzY2FubmVyLm5leHRJbnQoKTsKICAgICAgICBzY2FubmVyLmNsb3NlKCk7CiAgICAgICAgaW50W10gcmVzdWx0ID0gaW5zdGFuY2UudHdvU3VtKG51bWJlcnMsIHRhcmdldCk7CiAgICAgICAgU3lzdGVtLm91dC5wcmludChBcnJheXMudG9TdHJpbmcocmVzdWx0KSk7CiAgICB9CiAgICBAQEBJTlNFUlRfQ09ERV9IRVJFIEBAQAp9",
+      "language": "java"
+    },
+    {
+      "code": "QEBASU5TRVJUX0NPREVfSEVSRUBAQAppbnB1dF9kYXRhID0gaW5wdXQoKS5zcGxpdCgpCm4gPSBpbnQoaW5wdXRfZGF0YVswXSkKbnVtcyA9IGxpc3QobWFwKGludCwgaW5wdXRfZGF0YVsxOm4gKyAxXSkpCnRhcmdldCA9IGludChpbnB1dF9kYXRhW24gKyAxXSkKc29sdXRpb24gPSBTb2x1dGlvbigpCnJlc3VsdCA9IHNvbHV0aW9uLnR3b1N1bShudW1zLCB0YXJnZXQpCnByaW50KHJlc3VsdCk=",
+      "language": "python"
+    },
+    {
+      "code": "I2luY2x1ZGUgPGlvc3RyZWFtPgojaW5jbHVkZSA8dmVjdG9yPgojaW5jbHVkZSA8bWFwPgp1c2luZyBuYW1lc3BhY2Ugc3RkOwpAQEBJTlNFUlRfQ09ERV9IRVJFQEBACmludCBtYWluKCkgewogICAgaW50IG47CiAgICBjaW4gPj4gbjsKICAgIHZlY3RvcjxpbnQ+IG51bXMobik7CiAgICBmb3IgKGludCBpID0gMDsgaSA8IG47ICsraSkgewogICAgICAgIGNpbiA+PiBudW1zW2ldOwogICAgfQogICAgaW50IHRhcmdldDsKICAgIGNpbiA+PiB0YXJnZXQ7CiAgICBTb2x1dGlvbiBzb2x1dGlvbjsKICAgIHZlY3RvcjxpbnQ+IHJlc3VsdCA9IHNvbHV0aW9uLnR3b1N1bShudW1zLCB0YXJnZXQpOwogICAgY291dCA8PCAiWyI7CiAgICBmb3IgKGludCBpID0gMDsgaSA8IHJlc3VsdC5zaXplKCk7ICsraSkgewogICAgICAgIGNvdXQgPDwgcmVzdWx0W2ldOwogICAgICAgIGlmIChpICE9IHJlc3VsdC5zaXplKCkgLSAxKSB7CiAgICAgICAgICAgIGNvdXQgPDwgIiwiOwogICAgICAgIH0KICAgIH0KICAgIGNvdXQgPDwgIl0iIDw8IGVuZGw7CiAgICByZXR1cm4gMDsKfQ==",
+      "language": "cpp"
+    }
+  ],
+  "testCases": [
+    {
+      "testCaseNumber": 1,
+      "input": "4 2 7 11 15 9",
+      "expectedOutput": ["[0,1]", "[1,0]"]
+    },
+    {
+      "testCaseNumber": 2,
+      "input": "5 3 2 4 1 9 12",
+      "expectedOutput": ["[0,4]", "[4,0]"]
+    },
+    {
+      "testCaseNumber": 3,
+      "input": "5 1 9 13 20 47 10",
+      "expectedOutput": ["[0,1]", "[1,0]"]
+    },
+    {
+      "testCaseNumber": 4,
+      "input": "0 10",
+      "expectedOutput": ["[]"]
+    }
+  ]
+}

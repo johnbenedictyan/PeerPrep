@@ -8,100 +8,104 @@ import {
   useState,
 } from "react";
 
+import QuestionController from "../controllers/question/question.controller";
 import { FullQuestion } from "../interfaces/questionService/fullQuestion/object";
+import { FullQuestionUpdateDTO } from "../interfaces/questionService/fullQuestion/updateDTO";
+import { decode64, encode64 } from "../util/base64";
+import { QuestionTestCase } from "../interfaces/questionService/questionTestCase/object";
 
 export type CodingLanguage = keyof typeof langs;
 
-const defaultQuestion: FullQuestion = {
-  id: 1,
-  title: "Two Sum",
-  difficulty: "Easy",
-  content: `
-<p>
-Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
-You may assume that each input would have exactly one solution, and you may not use the same element twice.
-You can return the answer in any order.
-</p>
-`,
-  examples: [
-    `<p>Input: nums = [2,7,11,15], target = 9</p>
-<p>Output: [0,1]</p>
-<p>Explanation: Because nums[0] + nums[1] == 9, we return [0, 1]</p>`,
-    `<p>Input: nums = [3,2,4], target = 6</p>
-<p>Output: [1,2]</p>`,
-    `<p>Input: nums = [3,3], target = 6</p>
-<p>Output: [0,1]</p>`,
-  ],
-  constraints: [
-    "2 <= nums.length <= 104",
-    "-10^9 <= nums[i] <= 10^9",
-    "-10^9 <= target <= 10^9",
-    "Only one valid answer exists",
-  ],
-  createdAt: new Date(),
-  updatedAt: new Date(),
-  authorId: "abc123",
-  initialCodes: [
-    {
-      code: `class Solution {\npublic int[] twoSum(int[] nums, int target) {\nMap<Integer, Integer> numMap = new HashMap<>();\nint n = nums.length;\nfor (int i = 0; i < n; i++) {\nint complement = target - nums[i];\nif (numMap.containsKey(complement)) {\nreturn new int[]{numMap.get(complement), i};\n}\nnumMap.put(nums[i], i);\n}\nreturn new int[]{}; // No solution found\n}\n}`,
-      language: "java",
-      questionId: 1,
-    },
-    {
-      code: `class Solution(object):\ndef twoSum(self, nums, target):\n"""\n:type nums: List[int]\n:type target: int\n:rtype: List[int]\n"""\nrequired = {}\nfor i in range(len(nums)):\nif target - nums[i] in required:\nreturn [required[target - nums[i]],i]\nelse:\nrequired[nums[i]]=i\nreturn []`,
-      language: "python",
-      questionId: 1,
-    },
-    {
-      code: `class Solution {\npublic:\nvector<int> twoSum(vector<int>& nums, int target) {\nmap<int, int> ixs;\nfor(int i = 0; i < nums.size(); i++){\nint complement = target - nums[i];\nif(ixs.find(complement) != ixs.end()){\nreturn vector<int> {i, ixs[complement]};\n}\nixs[nums[i]] = i;\n}\nreturn vector<int> {};\n}\n};`,
-      language: "cpp",
-      questionId: 1,
-    },
-  ],
-  runnerCodes: [
-    {
-      code: `import java.util.*;\npublic class Main {\npublic static void main(String[] args) {\nMain main = new Main();\nmain.execute();\n}\nprivate void execute() {\nSolution instance = new Solution();\nScanner scanner = new Scanner(System.in);\nint n = scanner.nextInt();\nint[] numbers = new int[n];\nfor (int i = 0; i < n; i++) {\nnumbers[i] = scanner.nextInt();\n}\nint target = scanner.nextInt();\nscanner.close();\nint[] result = instance.twoSum(numbers, target);\nSystem.out.print(Arrays.toString(result));\n}\n\n@@@INSERT_CODE_HERE@@@\n}`,
-      language: "java",
-      questionId: 1,
-    },
-    {
-      code: `@@@INSERT_CODE_HERE@@@\ninput_data = input().split()\nn = int(input_data[0])\nnums = list(map(int, input_data[1:n + 1]))\ntarget = int(input_data[n + 1])\nsolution = Solution()\nresult = solution.twoSum(nums, target)\nprint(result)`,
-      language: "python",
-      questionId: 1,
-    },
-    {
-      code: `#include <iostream>\n#include <vector>\n#include <map>\nusing namespace std;\n\n@@@INSERT_CODE_HERE@@@\n\nint main() {\nint n;\ncin >> n;\nvector<int> nums(n);\nfor (int i = 0; i < n; ++i) {\ncin >> nums[i];\n}\nint target;\ncin >> target;\n\nSolution solution;\nvector<int> result = solution.twoSum(nums, target);\n\ncout << "[";\nfor (int i = 0; i < result.size(); ++i) {\ncout << result[i];\nif (i != result.size() - 1) {\ncout << ",";\n}\n}\ncout << "]" << endl;\n\nreturn 0;\n}`,
-      language: "cpp",
-      questionId: 1,
-    },
-  ],
-  testCases: [
-    {
-      testCaseNumber: 1,
-      input: "4 2 7 11 15 9",
-      expectedOutput: ["[0,1]", "[1,0]"],
-      questionId: 1,
-    },
-    {
-      testCaseNumber: 2,
-      input: "5 3 2 4 1 9 12",
-      expectedOutput: ["[0,4]", "[4,0]"],
-      questionId: 1,
-    },
-    {
-      testCaseNumber: 3,
-      input: "5 1 9 13 20 47 10",
-      expectedOutput: ["[0,1]", "[1,0]"],
-      questionId: 1,
-    },
-    {
-      testCaseNumber: 4,
-      input: "0 10",
-      expectedOutput: ["[]"],
-      questionId: 1,
-    },
-  ],
-};
+// const defaultQuestion: FullQuestion = {
+//   id: 1,
+//   title: "Two Sum",
+//   difficulty: "Easy",
+//   content: `
+// <p>
+// Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+// You may assume that each input would have exactly one solution, and you may not use the same element twice.
+// You can return the answer in any order.
+// </p>
+// `,
+//   examples: [
+//     `<p>Input: nums = [2,7,11,15], target = 9</p>
+// <p>Output: [0,1]</p>
+// <p>Explanation: Because nums[0] + nums[1] == 9, we return [0, 1]</p>`,
+//     `<p>Input: nums = [3,2,4], target = 6</p>
+// <p>Output: [1,2]</p>`,
+//     `<p>Input: nums = [3,3], target = 6</p>
+// <p>Output: [0,1]</p>`,
+//   ],
+//   constraints: [
+//     "2 <= nums.length <= 104",
+//     "-10^9 <= nums[i] <= 10^9",
+//     "-10^9 <= target <= 10^9",
+//     "Only one valid answer exists",
+//   ],
+//   createdAt: new Date(),
+//   updatedAt: new Date(),
+//   authorId: "abc123",
+//   initialCodes: [
+//     {
+//       code: `class Solution {\npublic int[] twoSum(int[] nums, int target) {\nMap<Integer, Integer> numMap = new HashMap<>();\nint n = nums.length;\nfor (int i = 0; i < n; i++) {\nint complement = target - nums[i];\nif (numMap.containsKey(complement)) {\nreturn new int[]{numMap.get(complement), i};\n}\nnumMap.put(nums[i], i);\n}\nreturn new int[]{}; // No solution found\n}\n}`,
+//       language: "java",
+//       questionId: 1,
+//     },
+//     {
+//       code: `class Solution(object):\ndef twoSum(self, nums, target):\n"""\n:type nums: List[int]\n:type target: int\n:rtype: List[int]\n"""\nrequired = {}\nfor i in range(len(nums)):\nif target - nums[i] in required:\nreturn [required[target - nums[i]],i]\nelse:\nrequired[nums[i]]=i\nreturn []`,
+//       language: "python",
+//       questionId: 1,
+//     },
+//     {
+//       code: `class Solution {\npublic:\nvector<int> twoSum(vector<int>& nums, int target) {\nmap<int, int> ixs;\nfor(int i = 0; i < nums.size(); i++){\nint complement = target - nums[i];\nif(ixs.find(complement) != ixs.end()){\nreturn vector<int> {i, ixs[complement]};\n}\nixs[nums[i]] = i;\n}\nreturn vector<int> {};\n}\n};`,
+//       language: "cpp",
+//       questionId: 1,
+//     },
+//   ],
+//   runnerCodes: [
+//     {
+//       code: `import java.util.*;\npublic class Main {\npublic static void main(String[] args) {\nMain main = new Main();\nmain.execute();\n}\nprivate void execute() {\nSolution instance = new Solution();\nScanner scanner = new Scanner(System.in);\nint n = scanner.nextInt();\nint[] numbers = new int[n];\nfor (int i = 0; i < n; i++) {\nnumbers[i] = scanner.nextInt();\n}\nint target = scanner.nextInt();\nscanner.close();\nint[] result = instance.twoSum(numbers, target);\nSystem.out.print(Arrays.toString(result));\n}\n\n@@@INSERT_CODE_HERE@@@\n}`,
+//       language: "java",
+//       questionId: 1,
+//     },
+//     {
+//       code: `@@@INSERT_CODE_HERE@@@\ninput_data = input().split()\nn = int(input_data[0])\nnums = list(map(int, input_data[1:n + 1]))\ntarget = int(input_data[n + 1])\nsolution = Solution()\nresult = solution.twoSum(nums, target)\nprint(result)`,
+//       language: "python",
+//       questionId: 1,
+//     },
+//     {
+//       code: `#include <iostream>\n#include <vector>\n#include <map>\nusing namespace std;\n\n@@@INSERT_CODE_HERE@@@\n\nint main() {\nint n;\ncin >> n;\nvector<int> nums(n);\nfor (int i = 0; i < n; ++i) {\ncin >> nums[i];\n}\nint target;\ncin >> target;\n\nSolution solution;\nvector<int> result = solution.twoSum(nums, target);\n\ncout << "[";\nfor (int i = 0; i < result.size(); ++i) {\ncout << result[i];\nif (i != result.size() - 1) {\ncout << ",";\n}\n}\ncout << "]" << endl;\n\nreturn 0;\n}`,
+//       language: "cpp",
+//       questionId: 1,
+//     },
+//   ],
+//   testCases: [
+//     {
+//       testCaseNumber: 1,
+//       input: "4 2 7 11 15 9",
+//       expectedOutput: ["[0,1]", "[1,0]"],
+//       questionId: 1,
+//     },
+//     {
+//       testCaseNumber: 2,
+//       input: "5 3 2 4 1 9 12",
+//       expectedOutput: ["[0,4]", "[4,0]"],
+//       questionId: 1,
+//     },
+//     {
+//       testCaseNumber: 3,
+//       input: "5 1 9 13 20 47 10",
+//       expectedOutput: ["[0,1]", "[1,0]"],
+//       questionId: 1,
+//     },
+//     {
+//       testCaseNumber: 4,
+//       input: "0 10",
+//       expectedOutput: ["[]"],
+//       questionId: 1,
+//     },
+//   ],
+// };
 
 // const mediumQuestion: FullQuestion = {}
 
@@ -185,6 +189,7 @@ const hardQuestion: FullQuestion = {
 };
 
 const defaultInitialCode = "// Default Code //";
+const defaultRunnerCode = "// Default Code //";
 const defaultSelectedLanguage = "java" as CodingLanguage;
 
 interface QuestionProviderProps {
@@ -195,71 +200,199 @@ interface QuestionContextType {
   question: FullQuestion;
   selectedLanguage: CodingLanguage;
   initialCode: string;
+  runnerCode: string;
   setSelectedLanguage: (selectedLanguage: CodingLanguage) => void;
   setQuestionId: (id: number) => void;
+  saveNewInitialCode: (lang: string, newCode: string) => void;
+  saveNewRunnerCode: (lang: string, newCode: string) => void;
+  saveNewTestCases: (testCases: QuestionTestCase[]) => void;
 }
 
 export const QuestionContext = createContext<QuestionContextType>({
-  question: defaultQuestion,
+  question: null as unknown as FullQuestion,
   selectedLanguage: defaultSelectedLanguage,
   initialCode: defaultInitialCode,
+  runnerCode: defaultRunnerCode,
   setSelectedLanguage: (selectedLanguage: CodingLanguage) => {},
   setQuestionId: (id: number) => {},
+  saveNewInitialCode: (lang: string, newCode: string) => {},
+  saveNewRunnerCode: (lang: string, newCode: string) => {},
+  saveNewTestCases: (testCases: QuestionTestCase[]) => {},
 });
 
 export function QuestionProvider({ children }: QuestionProviderProps) {
-  const [question, setQuestion] = useState<FullQuestion>(defaultQuestion);
+  const [question, setQuestion] = useState<FullQuestion>(
+    null as unknown as FullQuestion,
+  );
   const [selectedLanguage, setSelectedLanguage] = useState<CodingLanguage>(
     defaultSelectedLanguage,
   );
   const [initialCode, setInitialCode] = useState<string>(defaultInitialCode);
+  const [runnerCode, setRunnerCode] = useState<string>(defaultRunnerCode);
   const [questionId, setQuestionId] = useState<number>();
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const controller = useMemo(() => new QuestionController(), []);
+
+  const saveNewInitialCode = useCallback(
+    async (lang: string, newCode: string) => {
+      if (loading || !question) return;
+      console.log("Old Question Data", question);
+      const data: Partial<FullQuestionUpdateDTO> = {
+        initialCodes: question.initialCodes.map((x) => {
+          if (x.language === lang) {
+            console.log(x.language, lang);
+            console.log(newCode);
+            return {
+              ...x,
+              code: encode64(newCode),
+            };
+          }
+          return {
+            ...x,
+            code: encode64(x.code),
+          };
+        }),
+      };
+
+      try {
+        const res = await controller.updateQuestion(question.id, data);
+        if (res) {
+          setQuestion(res.data);
+        }
+        console.log("HELO", res?.data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    [loading, controller, question],
+  );
+
+  const saveNewRunnerCode = useCallback(
+    async (lang: string, newCode: string) => {
+      if (loading || !question) return;
+      console.log("Old Question Data", question);
+      const data: Partial<FullQuestionUpdateDTO> = {
+        runnerCodes: question.runnerCodes.map((x) => {
+          if (x.language === lang) {
+            console.log(x.language, lang);
+            console.log(newCode);
+            return {
+              ...x,
+              code: encode64(newCode),
+            };
+          }
+          return {
+            ...x,
+            code: encode64(x.code),
+          };
+        }),
+      };
+
+      try {
+        const res = await controller.updateQuestion(question.id, data);
+        if (res) {
+          setQuestion(res.data);
+        }
+        console.log("HELO", res?.data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    [loading, controller, question],
+  );
+
+  const saveNewTestCases = useCallback(
+    async (testCases: QuestionTestCase[]) => {
+      if (loading || !question) return;
+      console.log("Old Question Data", question);
+      const data: Partial<FullQuestionUpdateDTO> = {
+        testCases,
+      };
+
+      try {
+        const res = await controller.updateQuestion(question.id, data);
+        if (res) {
+          setQuestion(res.data);
+        }
+        console.log("Test Cases Updated:", res?.data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    [loading, controller, question],
+  );
 
   const value = useMemo(
     () => ({
       question,
       selectedLanguage,
       initialCode,
+      runnerCode,
       setSelectedLanguage,
       setQuestionId,
+      saveNewInitialCode,
+      saveNewRunnerCode,
+      saveNewTestCases,
     }),
     [
       question,
       selectedLanguage,
       initialCode,
+      runnerCode,
       setSelectedLanguage,
       setQuestionId,
+      saveNewInitialCode,
+      saveNewRunnerCode,
+      saveNewTestCases,
     ],
   );
 
-  //   const loadQuestionData = useCallback(() => {
-  //     if (!questionId) return;
-  //     const questionController = new QuestionController();
-  //     questionController
-  //       .getQuestion(questionId)
-  //       .then((res) => {
-  //         if (res) {
-  //           setQuestion(res.data);
-  //         }
-  //       })
-  //       .catch((err) => {});
-  //   }, [questionId]);
+  const loadQuestionData = useCallback(() => {
+    if (!questionId) return;
+    controller
+      .getQuestion(questionId)
+      .then((res) => {
+        if (res) {
+          setQuestion(res.data);
+        }
+      })
+      .catch((err) => {});
+  }, [controller, questionId]);
 
-  //   useEffect(() => {
-  //     loadQuestionData();
-  //   }, [loadQuestionData]);
+  useEffect(() => {
+    setLoading(true);
+    loadQuestionData();
+    setLoading(false);
+  }, [loadQuestionData]);
 
   const loadInitialCode = useCallback(async () => {
-    if (!question) return;
+    if (loading || !question) return;
     const foundCode = question.initialCodes.find(
       (x) => x.language === selectedLanguage,
     );
-    setInitialCode(foundCode ? foundCode.code : defaultInitialCode);
-  }, [question, selectedLanguage]);
+    setInitialCode(foundCode ? decode64(foundCode.code) : defaultInitialCode);
+  }, [loading, question, selectedLanguage]);
+
+  const loadRunnerCode = useCallback(async () => {
+    if (loading || !question) return;
+    const foundCode = question.runnerCodes.find(
+      (x) => x.language === selectedLanguage,
+    );
+    setRunnerCode(foundCode ? decode64(foundCode.code) : defaultRunnerCode);
+  }, [loading, question, selectedLanguage]);
 
   useEffect(() => {
+    setLoading(true);
     loadInitialCode();
+    setLoading(false);
   }, [loadInitialCode]);
+
+  useEffect(() => {
+    setLoading(true);
+    loadRunnerCode();
+    setLoading(false);
+  }, [loadRunnerCode]);
 
   return (
     <QuestionContext.Provider value={value}>

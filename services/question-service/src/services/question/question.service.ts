@@ -113,17 +113,26 @@ class QuestionService
 
     try {
       if (initialCodes) {
+        await this.prismaClient.questionInitialCode.deleteMany({
+          where: {
+            questionId: id,
+          },
+        });
         for (let idx = 0; idx < initialCodes.length; idx++) {
           const element = initialCodes[idx];
-          await this.prismaClient.questionInitialCode.update({
+          await this.prismaClient.questionInitialCode.upsert({
             where: {
               language_questionId: {
                 language: element.language,
                 questionId: id,
               },
             },
-            data: {
+            update: {
               ...element,
+            },
+            create: {
+              ...element,
+              questionId: id,
             },
           });
         }
@@ -134,17 +143,26 @@ class QuestionService
 
     try {
       if (runnerCodes) {
+        await this.prismaClient.questionRunnerCode.deleteMany({
+          where: {
+            questionId: id,
+          },
+        });
         for (let idx = 0; idx < runnerCodes.length; idx++) {
           const element = runnerCodes[idx];
-          await this.prismaClient.questionRunnerCode.update({
+          await this.prismaClient.questionRunnerCode.upsert({
             where: {
               language_questionId: {
                 language: element.language,
                 questionId: id,
               },
             },
-            data: {
+            update: {
               ...element,
+            },
+            create: {
+              ...element,
+              questionId: id,
             },
           });
         }
@@ -155,17 +173,26 @@ class QuestionService
 
     try {
       if (testCases) {
+        await this.prismaClient.questionTestCase.deleteMany({
+          where: {
+            questionId: id,
+          },
+        });
         for (let idx = 0; idx < testCases.length; idx++) {
           const element = testCases[idx];
-          await this.prismaClient.questionTestCase.update({
+          await this.prismaClient.questionTestCase.upsert({
             where: {
               testCaseNumber_questionId: {
                 testCaseNumber: element.testCaseNumber,
                 questionId: id,
               },
             },
-            data: {
+            update: {
               ...element,
+            },
+            create: {
+              ...element,
+              questionId: id,
             },
           });
         }

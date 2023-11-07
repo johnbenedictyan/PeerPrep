@@ -41,13 +41,18 @@ class QuestionController extends GenericController {
     }
   }
 
-  public async updateQuestion(id: number, data: FullQuestionUpdateDTO) {
+  public async updateQuestion(
+    id: number,
+    data: Partial<FullQuestionUpdateDTO>,
+  ) {
+    console.log(data);
     try {
-      return await this.put<FullQuestion, FullQuestionUpdateDTO>(
+      return await this.put<FullQuestion, Partial<FullQuestionUpdateDTO>>(
         `question/${id}`,
         data,
       );
     } catch (error) {
+      console.log("Client Question Controller Error", error);
       return null;
     }
   }

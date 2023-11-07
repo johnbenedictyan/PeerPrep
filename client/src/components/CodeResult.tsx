@@ -1,4 +1,5 @@
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { CollaborationContext } from "../context/CollaborationContext";
 import { QuestionContext } from "../context/QuestionContext";
@@ -21,6 +22,7 @@ function CodeResult() {
   const [executedSubmissions, setExecutedSubmissions] =
     useState<Submission[]>();
   const [fullTestCases, setFullTestCases] = useState<FullTestCase[]>();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (question) {
@@ -158,7 +160,7 @@ function CodeResult() {
 
   return (
     <>
-      <div className="flex flex-row-reverse mt-5">
+      <div className="flex flex-row-reverse mt-5 gap-3">
         <button
           type="button"
           className="rounded-md bg-indigo-600 dark:bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 dark:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:focus-visible:outline-indigo-400"
@@ -169,6 +171,15 @@ function CodeResult() {
         >
           Submit Code
         </button>
+        <button
+          type="button"
+          className="rounded-md bg-slate-600 dark:bg-slate-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-slate-500 dark:bg-slate-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-600 dark:focus-visible:outline-slate-400"
+          onClick={() => {
+            navigate(`/questions/${question.id}/edit`);
+          }}
+        >
+          Edit Question
+        </button>
       </div>
       <div className="mt-5">
         <div className="border rounded-lg shadow p-5">
@@ -177,7 +188,7 @@ function CodeResult() {
           </h1>
           <div className="flex flex-row flex-wrap gap-2">
             {fullTestCases &&
-              fullTestCases.map((testCase) => (
+              fullTestCases.map((testCase, idx) => (
                 <TestCase
                   key={`testCase-${testCase.questionId}-${testCase.testCaseNumber}`}
                   testCasePassed={testCase.passed}
