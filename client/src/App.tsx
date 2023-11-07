@@ -28,6 +28,7 @@ import ProfilePage from "./pages/users/ProfilePage";
 import RegistrationPage from "./pages/users/RegistrationPage";
 import SignInPage from "./pages/users/SignInPage";
 import SignOutPage from "./pages/users/SignOutPage";
+import CreateSingleQuestionPage from "./pages/questions/SingleQuestionPage/create";
 
 Sentry.init({
   dsn: "https://e21ba66ad7a580aa7874699b6d737245@o1071968.ingest.sentry.io/4505986992832512",
@@ -89,20 +90,29 @@ function App() {
           />
 
           <Route
+            path="questions/create"
+            element={
+              <ProtectedRoute permissionRole="user">
+                <CreateSingleQuestionPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
             path="questions/:questionId/edit"
             element={
-              //   <ProtectedRoute permissionRole="user">
-              <EditSingleQuestionPage />
-              //   </ProtectedRoute>
+              <ProtectedRoute permissionRole="admin">
+                <EditSingleQuestionPage />
+              </ProtectedRoute>
             }
           />
 
           <Route
             path="questions/:questionId"
             element={
-              //   <ProtectedRoute permissionRole="user">
-              <SingleQuestionPage />
-              //   </ProtectedRoute>
+              <ProtectedRoute permissionRole="user">
+                <SingleQuestionPage />
+              </ProtectedRoute>
             }
           />
           <Route path="*" element={<NotFoundPage />} />
@@ -110,9 +120,9 @@ function App() {
         <Route
           path="/admin"
           element={
-            // <ProtectedRoute permissionRole="admin">
-            <AdminLayout />
-            // </ProtectedRoute>
+            <ProtectedRoute permissionRole="admin">
+              <AdminLayout />
+            </ProtectedRoute>
           }
         >
           <Route path="" element={<AdminPage />} />

@@ -1,11 +1,12 @@
 import { TrashIcon } from "@heroicons/react/24/outline";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { QuestionContext } from "../context/QuestionContext";
-import { FullQuestion } from "../interfaces/questionService/fullQuestion/object";
-import { QuestionUpdateDTO } from "../interfaces/questionService/question/updateDTO";
+import { FullQuestionCreateDTO } from "../interfaces/questionService/fullQuestion/createDTO";
 import ComponentContainer from "./container/Component";
+import { NotificationContext } from "../context/NotificationContext";
+import { AuthContext } from "../context/FirebaseAuthContext";
 
 type questionExample = {
   number: number;
@@ -17,8 +18,10 @@ type questionConstraint = {
   text: string;
 };
 
-function QuestionForm() {
-  const { question, updateQuestionData } = useContext(QuestionContext);
+function CreateQuestionForm() {
+  const { question, controller } = useContext(QuestionContext);
+  const { addNotification } = useContext(NotificationContext);
+  const { currentUser } = useContext(AuthContext);
   const [title, setTitle] = useState<string>("");
   const [difficulty, setDifficulty] = useState<string>("Easy");
   const [description, setDescription] = useState<string>("");
@@ -28,44 +31,30 @@ function QuestionForm() {
   const [constraints, setConstraints] = useState<questionConstraint[]>(
     [] as unknown as questionConstraint[],
   );
-
   const navigate = useNavigate();
 
-  const loadFormData = useCallback((questionData: FullQuestion) => {
-    if (questionData) {
-      setTitle(questionData.title);
-      setDifficulty(questionData.difficulty.toUpperCase());
-      setDescription(questionData.content);
-      setExamples(
-        questionData.examples.map((val, idx) => ({
-          number: idx + 1,
-          text: val,
-        })),
-      );
-      setConstraints(
-        questionData.constraints.map((val, idx) => ({
-          number: idx + 1,
-          text: val,
-        })),
-      );
-    }
-  }, []);
-
-  useEffect(() => {
-    if (question) {
-      loadFormData(question);
-    }
-  }, [question, loadFormData]);
-
   function handleSaveFormData() {
-    const updateDTO: QuestionUpdateDTO = {
+    if (!currentUser) return;
+    const createDTO: FullQuestionCreateDTO = {
       title,
       difficulty,
       content: description,
       examples: examples.map((x) => x.text),
       constraints: constraints.map((x) => x.text),
+      authorId: currentUser.id,
+      initialCodes: [],
+      runnerCodes: [],
+      testCases: [],
     };
-    updateQuestionData(updateDTO);
+    controller.createQuestion(createDTO).then((res) => {
+      if (res && res.data) {
+        addNotification({
+          type: "success",
+          message: "Question data successfully created!",
+        });
+        navigate(`/questions/${res.data.id}/edit`);
+      }
+    });
   }
 
   function addNewExample() {
@@ -305,4 +294,4 @@ function QuestionForm() {
   );
 }
 
-export default QuestionForm;
+export default CreateQuestionForm;
