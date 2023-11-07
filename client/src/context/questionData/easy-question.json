@@ -1,0 +1,80 @@
+{
+  "id": 1,
+  "title": "Two Sum",
+  "difficulty": "Easy",
+  "content": "<p>Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.You may assume that each input would have exactly one solution, and you may not use the same element twice.You can return the answer in any order.</p>",
+  "examples": [
+    "<p>'input': nums = [2,7,11,15], target = 9</p><p>Output: [0,1]</p><p>Explanation: Because nums[0] + nums[1] == 9, we return [0, 1]</p>",
+    "<p>'input': nums = [3,2,4], target = 6</p><p>Output: [1,2]</p>",
+    "<p>'input': nums = [3,3], target = 6</p><p>Output: [0,1]</p>"
+  ],
+  "constraints": [
+    "2 <= nums.length <= 104",
+    "-10^9 <= nums[i] <= 10^9",
+    "-10^9 <= target <= 10^9",
+    "Only one valid answer exists"
+  ],
+  "createdAt": "2023-11-04T13:03:02.372Z",
+  "updatedAt": "2023-11-04T13:03:02.372Z",
+  "authorId": "abc123",
+  "initialCodes": [
+    {
+      "code": "Y2xhc3MgU29sdXRpb24ge1xucHVibGljIGludFtdIHR3b1N1bShpbnRbXSBudW1zLCBpbnQgdGFyZ2V0KSB7XG5NYXA8SW50ZWdlciwgSW50ZWdlcj4gbnVtTWFwID0gbmV3IEhhc2hNYXA8PigpO1xuaW50IG4gPSBudW1zLmxlbmd0aDtcbmZvciAoaW50IGkgPSAwOyBpIDwgbjsgaSsrKSB7XG5pbnQgY29tcGxlbWVudCA9IHRhcmdldCAtIG51bXNbaQogICAgICAgICAgICAgICAgICAgICAgICBdO1xuaWYgKG51bU1hcC5jb250YWluc0tleShjb21wbGVtZW50KSkge1xucmV0dXJuIG5ldyBpbnRbXXtudW1NYXAuZ2V0KGNvbXBsZW1lbnQpLCBpCiAgICAgICAgICAgICAgICAgICAgICAgICAgICB9O1xuCiAgICAgICAgICAgICAgICAgICAgICAgIH1cbm51bU1hcC5wdXQobnVtc1tpCiAgICAgICAgICAgICAgICAgICAgICAgIF0sIGkpO1xuCiAgICAgICAgICAgICAgICAgICAgfVxucmV0dXJuIG5ldyBpbnRbXXt9OyAvLyBObyBzb2x1dGlvbiBmb3VuZFxufVxufQo=",
+      "language": "java",
+      "questionId": 1
+    },
+    {
+      "code": "Y2xhc3MgU29sdXRpb24ob2JqZWN0KTpcbmRlZiB0d29TdW0oc2VsZiwgbnVtcywgdGFyZ2V0KTpcbiIiIlxuOnR5cGUgbnVtczogTGlzdFtpbnRdXG46dHlwZSB0YXJnZXQ6IGludFxuOnJ0eXBlOiBMaXN0W2ludF1cbiIiIlxucmVxdWlyZWQgPSB7fVxuZm9yIGkgaW4gcmFuZ2UobGVuKG51bXMpKTpcbmlmIHRhcmdldCAtIG51bXNbaQogICAgICAgICAgICBdIGluIHJlcXVpcmVkOlxucmV0dXJuIFtyZXF1aXJlZFt0YXJnZXQgLSBudW1zW2kKICAgICAgICAgICAgICAgICAgICBdCiAgICAgICAgICAgICAgICBdLGkKICAgICAgICAgICAgXVxuZWxzZTpcbnJlcXVpcmVkW251bXNbaQogICAgICAgICAgICAgICAgXQogICAgICAgICAgICBdPWlcbnJldHVybiBbXQ==",
+      "language": "python",
+      "questionId": 1
+    },
+    {
+      "code": "YGNsYXNzIFNvbHV0aW9uIHtcbnB1YmxpYzpcbnZlY3RvcjxpbnQ+IHR3b1N1bSh2ZWN0b3I8aW50PiYgbnVtcywgaW50IHRhcmdldCkge1xubWFwPGludCwgaW50PiBpeHM7XG5mb3IoaW50IGkgPSAwOyBpIDwgbnVtcy5zaXplKCk7IGkrKyl7XG5pbnQgY29tcGxlbWVudCA9IHRhcmdldCAtIG51bXNbaQogICAgICAgICAgICAgICAgICAgICAgICBdO1xuaWYoaXhzLmZpbmQoY29tcGxlbWVudCkgIT0gaXhzLmVuZCgpKXtcbnJldHVybiB2ZWN0b3I8aW50PiB7aSwgaXhzW2NvbXBsZW1lbnQKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBdCiAgICAgICAgICAgICAgICAgICAgICAgICAgICB9O1xuCiAgICAgICAgICAgICAgICAgICAgICAgIH1cbml4c1tudW1zW2kKICAgICAgICAgICAgICAgICAgICAgICAgICAgIF0KICAgICAgICAgICAgICAgICAgICAgICAgXSA9IGk7XG4KICAgICAgICAgICAgICAgICAgICB9XG5yZXR1cm4gdmVjdG9yPGludD4ge307XG4KICAgICAgICAgICAgICAgIH1cbgogICAgICAgICAgICB9Ow==",
+      "language": "cpp",
+      "questionId": 1
+    }
+  ],
+  "runnerCodes": [
+    {
+      "code": "aW1wb3J0IGphdmEudXRpbC4qO1xucHVibGljIGNsYXNzIE1haW4ge1xucHVibGljIHN0YXRpYyB2b2lkIG1haW4oU3RyaW5nW10gYXJncykge1xuTWFpbiBtYWluID0gbmV3IE1haW4oKTtcbm1haW4uZXhlY3V0ZSgpO1xuCiAgICAgICAgICAgICAgICB9XG5wcml2YXRlIHZvaWQgZXhlY3V0ZSgpIHtcblNvbHV0aW9uIGluc3RhbmNlID0gbmV3IFNvbHV0aW9uKCk7XG5TY2FubmVyIHNjYW5uZXIgPSBuZXcgU2Nhbm5lcihTeXN0ZW0uaW4pO1xuaW50IG4gPSBzY2FubmVyLm5leHRJbnQoKTtcbmludFtdIG51bWJlcnMgPSBuZXcgaW50W24KICAgICAgICAgICAgICAgICAgICBdO1xuZm9yIChpbnQgaSA9IDA7IGkgPCBuOyBpKyspIHtcbm51bWJlcnNbaQogICAgICAgICAgICAgICAgICAgICAgICBdID0gc2Nhbm5lci5uZXh0SW50KCk7XG4KICAgICAgICAgICAgICAgICAgICB9XG5pbnQgdGFyZ2V0ID0gc2Nhbm5lci5uZXh0SW50KCk7XG5zY2FubmVyLmNsb3NlKCk7XG5pbnRbXSByZXN1bHQgPSBpbnN0YW5jZS50d29TdW0obnVtYmVycywgdGFyZ2V0KTtcblN5c3RlbS5vdXQucHJpbnQoQXJyYXlzLnRvU3RyaW5nKHJlc3VsdCkpO1xuCiAgICAgICAgICAgICAgICB9XG5cbkBAQElOU0VSVF9DT0RFX0hFUkVAQEBcbgogICAgICAgICAgICB9",
+      "language": "java",
+      "questionId": 1
+    },
+    {
+      "code": "QEBASU5TRVJUX0NPREVfSEVSRUBAQFxuaW5wdXRfZGF0YSA9IGlucHV0KCkuc3BsaXQoKVxubiA9IGludChpbnB1dF9kYXRhWwogICAgICAgICAgICAgICAgMAogICAgICAgICAgICBdKVxubnVtcyA9IGxpc3QobWFwKGludCwgaW5wdXRfZGF0YVsKICAgICAgICAgICAgICAgIDE6biArIDEKICAgICAgICAgICAgXSkpXG50YXJnZXQgPSBpbnQoaW5wdXRfZGF0YVtuICsgMQogICAgICAgICAgICBdKVxuc29sdXRpb24gPSBTb2x1dGlvbigpXG5yZXN1bHQgPSBzb2x1dGlvbi50d29TdW0obnVtcywgdGFyZ2V0KVxucHJpbnQocmVzdWx0KQ==",
+      "language": "python",
+      "questionId": 1
+    },
+    {
+      "code": "I2luY2x1ZGUgPGlvc3RyZWFtPlxuI2luY2x1ZGUgPHZlY3Rvcj5cbiNpbmNsdWRlIDxtYXA+XG51c2luZyBuYW1lc3BhY2Ugc3RkO1xuXG5AQEBJTlNFUlRfQ09ERV9IRVJFQEBAXG5cbmludCBtYWluKCkge1xuaW50IG47XG5jaW4gPj4gbjtcbnZlY3RvcjxpbnQ+IG51bXMobik7XG5mb3IgKGludCBpID0gMDsgaSA8IG47ICsraSkge1xuY2luID4+IG51bXNbaQogICAgICAgICAgICAgICAgICAgIF07XG4KICAgICAgICAgICAgICAgIH1cbmludCB0YXJnZXQ7XG5jaW4gPj4gdGFyZ2V0O1xuXG5Tb2x1dGlvbiBzb2x1dGlvbjtcbnZlY3RvcjxpbnQ+IHJlc3VsdCA9IHNvbHV0aW9uLnR3b1N1bShudW1zLCB0YXJnZXQpO1xuXG5jb3V0IDw8ICJbIjtcbmZvciAoaW50IGkgPSAwOyBpIDwgcmVzdWx0LnNpemUoKTsgKytpKSB7XG5jb3V0IDw8IHJlc3VsdFtpCiAgICAgICAgICAgICAgICAgICAgXTtcbmlmIChpICE9IHJlc3VsdC5zaXplKCkgLSAxKSB7XG5jb3V0IDw8ICIsIjtcbgogICAgICAgICAgICAgICAgICAgIH1cbgogICAgICAgICAgICAgICAgfVxuY291dCA8PCAiXSIgPDwgZW5kbDtcblxucmV0dXJuIDA7XG4KICAgICAgICAgICAgfQ==",
+      "language": "cpp",
+      "questionId": 1
+    }
+  ],
+  "testCases": [
+    {
+      "testCaseNumber": 1,
+      "input": "4 2 7 11 15 9",
+      "expectedOutput": ["[0,1]", "[1,0]"],
+      "questionId": 1
+    },
+    {
+      "testCaseNumber": 2,
+      "input": "5 3 2 4 1 9 12",
+      "expectedOutput": ["[0,4]", "[4,0]"],
+      "questionId": 1
+    },
+    {
+      "testCaseNumber": 3,
+      "input": "5 1 9 13 20 47 10",
+      "expectedOutput": ["[0,1]", "[1,0]"],
+      "questionId": 1
+    },
+    {
+      "testCaseNumber": 4,
+      "input": "0 10",
+      "expectedOutput": ["[]"],
+      "questionId": 1
+    }
+  ]
+}

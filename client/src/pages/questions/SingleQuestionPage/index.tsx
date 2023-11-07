@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import Chat from "../../../components/Chat";
 import CodingSpace from "../../../components/CodingSpace";
@@ -8,26 +8,15 @@ import Question from "../../../components/Question";
 import VideoCall from "../../../components/VideoCall";
 import { AuthContext } from "../../../context/FirebaseAuthContext";
 import { MatchingContext } from "../../../context/MatchingContext";
-import {
-  CodingLanguage,
-  QuestionContext,
-} from "../../../context/QuestionContext";
+import { QuestionContext } from "../../../context/QuestionContext";
 
 export default function SingleQuestionPage() {
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
   const { questionId } = useParams();
   const { matchedUserId, matchingId, cancelCollaboration } =
     useContext(MatchingContext);
   const { currentUser } = useContext(AuthContext);
-  const { setSelectedLanguage, setQuestionId } = useContext(QuestionContext);
-
-  useEffect(() => {
-    const selectedLanguage =
-      (searchParams.get("lang") as CodingLanguage) ||
-      ("java" as CodingLanguage);
-    setSelectedLanguage(selectedLanguage);
-  }, [setSelectedLanguage, searchParams]);
+  const { setQuestionId } = useContext(QuestionContext);
 
   useEffect(() => {
     if (questionId) {

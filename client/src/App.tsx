@@ -23,6 +23,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import QuestionPage from "./pages/questions/AllQuestionsPage";
 import QuestionUpdatePage from "./pages/questions/QuestionUpdatePage";
 import SingleQuestionPage from "./pages/questions/SingleQuestionPage";
+import EditSingleQuestionPage from "./pages/questions/SingleQuestionPage/edit";
 import ProfilePage from "./pages/users/ProfilePage";
 import RegistrationPage from "./pages/users/RegistrationPage";
 import SignInPage from "./pages/users/SignInPage";
@@ -88,11 +89,20 @@ function App() {
           />
 
           <Route
+            path="questions/:questionId/edit"
+            element={
+              //   <ProtectedRoute permissionRole="user">
+              <EditSingleQuestionPage />
+              //   </ProtectedRoute>
+            }
+          />
+
+          <Route
             path="questions/:questionId"
             element={
-              <ProtectedRoute permissionRole="user">
-                <SingleQuestionPage />
-              </ProtectedRoute>
+              //   <ProtectedRoute permissionRole="user">
+              <SingleQuestionPage />
+              //   </ProtectedRoute>
             }
           />
           <Route path="*" element={<NotFoundPage />} />
