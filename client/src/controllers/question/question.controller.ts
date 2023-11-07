@@ -27,7 +27,7 @@ class QuestionController extends GenericController {
 
   public async readQuestions() {
     try {
-      return await this.get("question");
+      return await this.get<FullQuestion[]>("question");
     } catch (error) {
       return null;
     }

@@ -9,7 +9,7 @@ abstract class Controller {
   ) {
     return res.status(httpStatus.BAD_REQUEST).json({
       success: false,
-      errors: errors.array(),
+      errors: errors.array().map(x=>x.msg),
     });
   }
 

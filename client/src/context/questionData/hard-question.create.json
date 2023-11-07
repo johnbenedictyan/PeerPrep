@@ -1,0 +1,53 @@
+{
+  "title": "reducing dishes",
+  "difficulty": "hard",
+  "content": "A chef has collected data on the satisfaction level of his n dishes. Chef can cook any dish in 1 unit of time.Like-time coefficient of a dish is defined as the time taken to cook that dish including previous dishes multiplied by its satisfaction level i.e. time[i] * satisfaction[i].Return the maximum sum of like-time coefficient that the chef can obtain after preparing some amount of dishes.Dishes can be prepared in any order and the chef can discard some dishes to get this maximum value.",
+  "examples": [
+    "Input: satisfaction = [-1,-8,0,5,-9]. Output: 14. Explanation: After Removing the second and last dish, the maximum total like-time coefficient will be equal to (-1*1 + 0*2 + 5*3 = 14). Each dish is prepared in one unit of time.",
+    "Input: satisfaction = [4,3,2]. Output: 20. Explanation: Dishes can be prepared in any order, (2*1 + 3*2 + 4*3 = 20)",
+    "Input: satisfaction = [-1,-4,-5]. Output: 0. Explanation: People do not like the dishes. No dish is prepared."
+  ],
+  "constraints": [
+    "n == satisfaction.length",
+    "1 <= n <= 500",
+    "-1000 <= satisfaction[i] <= 1000"
+  ],
+  "authorId": "abc123",
+  "initialCodes": [
+    {
+      "code": "class Solution {public int maxSatisfaction(int[] satisfaction) {}}",
+      "language": "java"
+    },
+    {
+      "code": "class Solution {public:int maxSatisfaction(vector<int>& satisfaction) {}};",
+      "language": "cpp"
+    }
+  ],
+  "runnerCodes": [
+    {
+      "code": "import java.util.*;\npublic class Main {\npublic static void main(String[] args) {\nMain main = new Main();\nmain.execute();\n}\nprivate void execute() {\nSolution instance = new Solution();\nScanner scanner = new Scanner(System.in);\nint n = scanner.nextInt();\nint[] numbers = new int[n];\nfor (int i = 0; i < n; i++) {\nnumbers[i] = scanner.nextInt();\n}\nint target = scanner.nextInt();\nscanner.close();\nint[] result = instance.twoSum(numbers, target);\nSystem.out.print(Arrays.toString(result));\n}\n\n@@@INSERT_CODE_HERE@@@\n}",
+      "language": "java"
+    },
+    {
+      "code": "#include <iostream>\n#include <vector>\n#include <map>\nusing namespace std;\n\n@@@INSERT_CODE_HERE@@@\n\nint main() {\nint n;\ncin >> n;\nvector<int> nums(n);\nfor (int i = 0; i < n; ++i) {\ncin >> nums[i];\n}\nint target;\ncin >> target;\n\nSolution solution;\nvector<int> result = solution.twoSum(nums, target);\n\ncout << '[';\nfor (int i = 0; i < result.size(); ++i) {\ncout << result[i];\nif (i != result.size() - 1) {\ncout << ',';\n}\n}\ncout << ']' << endl;\n\nreturn 0;\n}",
+      "language": "cpp"
+    }
+  ],
+  "testCases": [
+    {
+      "testCaseNumber": 1,
+      "input": "5 -1 -8 0 5 -9",
+      "expectedOutput": ["14"]
+    },
+    {
+      "testCaseNumber": 2,
+      "input": "3 4 3 2",
+      "expectedOutput": ["20"]
+    },
+    {
+      "testCaseNumber": 3,
+      "input": "3 -1 -4 -5",
+      "expectedOutput": ["0"]
+    }
+  ]
+}
