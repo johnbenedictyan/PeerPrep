@@ -1,7 +1,8 @@
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/outline";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import classNames from "../../../util/ClassNames";
+import { QuestionContext } from "../../../context/QuestionContext";
 
 interface IQuestion {
   id: number;
@@ -11,26 +12,28 @@ interface IQuestion {
 }
 
 function QuestionPage() {
-  const questions: IQuestion[] = [
-    {
-      id: 1,
-      title: "two sum",
-      difficulty: "easy",
-      tags: ["algo"],
-    },
-    {
-      id: 2,
-      title: "three sum",
-      difficulty: "medium",
-      tags: ["algo"],
-    },
-    {
-      id: 3,
-      title: "reducing dishes",
-      difficulty: "hard",
-      tags: ["algo"],
-    },
-  ];
+  //   const questions: IQuestion[] = [
+  //     {
+  //       id: 1,
+  //       title: "two sum",
+  //       difficulty: "easy",
+  //       tags: ["algo"],
+  //     },
+  //     {
+  //       id: 2,
+  //       title: "three sum",
+  //       difficulty: "medium",
+  //       tags: ["algo"],
+  //     },
+  //     {
+  //       id: 3,
+  //       title: "reducing dishes",
+  //       difficulty: "hard",
+  //       tags: ["algo"],
+  //     },
+  //   ];
+
+  const { questions } = useContext(QuestionContext);
 
   const PAGINATION_SIZE = 10;
 
@@ -201,7 +204,7 @@ function QuestionPage() {
                             >
                               {question.difficulty}
                             </td>
-                            <td
+                            {/* <td
                               className={classNames(
                                 "whitespace-nowrap px-3 py-4 text-sm",
                                 "text-gray-700 dark:text-gray-300",
@@ -217,7 +220,7 @@ function QuestionPage() {
                                   {tag}
                                 </span>
                               ))}
-                            </td>
+                            </td> */}
                             <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
                               <Link
                                 to={`${question.id}`}

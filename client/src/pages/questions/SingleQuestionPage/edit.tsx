@@ -2,8 +2,8 @@ import { useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import CodingSpaceEditor from "../../../components/CodingSpaceEditor";
-import Question from "../../../components/Question";
 import PageContainer from "../../../components/container/Page";
+import QuestionForm from "../../../components/QuestionForm";
 import { QuestionContext } from "../../../context/QuestionContext";
 
 export default function EditSingleQuestionPage() {
@@ -22,7 +22,7 @@ export default function EditSingleQuestionPage() {
         {/* Product info */}
         <div className="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0 xl:col-span-3">
           {/* {currentUser && ( */}
-          <Question />
+          <QuestionForm />
           <CodingSpaceEditor />
           {/* )} */}
         </div>

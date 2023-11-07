@@ -39,7 +39,7 @@ function Notifications() {
                 aria-hidden="true"
               />
             }
-            title="Error"
+            title="Success"
             description={noti.message}
           />
         );
@@ -53,7 +53,7 @@ function Notifications() {
                 aria-hidden="true"
               />
             }
-            title="Error"
+            title="Info"
             description={noti.message}
           />
         );
@@ -67,7 +67,7 @@ function Notifications() {
                 aria-hidden="true"
               />
             }
-            title="Error"
+            title="General"
             description={noti.message}
           />
         );

@@ -77,55 +77,54 @@ function CodeEditorEditor() {
 
   return (
     <div className="lg:grid lg:grid-cols-2 gap-4">
-        <div>
+      <div>
         <h1 className="font-semibold mb-2">Initial Code</h1>
         <div className="min-h-144 border rounded-lg shadow">
-        <CodeMirror
-          value={localInitialCode}
-          height="576px"
-          extensions={extensions}
-          onChange={handleLocalInitialCodeChange}
-          theme={isDarkMode ? "dark" : "light"}
-          basicSetup={codeMirrorOptions}
-        />
-      </div>
-      <div className="flex flex-row-reverse mt-5 gap-3">
-        <button
-          type="button"
-          className="rounded-md bg-indigo-600 dark:bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 dark:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:focus-visible:outline-indigo-400"
-          onClick={() => {
-            saveNewInitialCode(selectedLanguage, localInitialCode);
-          }}
-        >
-          Edit Initial Code
-        </button>
-      </div>
+          <CodeMirror
+            value={localInitialCode}
+            height="576px"
+            extensions={extensions}
+            onChange={handleLocalInitialCodeChange}
+            theme={isDarkMode ? "dark" : "light"}
+            basicSetup={codeMirrorOptions}
+          />
         </div>
-        <div>
-            <h1 className="font-semibold mb-2">Runner Code</h1>
+        <div className="flex flex-row-reverse mt-5 gap-3">
+          <button
+            type="button"
+            className="rounded-md bg-indigo-600 dark:bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 dark:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:focus-visible:outline-indigo-400"
+            onClick={() => {
+              saveNewInitialCode(selectedLanguage, localInitialCode);
+            }}
+          >
+            Edit Initial Code
+          </button>
+        </div>
+      </div>
+      <div>
+        <h1 className="font-semibold mb-2">Runner Code</h1>
         <div className="min-h-144 border rounded-lg shadow">
-        <CodeMirror
-          value={localRunnerCode}
-          height="576px"
-          extensions={extensions}
-          onChange={handleLocalRunnerCodeChange}
-          theme={isDarkMode ? "dark" : "light"}
-          basicSetup={codeMirrorOptions}
-        />
-      </div>
-      <div className="flex flex-row-reverse mt-5 gap-3">
-        <button
-          type="button"
-          className="rounded-md bg-indigo-600 dark:bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 dark:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:focus-visible:outline-indigo-400"
-          onClick={() => {
-            saveNewRunnerCode(selectedLanguage, localRunnerCode);
-          }}
-        >
-          Edit Runner Code
-        </button>
-      </div>
+          <CodeMirror
+            value={localRunnerCode}
+            height="576px"
+            extensions={extensions}
+            onChange={handleLocalRunnerCodeChange}
+            theme={isDarkMode ? "dark" : "light"}
+            basicSetup={codeMirrorOptions}
+          />
         </div>
-
+        <div className="flex flex-row-reverse mt-5 gap-3">
+          <button
+            type="button"
+            className="rounded-md bg-indigo-600 dark:bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 dark:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:focus-visible:outline-indigo-400"
+            onClick={() => {
+              saveNewRunnerCode(selectedLanguage, localRunnerCode);
+            }}
+          >
+            Edit Runner Code
+          </button>
+        </div>
+      </div>
 
       <div className="mt-5 col-span-2">
         <div className="border rounded-lg shadow p-5">
