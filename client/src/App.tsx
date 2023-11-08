@@ -110,9 +110,9 @@ function App() {
           <Route
             path="questions/:questionId"
             element={
-              <ProtectedRoute permissionRole="user">
-                <SingleQuestionPage />
-              </ProtectedRoute>
+              //   <ProtectedRoute permissionRole="user">
+              <SingleQuestionPage />
+              //   </ProtectedRoute>
             }
           />
           <Route path="*" element={<NotFoundPage />} />
