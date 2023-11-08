@@ -1,4 +1,5 @@
 import { langs } from "@uiw/codemirror-extensions-langs";
+import { duotoneDark, duotoneLight } from "@uiw/codemirror-theme-duotone";
 import CodeMirror, {
   BasicSetupOptions,
   Extension,
@@ -64,6 +65,12 @@ function CodeEditor() {
     indentOnInput: true,
   };
 
+  const themes = new Map();
+  themes.set('duotone', {
+    light: duotoneLight,
+    dark: duotoneDark,
+  })
+
   return (
     <div className="h-144 border rounded-lg shadow">
       <CodeMirror
@@ -71,7 +78,9 @@ function CodeEditor() {
         height="576px"
         extensions={extensions}
         onChange={onChange}
-        theme={isDarkMode ? "dark" : "light"}
+        theme={
+          isDarkMode ? themes.get('duotone').dark : themes.get('duotone').light
+        }
         basicSetup={codeMirrorOptions}
       />
     </div>

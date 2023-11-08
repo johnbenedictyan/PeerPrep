@@ -1,7 +1,6 @@
 import { MatchingRequestCreateDTO } from "../../interfaces/matchingService/matchingRequest/createDTO";
 import GenericController from "../generic.controller";
 
-
 interface ICancelMatchingRequest {
   userId: string;
 }
@@ -13,7 +12,7 @@ class MatchingController extends GenericController {
   constructor() {
     super(
       window.location.hostname !== "localhost" ? prodServerUri : devServerUri,
-      "api"
+      "api",
     );
   }
 

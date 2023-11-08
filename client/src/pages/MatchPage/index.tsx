@@ -58,17 +58,11 @@ function MatchPage() {
       const obj = {
         userId: currentUser.uid,
         difficulty: newDifficulty,
-      }
-      console.log(obj)
+      };
+      console.log(obj);
       matchingController.current.createMatchingRequest(obj);
     },
-    [
-      currentUser,
-      establishedConnection,
-      foundMatch,
-      startTimer,
-      resetTimer,
-    ],
+    [currentUser, establishedConnection, foundMatch, startTimer, resetTimer],
   );
 
   useEffect(() => {
