@@ -23,6 +23,20 @@ const defaultInitialCode = "// Default Code //";
 const defaultRunnerCode = "// Default Code //";
 const defaultSelectedLanguage = "java" as CodingLanguage;
 
+enum themeKeys {
+  "basic",
+  "duotone",
+  "github",
+  "material",
+  "solarized",
+  "white",
+  "xcode",
+}
+
+export type CodingTheme = keyof typeof themeKeys;
+
+const defaultSelectedTheme = "basic";
+
 interface QuestionProviderProps {
   children: ReactNode;
 }
@@ -31,10 +45,12 @@ interface QuestionContextType {
   questions: FullQuestion[];
   question: FullQuestion;
   selectedLanguage: CodingLanguage;
+  selectedTheme: CodingTheme;
   initialCode: string;
   runnerCode: string;
   controller: QuestionController;
   setSelectedLanguage: (selectedLanguage: CodingLanguage) => void;
+  setSelectedTheme: (selectedTheme: CodingTheme) => void;
   setQuestionId: (id: number) => void;
   saveNewInitialCode: (lang: string, newCode: string) => void;
   saveNewRunnerCode: (lang: string, newCode: string) => void;
@@ -46,10 +62,12 @@ export const QuestionContext = createContext<QuestionContextType>({
   questions: [] as unknown as FullQuestion[],
   question: null as unknown as FullQuestion,
   selectedLanguage: defaultSelectedLanguage,
+  selectedTheme: defaultSelectedTheme,
   initialCode: defaultInitialCode,
   runnerCode: defaultRunnerCode,
   controller: null as unknown as QuestionController,
   setSelectedLanguage: (selectedLanguage: CodingLanguage) => {},
+  setSelectedTheme: (selectedTheme: CodingTheme) => {},
   setQuestionId: (id: number) => {},
   saveNewInitialCode: (lang: string, newCode: string) => {},
   saveNewRunnerCode: (lang: string, newCode: string) => {},
@@ -68,6 +86,8 @@ export function QuestionProvider({ children }: QuestionProviderProps) {
   const [selectedLanguage, setSelectedLanguage] = useState<CodingLanguage>(
     defaultSelectedLanguage,
   );
+  const [selectedTheme, setSelectedTheme] =
+    useState<CodingTheme>(defaultSelectedTheme);
   const [initialCode, setInitialCode] = useState<string>(defaultInitialCode);
   const [runnerCode, setRunnerCode] = useState<string>(defaultRunnerCode);
   const [questionId, setQuestionId] = useState<number>();
@@ -198,10 +218,12 @@ export function QuestionProvider({ children }: QuestionProviderProps) {
       questions,
       question,
       selectedLanguage,
+      selectedTheme,
       initialCode,
       runnerCode,
       controller,
       setSelectedLanguage,
+      setSelectedTheme,
       setQuestionId,
       saveNewInitialCode,
       saveNewRunnerCode,
@@ -212,10 +234,12 @@ export function QuestionProvider({ children }: QuestionProviderProps) {
       questions,
       question,
       selectedLanguage,
+      selectedTheme,
       initialCode,
       runnerCode,
       controller,
       setSelectedLanguage,
+      setSelectedTheme,
       setQuestionId,
       saveNewInitialCode,
       saveNewRunnerCode,
