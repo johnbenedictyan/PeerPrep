@@ -150,8 +150,9 @@ services:
       - kafka-network
     healthcheck:
       test: ["CMD", "nc", "-z", "localhost", "2181"]
-      interval: 10s
-      timeout: 5s
+      interval: 15s
+      timeout: 15s
+      start_period: 90s
       retries: 3
 
   broker:
@@ -180,8 +181,9 @@ services:
       - kafka-network
     healthcheck:
       test: ["CMD", "nc", "-z", "localhost", "9092"]
-      interval: 10s
-      timeout: 5s
+      interval: 15s
+      timeout: 15s
+      start_period: 90s
       retries: 3
 
 networks:
