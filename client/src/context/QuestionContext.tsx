@@ -187,6 +187,20 @@ const hardQuestion: FullQuestion = {
 const defaultInitialCode = "// Default Code //";
 const defaultSelectedLanguage = "java" as CodingLanguage;
 
+enum themeKeys {
+  "basic",
+  "duotone",
+  "github",
+  "material",
+  "solarized",
+  "white",
+  "xcode",
+}
+
+export type CodingTheme = keyof typeof themeKeys;
+
+const defaultSelectedTheme = "basic";
+
 interface QuestionProviderProps {
   children: ReactNode;
 }
@@ -194,16 +208,20 @@ interface QuestionProviderProps {
 interface QuestionContextType {
   question: FullQuestion;
   selectedLanguage: CodingLanguage;
+  selectedTheme: CodingTheme;
   initialCode: string;
   setSelectedLanguage: (selectedLanguage: CodingLanguage) => void;
+  setSelectedTheme: (selectedTheme: CodingTheme) => void;
   setQuestionId: (id: number) => void;
 }
 
 export const QuestionContext = createContext<QuestionContextType>({
   question: defaultQuestion,
   selectedLanguage: defaultSelectedLanguage,
+  selectedTheme: defaultSelectedTheme,
   initialCode: defaultInitialCode,
   setSelectedLanguage: (selectedLanguage: CodingLanguage) => {},
+  setSelectedTheme: (selectedTheme: CodingTheme) => {},
   setQuestionId: (id: number) => {},
 });
 
@@ -212,6 +230,8 @@ export function QuestionProvider({ children }: QuestionProviderProps) {
   const [selectedLanguage, setSelectedLanguage] = useState<CodingLanguage>(
     defaultSelectedLanguage,
   );
+  const [selectedTheme, setSelectedTheme] =
+    useState<CodingTheme>(defaultSelectedTheme);
   const [initialCode, setInitialCode] = useState<string>(defaultInitialCode);
   const [questionId, setQuestionId] = useState<number>();
 
@@ -219,15 +239,19 @@ export function QuestionProvider({ children }: QuestionProviderProps) {
     () => ({
       question,
       selectedLanguage,
+      selectedTheme,
       initialCode,
       setSelectedLanguage,
+      setSelectedTheme,
       setQuestionId,
     }),
     [
       question,
       selectedLanguage,
+      selectedTheme,
       initialCode,
       setSelectedLanguage,
+      setSelectedTheme,
       setQuestionId,
     ],
   );

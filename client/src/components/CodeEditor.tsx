@@ -1,5 +1,11 @@
 import { langs } from "@uiw/codemirror-extensions-langs";
+import { basicDark, basicLight } from "@uiw/codemirror-theme-basic";
 import { duotoneDark, duotoneLight } from "@uiw/codemirror-theme-duotone";
+import { githubDark, githubLight } from "@uiw/codemirror-theme-github";
+import { materialDark, materialLight } from "@uiw/codemirror-theme-material";
+import { solarizedDark, solarizedLight } from "@uiw/codemirror-theme-solarized";
+import { whiteDark, whiteLight } from "@uiw/codemirror-theme-white";
+import { xcodeDark, xcodeLight } from "@uiw/codemirror-theme-xcode";
 import CodeMirror, {
   BasicSetupOptions,
   Extension,
@@ -10,10 +16,11 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import { CollaborationContext } from "../context/CollaborationContext";
 import { DarkModeContext } from "../context/DarkModeContext";
 import { AuthContext } from "../context/FirebaseAuthContext";
-import { QuestionContext } from "../context/QuestionContext";
+import { CodingTheme, QuestionContext } from "../context/QuestionContext";
 
 function CodeEditor() {
-  const { initialCode, selectedLanguage } = useContext(QuestionContext);
+  const { initialCode, selectedLanguage, selectedTheme } =
+    useContext(QuestionContext);
   const { socketCode, currentCode, changeCode, setCurrentCode } =
     useContext(CollaborationContext);
   const { currentUser } = useContext(AuthContext);
@@ -65,11 +72,40 @@ function CodeEditor() {
     indentOnInput: true,
   };
 
-  const themes = new Map();
-  themes.set('duotone', {
+  type themeValue = {
+    light: Extension;
+    dark: Extension;
+  };
+
+  const themes = new Map<CodingTheme, themeValue>();
+  themes.set("basic", {
+    light: basicLight,
+    dark: basicDark,
+  });
+  themes.set("duotone", {
     light: duotoneLight,
     dark: duotoneDark,
-  })
+  });
+  themes.set("github", {
+    light: githubLight,
+    dark: githubDark,
+  });
+  themes.set("material", {
+    light: materialLight,
+    dark: materialDark,
+  });
+  themes.set("solarized", {
+    light: solarizedLight,
+    dark: solarizedDark,
+  });
+  themes.set("white", {
+    light: whiteLight,
+    dark: whiteDark,
+  });
+  themes.set("xcode", {
+    light: xcodeLight,
+    dark: xcodeDark,
+  });
 
   return (
     <div className="h-144 border rounded-lg shadow">
@@ -79,7 +115,9 @@ function CodeEditor() {
         extensions={extensions}
         onChange={onChange}
         theme={
-          isDarkMode ? themes.get('duotone').dark : themes.get('duotone').light
+          isDarkMode
+            ? themes.get(selectedTheme)!.dark
+            : themes.get(selectedTheme)!.light
         }
         basicSetup={codeMirrorOptions}
       />
