@@ -57,7 +57,7 @@ describe("Test user request controller", () => {
 
   const createInputAllFields: UserCreateDTO = {
     id: "abc",
-    name: "asd",
+    username: "asd",
     roles: ["user"],
   };
 
@@ -69,7 +69,7 @@ describe("Test user request controller", () => {
   };
 
   const updateInputAllFields: UserUpdateDTO = {
-    name: "asd",
+    username: "asd",
     roles: ["admin"],
     questionsAuthored: 2,
   };

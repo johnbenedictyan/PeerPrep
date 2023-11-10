@@ -56,7 +56,7 @@ describe("Test user request controller", () => {
 
   const createInputAllFields: UserCreateDTO = {
     id: "abc",
-    name: "asd",
+    username: "asd",
     roles: ["user"],
   };
 

@@ -6,7 +6,7 @@ import UserParser from "../../../../parsers/user/user.parser";
 
 const allFieldsInput: StringInterface<UserCreateDTO> = {
   id: "abc123",
-  name: "abc",
+  username: "abc",
   roles: ["user"],
 };
 
@@ -33,10 +33,10 @@ describe("Test User Parser Parse Create Input", () => {
     ).toThrow("Invalid Input");
   });
 
-  it("Parser - Parse Create Input: Missing name Input -> Throw Error", () => {
+  it("Parser - Parse Create Input: Missing username Input -> Throw Error", () => {
     const parser = new UserParser();
 
-    const { name, ...rest } = allFieldsInput;
+    const { username, ...rest } = allFieldsInput;
 
     expect(() =>
       parser.parseCreateInput(

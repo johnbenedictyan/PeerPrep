@@ -10,7 +10,7 @@ const mockProducer = mockDeep<Producer>();
 
 const obj: User = {
   id: "abc123",
-  name: "abc",
+  username: "abc",
   createdAt: new Date(),
   updatedAt: new Date(),
   questionsAuthored: 0,

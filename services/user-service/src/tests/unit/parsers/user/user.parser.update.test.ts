@@ -5,7 +5,7 @@ import { StringInterface } from "../../../../util/stringInterface";
 import UserParser from "../../../../parsers/user/user.parser";
 
 const allFieldsInput: StringInterface<UserUpdateDTO> = {
-  name: "abc123",
+  username: "abc123",
   roles: ["admin"],
   questionsAuthored: "3",
 };

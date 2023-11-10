@@ -27,15 +27,15 @@ describe("Test User Parser Parse Find One Input", () => {
     expect(parser.parseFindOneInput(input)).toEqual(expectedOutput);
   });
 
-  it("Parser - Parse Find One Input: Valid name Input -> Parsed name Input", () => {
+  it("Parser - Parse Find One Input: Valid username Input -> Parsed username Input", () => {
     const parser = new UserParser();
 
     const input: Partial<StringInterface<User>> = {
-      name: "name",
+      username: "username",
     };
 
     const expectedOutput: Partial<User> = {
-      name: "name",
+      username: "username",
     };
 
     expect(parser.parseFindOneInput(input)).toEqual(expectedOutput);

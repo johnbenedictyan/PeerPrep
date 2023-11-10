@@ -1,5 +1,5 @@
 export type UserCreateDTO = {
   id: string;
-  name: string;
+  username: string;
   roles: string[];
 };

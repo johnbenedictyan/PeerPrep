@@ -55,7 +55,7 @@ describe("Test user request controller", () => {
   });
 
   const updateInputAllFields: UserUpdateDTO = {
-    name: "asd",
+    username: "asd",
     roles: ["admin"],
     questionsAuthored: 2,
   };

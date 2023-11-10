@@ -12,7 +12,7 @@ jest.mock("@prisma/client");
 describe("Test user service", () => {
   const expectedUser: User = {
     id: "abc123",
-    name: "abc",
+    username: "abc",
     createdAt: new Date(),
     updatedAt: new Date(),
     questionsAuthored: 1,
@@ -23,7 +23,7 @@ describe("Test user service", () => {
   test("Create User, Valid Input To Prisma -> Return Object", async () => {
     const input: UserCreateDTO = {
       id: "abc123",
-      name: "abc",
+      username: "abc",
       roles: ["user"],
     };
 
@@ -68,7 +68,7 @@ describe("Test user service", () => {
   test("Find All User, Valid Input To Prisma -> Return Object", async () => {
     const expectedUser2: User = {
       id: "qwe123",
-      name: "qwe",
+      username: "qwe",
       createdAt: new Date(),
       updatedAt: new Date(),
       questionsAuthored: 0,
@@ -90,7 +90,7 @@ describe("Test user service", () => {
     const testId: string = "abc123";
 
     const input: UserUpdateDTO = {
-      name: "abc",
+      username: "abc",
       roles: ["user"],
       questionsAuthored: 1,
     };

@@ -17,7 +17,7 @@ type questionConstraint = {
   text: string;
 };
 
-function QuestionForm() {
+function UpdateQuestionForm() {
   const { question, updateQuestionData } = useContext(QuestionContext);
   const [title, setTitle] = useState<string>("");
   const [difficulty, setDifficulty] = useState<string>("Easy");
@@ -305,4 +305,4 @@ function QuestionForm() {
   );
 }
 
-export default QuestionForm;
+export default UpdateQuestionForm;

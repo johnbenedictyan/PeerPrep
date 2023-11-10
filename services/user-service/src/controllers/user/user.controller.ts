@@ -67,7 +67,7 @@ class UserController extends Controller implements CRUDController {
     if (!userFromDb) {
       const newUserCreateDTO: UserCreateDTO = {
         id: parsedId,
-        name: "",
+        username: "",
         roles: ["user"],
       };
 

@@ -1,6 +1,6 @@
 export type User = {
   id: string;
-  name: string;
+  username: string;
   createdAt: Date;
   updatedAt: Date;
   questionsAuthored: number;

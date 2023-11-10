@@ -9,12 +9,12 @@ class UserParser implements Parser<UserCreateDTO, UserUpdateDTO, User> {
   public parseCreateInput(
     input: StringInterface<UserCreateDTO>,
   ): UserCreateDTO {
-    if (!input.id || !input.name || !input.roles) {
+    if (!input.id || !input.username || !input.roles) {
       throw new Error("Invalid Input");
     }
     return {
       id: input.id,
-      name: input.name,
+      username: input.username,
       roles: input.roles,
     };
   }
@@ -33,8 +33,8 @@ class UserParser implements Parser<UserCreateDTO, UserUpdateDTO, User> {
     if (input.id) {
       parsedInput.id = input.id;
     }
-    if (input.name) {
-      parsedInput.name = input.name;
+    if (input.username) {
+      parsedInput.username = input.username;
     }
     if (input.roles) {
       parsedInput.roles = input.roles;
@@ -49,8 +49,8 @@ class UserParser implements Parser<UserCreateDTO, UserUpdateDTO, User> {
     input: Partial<StringInterface<UserUpdateDTO>>,
   ): Partial<UserUpdateDTO> {
     const parsedInput: Partial<UserUpdateDTO> = {};
-    if (input.name) {
-      parsedInput.name = input.name;
+    if (input.username) {
+      parsedInput.username = input.username;
     }
 
     if (input.roles) {
