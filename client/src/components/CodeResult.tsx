@@ -57,11 +57,14 @@ function CodeResult() {
 
     const data: CodeInput[] = question.testCases.map((x) => ({
       source_code: encode64(
-        runnerCode.code.replace("@@@INSERT_CODE_HERE@@@", currentCode),
+        decode64(runnerCode.code).replace(
+          "@@@INSERT_CODE_HERE@@@",
+          currentCode,
+        ),
       ),
       stdin: encode64(x.input),
-      //   expected_output: encode64(x.expectedOutput),
     }));
+
     const params: SubmissionParams = {
       wait: false,
       base64_encoded: true,
@@ -124,6 +127,7 @@ function CodeResult() {
               const foundSubmission = acceptedSubmissions.find(
                 (sub) => sub.token === executionToken,
               )!;
+              console.log(foundSubmission);
               return {
                 ...testCase,
                 passed: testCase.expectedOutput.includes(
