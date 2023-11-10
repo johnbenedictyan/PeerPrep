@@ -19,18 +19,17 @@ function QuestionPage() {
       tags: ["algo"],
     },
     {
-        id: 2,
-        title: "three sum",
-        difficulty: "medium",
-        tags: ["algo"],
-      },
-      {
-        id: 3,
-        title: "reducing dishes",
-        difficulty: "hard",
-        tags: ["algo"],
-      },
-
+      id: 2,
+      title: "three sum",
+      difficulty: "medium",
+      tags: ["algo"],
+    },
+    {
+      id: 3,
+      title: "reducing dishes",
+      difficulty: "hard",
+      tags: ["algo"],
+    },
   ];
 
   const PAGINATION_SIZE = 10;

@@ -17,9 +17,7 @@ class QuestionParser
       !input.authorId ||
       !input.difficulty
     ) {
-      throw new Error(
-        "Required fields of title, content,author id or difficulty are missing",
-      );
+      throw new Error("Invalid Input");
     }
     if (input.initialCodes.length == 0) {
       return input;
@@ -45,15 +43,18 @@ class QuestionParser
   }
 
   public parseFindByIdInput(id: string): number {
+    if (!id) throw new Error("Invalid Input");
     return parseInt(id, 10);
   }
 
   public parseFindOneInput(
     input: Partial<StringInterface<FullQuestion>>,
   ): Partial<FullQuestion> {
+    if (!input || Object.keys(input).length == 0)
+      throw new Error("Invalid Input");
     const parsedInput: Partial<FullQuestion> = {};
     if (input.id) {
-      parsedInput.id = parseInt(input.id, 10);
+      parsedInput.id = input.id ? parseInt(input.id, 10) : undefined;
     }
     if (input.title) {
       parsedInput.title = input.title;
@@ -64,6 +65,27 @@ class QuestionParser
     if (input.authorId) {
       parsedInput.authorId = input.authorId;
     }
+    if (input.difficulty) {
+      parsedInput.difficulty = input.difficulty;
+    }
+    if (input.examples) {
+      parsedInput.examples = input.examples;
+    }
+    if (input.constraints) {
+      parsedInput.constraints = input.constraints;
+    }
+    if (input.id && input.runnerCodes) {
+      parsedInput.runnerCodes = input.runnerCodes.map((x) => ({
+        ...x,
+        questionId: parseInt(input.id!, 10),
+      }));
+    }
+    if (input.id && input.initialCodes) {
+      parsedInput.initialCodes = input.initialCodes.map((x) => ({
+        ...x,
+        questionId: parseInt(input.id!, 10),
+      }));
+    }
     return parsedInput;
   }
 
@@ -71,18 +93,18 @@ class QuestionParser
     input: Partial<StringInterface<FullQuestionUpdateDTO>>,
   ): Partial<FullQuestionUpdateDTO> {
     const parsedInput: Partial<FullQuestionUpdateDTO> = {};
-    if (input.title) {
-      parsedInput.title = input.title;
-    }
-
-    if (input.content) {
-      parsedInput.content = input.content;
-    }
-
+    parsedInput.title = input.title;
+    parsedInput.content = input.content;
+    parsedInput.difficulty = input.difficulty;
+    parsedInput.examples = input.examples;
+    parsedInput.constraints = input.constraints;
+    parsedInput.runnerCodes = input.runnerCodes;
+    parsedInput.initialCodes = input.initialCodes;
     return parsedInput;
   }
 
   public parseDeleteInput(id: string): number {
+    if (!id) throw new Error("Invalid Input");
     return parseInt(id, 10);
   }
 }

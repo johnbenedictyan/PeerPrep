@@ -8,10 +8,7 @@ import { UserUpdateDTO } from "../../interfaces/user/updateDTO";
 import Service from "../service.interface";
 
 class UserService implements Service<UserCreateDTO, UserUpdateDTO, User> {
-  constructor(
-    private readonly eventProducer: EventProducer<User>,
-    private readonly prismaClient: PrismaClient,
-  ) {}
+  constructor(private readonly prismaClient: PrismaClient) {}
 
   public async create(body: UserCreateDTO): Promise<User> {
     try {

@@ -10,7 +10,7 @@ class UserParser implements Parser<UserCreateDTO, UserUpdateDTO, User> {
     input: StringInterface<UserCreateDTO>,
   ): UserCreateDTO {
     if (!input.id || !input.name || !input.roles) {
-      throw new Error("Required fields of id, name, and roles are missing");
+      throw new Error("Invalid Input");
     }
     return {
       id: input.id,
@@ -20,18 +20,24 @@ class UserParser implements Parser<UserCreateDTO, UserUpdateDTO, User> {
   }
 
   public parseFindByIdInput(id: string): string {
+    if (!id) throw new Error("Invalid Input");
     return id;
   }
 
   public parseFindOneInput(
     input: Partial<StringInterface<User>>,
   ): Partial<User> {
+    if (!input || Object.keys(input).length == 0)
+      throw new Error("Invalid Input");
     const parsedInput: Partial<User> = {};
     if (input.id) {
       parsedInput.id = input.id;
     }
     if (input.name) {
       parsedInput.name = input.name;
+    }
+    if (input.roles) {
+      parsedInput.roles = input.roles;
     }
     if (input.questionsAuthored) {
       parsedInput.questionsAuthored = parseInt(input.questionsAuthored, 10);
@@ -59,6 +65,7 @@ class UserParser implements Parser<UserCreateDTO, UserUpdateDTO, User> {
   }
 
   public parseDeleteInput(id: string): string {
+    if (!id) throw new Error("Invalid Input");
     return id;
   }
 }

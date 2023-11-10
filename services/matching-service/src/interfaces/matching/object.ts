@@ -5,5 +5,3 @@ export type Matching = {
   requestId: number;
   dateTimeMatched: Date;
 };
-
-export type OptionalMatching = Partial<Matching>;

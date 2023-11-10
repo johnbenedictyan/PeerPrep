@@ -106,7 +106,7 @@ You can return the answer in any order.
 // const mediumQuestion: FullQuestion = {}
 
 const hardQuestion: FullQuestion = {
-    id: 3,
+  id: 3,
   title: "reducing dishes",
   difficulty: "hard",
   content: `
@@ -133,7 +133,7 @@ const hardQuestion: FullQuestion = {
   constraints: [
     "n == satisfaction.length",
     "1 <= n <= 500",
-    "-1000 <= satisfaction[i] <= 1000"
+    "-1000 <= satisfaction[i] <= 1000",
   ],
   createdAt: new Date(),
   updatedAt: new Date(),
@@ -180,9 +180,9 @@ const hardQuestion: FullQuestion = {
       input: "3 -1 -4 -5",
       expectedOutput: ["0"],
       questionId: 1,
-    }
+    },
   ],
-}
+};
 
 const defaultInitialCode = "// Default Code //";
 const defaultSelectedLanguage = "java" as CodingLanguage;

@@ -5,11 +5,13 @@ import MatchingParser from "../../parsers/matching/matching.parser";
 import MatchingService from "../../services/matching/matching.service";
 import Controller from "../controller.abstract";
 import CRUDController from "../crudController.interface";
+import MatchingProducer from "../../events/producers/matching/producer";
 
 class MatchingController extends Controller implements CRUDController {
   constructor(
     private readonly service: MatchingService,
     private readonly parser: MatchingParser,
+    private readonly eventProducer: MatchingProducer,
   ) {
     super();
   }
@@ -23,6 +25,9 @@ class MatchingController extends Controller implements CRUDController {
     try {
       const parsedMatching = this.parser.parseCreateInput(req.body);
       const matching = await this.service.create(parsedMatching);
+      if (matching) {
+        this.eventProducer.create(matching);
+      }
       return MatchingController.handleSuccess(res, matching);
     } catch (e: any) {
       return MatchingController.handleBadRequest(res, e.message);
@@ -69,7 +74,7 @@ class MatchingController extends Controller implements CRUDController {
     }
 
     try {
-      const matchings = this.service.findAll();
+      const matchings = await this.service.findAll();
       return MatchingController.handleSuccess(res, matchings);
     } catch (e: any) {
       return MatchingController.handleBadRequest(res, e.message);
@@ -86,7 +91,10 @@ class MatchingController extends Controller implements CRUDController {
     try {
       const parsedId = this.parser.parseFindByIdInput(req.params.id);
       const parsedUpdateInput = this.parser.parseUpdateInput(req.body);
-      const matching = this.service.update(parsedId, parsedUpdateInput);
+      const matching = await this.service.update(parsedId, parsedUpdateInput);
+      if (matching) {
+        this.eventProducer.update(matching);
+      }
       return MatchingController.handleSuccess(res, matching);
     } catch (e: any) {
       return MatchingController.handleBadRequest(res, e.message);
@@ -102,7 +110,10 @@ class MatchingController extends Controller implements CRUDController {
 
     try {
       const parsedId = this.parser.parseFindByIdInput(req.params.id);
-      const matching = this.service.delete(parsedId);
+      const matching = await this.service.delete(parsedId);
+      if (matching) {
+        this.eventProducer.delete(matching);
+      }
       return MatchingController.handleSuccess(res, matching);
     } catch (e: any) {
       return MatchingController.handleBadRequest(res, e.message);
