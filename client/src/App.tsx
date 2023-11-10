@@ -101,9 +101,9 @@ function App() {
           <Route
             path="questions/:questionId/edit"
             element={
-              <ProtectedRoute permissionRole="admin">
-                <EditSingleQuestionPage />
-              </ProtectedRoute>
+              //   <ProtectedRoute permissionRole="admin">
+              <EditSingleQuestionPage />
+              //   </ProtectedRoute>
             }
           />
 
